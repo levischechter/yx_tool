@@ -1,0 +1,30 @@
+# Files and directories created by pub
+.dart_tool/
+.packages
+.pub-cache/
+.pub/
+
+# Conventional directory for build outputs
+build/
+
+# Directory created by dartdoc
+doc/api/
+**/doc/api/
+
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.buildlog/
+.history
+.svn/
+*.lock
+
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/
