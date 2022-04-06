@@ -92,7 +92,7 @@ class TimeInterval {
   ///
   /// [id] 分组ID
   /// @return 从开始到当前的间隔时间（毫秒数）
-  String intervalPretty(String id) {
+  String intervalPretty([String id = _DEFAULT_ID]) {
     return BetweenFormatter(betweenMs: intervalMs(id), level: Level.MILLISECOND).format();
   }
 
