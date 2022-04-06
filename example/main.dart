@@ -1,3 +1,5 @@
-void main(List<String> arguments) {
-  print('Hello world!');
+import 'package:yx_tool/yx_tool.dart';
+
+void main(List<String> arguments) async {
+
 }
