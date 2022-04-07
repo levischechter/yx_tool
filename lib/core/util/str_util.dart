@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:yx_tool/core/util/yx_util.dart';
@@ -494,5 +495,15 @@ class StrUtil {
     var sb = StringBuffer();
     sb.writeAll(strs);
     return sb.toString();
+  }
+
+  /// 使用默认的utf8转换List<int>数据为字符串
+  static String decode(List<int> codeUnits, [Encoding encoding = utf8]) {
+    return utf8.decode(codeUnits);
+  }
+
+  /// 使用默认的utf8转换字符串数据为List<int>
+  static List<int> encode(String str,[Encoding encoding = utf8]) {
+    return utf8.encode(str);
   }
 }

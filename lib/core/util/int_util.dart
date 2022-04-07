@@ -65,4 +65,16 @@ class IntUtil {
     }
     return r;
   }
+
+  ///以数字方式比较两个int值。返回的值与通过以下方式返回的值相同：
+  ///           a.compareTo(b)
+  ///
+  /// 参形：
+  /// x – 要比较的第一个long
+  /// y – 要比较的第二个long
+  /// 返回值：
+  /// 如果x == y则值为0 ；如果x < y则小于0的值；如果x > y ，则值大于0
+  static int compare(int a, int b) {
+    return a.compareTo(b);
+  }
 }

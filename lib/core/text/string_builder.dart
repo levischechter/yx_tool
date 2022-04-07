@@ -54,12 +54,34 @@ class StringBuilder implements Comparable<StringBuilder>, Pattern {
     return this;
   }
 
+  ///追加int，[i]会被转换为字符串,再通过encoding编码生成List<int>
+  StringBuilder appendInt(int i) {
+    var units = _encode(String.fromCharCode(i));
+    _expandCapacity(count + units.length);
+    CollectionUtil.arraycopy(units, 0, value, count, units.length);
+    count += 1;
+    return this;
+  }
+
+  ///追加无符号int
+  StringBuilder appendUInt8(int uInt8) {
+    _expandCapacity(count + 1);
+    CollectionUtil.arraycopy([uInt8], 0, value, count, 1);
+    count += 1;
+    return this;
+  }
+
   /// 内置转换对象为coding
   List<int> _convert(dynamic obj) {
     if (obj is StringBuilder) {
       return obj.codePoints();
     }
-    return _encoding.encode(obj.toString());
+    return _encode(obj.toString());
+  }
+
+  /// 字符编码
+  List<int> _encode(String str){
+    return _encoding.encode(str);
   }
 
   /// 插入空字符串
@@ -263,5 +285,15 @@ class StringBuilder implements Comparable<StringBuilder>, Pattern {
   StringBuilder printer() {
     print(toString());
     return this;
+  }
+
+  @override
+  int get hashCode {
+    return toString().hashCode;
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return toString() == other.toString();
   }
 }
