@@ -503,7 +503,17 @@ class StrUtil {
   }
 
   /// 使用默认的utf8转换字符串数据为List<int>
-  static List<int> encode(String str,[Encoding encoding = utf8]) {
+  static List<int> encode(String str, [Encoding encoding = utf8]) {
     return utf8.encode(str);
+  }
+
+  /// 是否存在utf16编码字符
+  static bool isUtf16(String str) {
+    for (var code in str.codeUnits) {
+      if (code > 255) {
+        return true;
+      }
+    }
+    return false;
   }
 }

@@ -55,7 +55,7 @@ class NanoId {
       for (var i = 0; i < step; i++) {
         final alphabetIndex = bytes[i] & mask;
         if (alphabetIndex < alphabet.length) {
-          idBuilder.appendUInt8(alphabet[alphabetIndex]);
+          idBuilder.appendInt(alphabet[alphabetIndex]);
           if (idBuilder.length == size) {
             return idBuilder.toString();
           }

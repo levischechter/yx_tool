@@ -20,8 +20,10 @@ void main() {
       print('$sb : ${sb.capacity}');
       sb.append('嘻嘻');
       print('$sb : ${sb.capacity}');
-      sb.append(StringBuilder.from('风灵月影'));
+      sb.append(StringBuilder.from('风灵月影').deleteCharAt(1)).deleteCharAt(1);
       print('$sb : ${sb.capacity}');
+
+      print(sb.bytes());
     },
     execute: true,
   );

@@ -5,35 +5,32 @@ import 'package:yx_tool/core/util/collection_util.dart';
 
 /// 可变的字符序列。字符串缓冲区类似于String ，但可以修改
 class StringBuilder implements Comparable<StringBuilder>, Pattern {
-  /// 该值用于字符存储。
-  late List<int> value;
+  /// 该值用于字符存储,使用UTF-16存储字符串。
+  late Uint16List value;
 
   /// 计数是使用的字符数。
   int count = 0;
 
-  static final Uint8List _EMPTY_VALUE = Uint8List(0);
-
-  late Encoding _encoding;
+  static final Uint16List _EMPTY_VALUE = Uint16List(0);
 
   /// 以指定的初始容量[capacity]与编码器，初始化StringBuilder
-  StringBuilder([int capacity = 0, Encoding encoding = utf8]) {
+  StringBuilder([int capacity = 0]) {
     RangeError.checkNotNegative(capacity, 'capacity');
     if (capacity == 0) {
       value = _EMPTY_VALUE;
     } else {
-      value = Uint8List(capacity << 1);
+      value = Uint16List(capacity << 1);
     }
-    _encoding = encoding;
   }
 
   /// 指定容量[capacity]
-  factory StringBuilder.capacity(int capacity, [Encoding encoding = utf8]) {
-    return StringBuilder(capacity, encoding);
+  factory StringBuilder.capacity(int capacity) {
+    return StringBuilder(capacity);
   }
 
   /// 指定字符[str]
-  factory StringBuilder.from(String str, [Encoding encoding = utf8]) {
-    var sb = StringBuilder(str.length, encoding);
+  factory StringBuilder.from(String str) {
+    var sb = StringBuilder(str.length);
     sb.append(str);
     return sb;
   }
@@ -54,19 +51,10 @@ class StringBuilder implements Comparable<StringBuilder>, Pattern {
     return this;
   }
 
-  ///追加int，[i]会被转换为字符串,再通过encoding编码生成List<int>
-  StringBuilder appendInt(int i) {
-    var units = _encode(String.fromCharCode(i));
-    _expandCapacity(count + units.length);
-    CollectionUtil.arraycopy(units, 0, value, count, units.length);
-    count += 1;
-    return this;
-  }
-
-  ///追加无符号int
-  StringBuilder appendUInt8(int uInt8) {
+  ///追加无符号int16
+  StringBuilder appendInt(int uInt16) {
     _expandCapacity(count + 1);
-    CollectionUtil.arraycopy([uInt8], 0, value, count, 1);
+    value[count] = uInt16;
     count += 1;
     return this;
   }
@@ -76,12 +64,7 @@ class StringBuilder implements Comparable<StringBuilder>, Pattern {
     if (obj is StringBuilder) {
       return obj.codePoints();
     }
-    return _encode(obj.toString());
-  }
-
-  /// 字符编码
-  List<int> _encode(String str){
-    return _encoding.encode(str);
+    return obj.toString().codeUnits;
   }
 
   /// 插入空字符串
@@ -122,7 +105,6 @@ class StringBuilder implements Comparable<StringBuilder>, Pattern {
       _shift(end, -len);
       count -= len;
     }
-    trimToSize();
     return this;
   }
 
@@ -191,6 +173,7 @@ class StringBuilder implements Comparable<StringBuilder>, Pattern {
   /// 清空字符串
   StringBuilder clear() {
     delete(0, count);
+    trimToSize();
     return this;
   }
 
@@ -257,14 +240,19 @@ class StringBuilder implements Comparable<StringBuilder>, Pattern {
     if (newCapacity < 0) {
       throw OutOfMemoryError();
     }
-    var dest = Uint8List(newCapacity);
+    var dest = Uint16List(newCapacity);
     CollectionUtil.arraycopy(value, 0, dest, 0, count);
     value = dest;
   }
 
+  /// 使用utf8将字符串转为无符号字节数组
+  Uint8List bytes() {
+    return utf8.encoder.convert(toString());
+  }
+
   @override
   String toString() {
-    return _encoding.decode(value.sublist(0, count));
+    return String.fromCharCodes(value.sublist(0, count));
   }
 
   @override
@@ -280,11 +268,6 @@ class StringBuilder implements Comparable<StringBuilder>, Pattern {
   @override
   Match? matchAsPrefix(String string, [int start = 0]) {
     return toString().matchAsPrefix(string, start);
-  }
-
-  StringBuilder printer() {
-    print(toString());
-    return this;
   }
 
   @override
