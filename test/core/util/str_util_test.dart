@@ -70,7 +70,7 @@ void main() {
       print(StrUtil.toUnderlineCase('ABC'));
       print(StrUtil.toUnderlineCase('AbcAbc'));
     },
-    execute: true,
+    execute: false,
   );
 
   testExecute(
@@ -78,6 +78,6 @@ void main() {
     function: () {
       print(StrUtil.toCamelCase('hello_world'));
     },
-    execute: true,
+    execute: false,
   );
 }

@@ -77,4 +77,19 @@ class IntUtil {
   static int compare(int a, int b) {
     return a.compareTo(b);
   }
+
+  /// 转为8位无符号整数
+  static int toUInt8(int num) {
+    return num & 0xFF;
+  }
+
+  /// 转为16位无符号整数
+  static int toUInt16(int num) {
+    return num & 0xFFFF;
+  }
+
+  /// 转为32位无符号整数
+  static int toUInt32(int num) {
+    return num & 0xFFFFFF;
+  }
 }

@@ -245,9 +245,10 @@ class StringBuilder implements Comparable<StringBuilder>, Pattern {
     value = dest;
   }
 
-  /// 使用utf8将字符串转为无符号字节数组
-  Uint8List bytes() {
-    return utf8.encoder.convert(toString());
+  /// 默认使用utf8将字符串转为无符号字节数组
+  /// 可选ending [ascii]、[utf8]、[latin1]、[systemEncoding]
+  List<int> bytes([Encoding encoding = utf8]) {
+    return encoding.encode(toString());
   }
 
   @override
