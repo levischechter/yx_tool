@@ -248,7 +248,7 @@ class StrUtil {
   /// print('abcd'.capitalize()) // Abcd
   /// print('Abcd'.capitalize()) // Abcd
   /// ```
-  static String capitalize(String str) {
+  static String upperFirst(String str) {
     switch (str.length) {
       case 0:
         return str;
@@ -256,6 +256,23 @@ class StrUtil {
         return str.toUpperCase();
       default:
         return str.substring(0, 1).toUpperCase() + str.substring(1);
+    }
+  }
+
+  /// 返回此字符串的第一个字母为小写的副本，或原始字符串（如果它为空或已以小写字母开头）。
+  ///
+  /// ```dart
+  /// print('abcd'.capitalize()) // abcd
+  /// print('Abcd'.capitalize()) // abcd
+  /// ```
+  static String lowerFirst(String str) {
+    switch (str.length) {
+      case 0:
+        return str;
+      case 1:
+        return str.toLowerCase();
+      default:
+        return str.substring(0, 1).toLowerCase() + str.substring(1);
     }
   }
 
@@ -323,7 +340,7 @@ class StrUtil {
   }
 
   /// 给定字符串中的字母是否全部为小写
-  static bool isLowerCase(String str){
+  static bool isLowerCase(String str) {
     return !isUpperCase(str);
   }
 
@@ -335,10 +352,147 @@ class StrUtil {
     }
 
     // 如果小写相等，则为大写
-    if (str[0].toLowerCase() == str[0]){
+    if (str[0].toLowerCase() == str[0]) {
       return str.toUpperCase();
     } else {
       return str.toLowerCase();
     }
+  }
+
+  /// 字符串转为小写
+  static String? toLowerCase(String? str) {
+    if (isEmpty(str)) {
+      return str;
+    }
+    return str!.toLowerCase();
+  }
+
+  /// 字符串转为大写
+  static String? toUpperCase(String? str) {
+    if (isEmpty(str)) {
+      return str;
+    }
+    return str!.toUpperCase();
+  }
+
+  /// 按照char方式比较是否是number
+  static bool charIsNumber(String? str) {
+    if (isEmpty(str)) {
+      return false;
+    }
+    var code0 = '0'.codeUnitAt(0);
+    var code9 = '9'.codeUnitAt(0);
+    var codeUnit = str!.codeUnitAt(0);
+    return codeUnit >= code0 && codeUnit <= code9;
+  }
+
+  ///将驼峰式命名的字符串转换为下划线方式。如果转换前的驼峰式命名的字符串为空，则返回空字符串。
+  static String toUnderlineCase(String str, [String symbol = '_']) {
+    if (str.isEmpty) {
+      return str;
+    }
+    var length = str.length;
+    if (length == 1) {
+      return str.toLowerCase();
+    }
+
+    var sb = StringBuffer();
+    String? c;
+    for (var i = 0; i < length; i++) {
+      c = str[i];
+      if (isUpperCase(c)) {
+        var preChar = (i > 0) ? str[i - 1] : null;
+        var nextChar = (i < length - 1) ? str[i + 1] : null;
+
+        if (null != preChar) {
+          if (symbol == preChar) {
+            // 前一个为分隔符
+            if (null == nextChar || isLowerCase(nextChar)) {
+              //普通首字母大写，如_Abb -> _abb
+              c = toLowerCase(c);
+            }
+            //后一个为大写，按照专有名词对待，如_AB -> _AB
+          } else if (isLowerCase(preChar)) {
+            // 前一个为小写
+            sb.write(symbol);
+            if (null == nextChar || isLowerCase(nextChar) || charIsNumber(nextChar)) {
+              //普通首字母大写，如aBcc -> a_bcc
+              c = toLowerCase(c);
+            }
+            // 后一个为大写，按照专有名词对待，如aBC -> a_BC
+          } else {
+            //前一个为大写
+            if (null != nextChar && isLowerCase(nextChar)) {
+              // 普通首字母大写，如ABcc -> A_bcc
+              sb.write(symbol);
+              c = toLowerCase(c);
+            }
+            // 后一个为大写，按照专有名词对待，如ABC -> ABC
+          }
+        } else {
+          // 首字母，需要根据后一个判断是否转为小写
+          if (null == nextChar || isLowerCase(nextChar)) {
+            // 普通首字母大写，如Abc -> abc
+            c = toLowerCase(c);
+          }
+          // 后一个为大写，按照专有名词对待，如ABC -> ABC
+        }
+      }
+      sb.write(c);
+    }
+    return sb.toString();
+  }
+
+  /// 将连接符方式命名的字符串转换为驼峰式。如果转换前的下划线大写方式命名的字符串为空，则返回空字符串。
+  static String toCamelCase(String name, [String symbol = '_']) {
+    if (isBlank(name)) {
+      return name;
+    }
+    final name2 = name.toString();
+    if (name2.contains(symbol)) {
+      final length = name2.length;
+      final sb = StringBuffer();
+      var upperCase = false;
+      for (var i = 0; i < length; i++) {
+        var c = name2[i];
+        if (c == symbol) {
+          upperCase = true;
+        } else if (upperCase) {
+          sb.write(toUpperCase(c));
+          upperCase = false;
+        } else {
+          sb.write(toLowerCase(c));
+        }
+      }
+      return sb.toString();
+    } else {
+      return name2;
+    }
+  }
+
+  /// 将下划线方式命名的字符串转换为帕斯卡式
+  static String toPascalCase(String name) {
+    return upperFirst(toCamelCase(name));
+  }
+
+  /// 字符串匹配的所有下标
+  static List<int> indicesOf(String str, Pattern pattern, [int start = 0]) {
+    var indices = <int>[];
+    var index = -1;
+    do {
+      index = str.indexOf(pattern, start);
+      if (index != -1) {
+        indices.add(index);
+        start = index + 1;
+      }
+    } while (index != -1);
+    return indices;
+  }
+
+  /// 遍历给定的字符串并按顺序拼接它们
+  static String join(List<String> strs, [String separator = '']) {
+    var sb = StringBuffer();
+    sb.writeAll(strs);
+    return sb.toString();
   }
 }

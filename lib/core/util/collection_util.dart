@@ -21,4 +21,25 @@ class CollectionUtil {
 
     return list.sublist(_start, _end + 1);
   }
+
+  /// 在原集合操作元素顺序反转,默认的[len]长度为集合的长度
+  static void reverse(List collection, [int? len]) {
+    len ??= collection.length;
+    for (var i = 0; i < len ~/ 2; i++) {
+      var next = len - 1 - i;
+      if (i != next) {
+        var b1 = collection[i];
+        collection[i] = collection[next];
+        collection[next] = b1;
+      }
+    }
+  }
+
+  /// 数组拷贝
+  static void arraycopy(List<dynamic> src, int srcPos, List<dynamic> dest, int destPos, int length) {
+    var sublist = src.sublist(srcPos, srcPos + length);
+    for (var i = 0; i < length; i++) {
+      dest[destPos + i] = sublist[i];
+    }
+  }
 }

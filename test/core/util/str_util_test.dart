@@ -47,6 +47,37 @@ void main() {
     function: () {
       print(StrUtil.swapCase('UNDEFINED'));
     },
+    execute: false,
+  );
+
+  testExecute(
+    title: 'StrUtil.indicesOf Test',
+    function: () {
+      var pattern = RegExp(r'[A-Z]');
+      print(StrUtil.indicesOf('AbbAbb', pattern));
+    },
+    execute: false,
+  );
+
+  testExecute(
+    title: 'StrUtil.toUnderlineCase Test',
+    function: () {
+      print(StrUtil.toUnderlineCase('_Abb_Abb'));
+      print(StrUtil.toUnderlineCase('_AB_AB'));
+      print(StrUtil.toUnderlineCase('aBccaBcc'));
+      print(StrUtil.toUnderlineCase('aBCaBC'));
+      print(StrUtil.toUnderlineCase('ABccABcc'));
+      print(StrUtil.toUnderlineCase('ABC'));
+      print(StrUtil.toUnderlineCase('AbcAbc'));
+    },
+    execute: true,
+  );
+
+  testExecute(
+    title: 'StrUtil.toCamelCase Test',
+    function: () {
+      print(StrUtil.toCamelCase('hello_world'));
+    },
     execute: true,
   );
 }

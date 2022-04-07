@@ -13,7 +13,7 @@ FutureOr testExecute({String title = '', bool timer = true, required Function fu
       var timer = TimeInterval();
       suffix = ': ${timer.intervalPretty()} ms';
     }
-    await function();
+    function();
     print('====<$title end execute$suffix');
   }
 }
