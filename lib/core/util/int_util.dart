@@ -80,16 +80,68 @@ class IntUtil {
 
   /// 转为8位无符号整数
   static int toUInt8(int num) {
-    return num & 0xFF;
+    return num & maxUInt8;
   }
 
   /// 转为16位无符号整数
   static int toUInt16(int num) {
-    return num & 0xFFFF;
+    return num & maxUInt16;
   }
 
   /// 转为32位无符号整数
   static int toUInt32(int num) {
-    return num & 0xFFFFFF;
+    return num & maxUInt32;
   }
+
+  /// 转为64位无符号整数
+  static int toUInt64(int num) {
+    return num & maxUInt64;
+  }
+
+  /// 转为8位有符号整数
+  static int toInt8(int num) {
+    return toUInt8(num).toSigned(8);
+  }
+
+  /// 转为16位有符号整数
+  static int toInt16(int num) {
+    return toUInt16(num).toSigned(16);
+  }
+
+  /// 转为32位有符号整数
+  static int toInt32(int num) {
+    return toUInt32(num).toSigned(32);
+  }
+
+  /// 转为64位有符号整数
+  static int toInt64(int num) {
+    return toUInt64(num).toSigned(64);
+  }
+
+  ///无符号8位整数最大值
+  static const maxUInt8 = 0xFF;
+  ///无符号16位整数最大值
+  static const maxUInt16 = 0xFFFF;
+  ///无符号32位整数最大值
+  static const maxUInt32 = 0xFFFFFFFF;
+  ///无符号64位整数最大值
+  static const maxUInt64 = 0xFFFFFFFFFFFFFFFF;
+
+  /// 有符号8位整数最大值
+  static const maxInt8 = 0x7F;
+  /// 有符号16位整数最大值
+  static const maxInt16 = 0x7FFF;
+  /// 有符号32位整数最大值
+  static const maxInt32 = 0x7FFFFFFF;
+  /// 有符号64位整数最大值
+  static const maxInt64 = 0x7FFFFFFFFFFFFFFF;
+
+  /// 有符号8位整数最小值
+  static const minInt8 = -0x80;
+  /// 有符号16位整数最小值
+  static const minInt16 = -0x8000;
+  /// 有符号32位整数最小值
+  static const minInt32 = -0x80000000;
+  /// 有符号64位整数最小值
+  static const minInt64 = -0x8000000000000000;
 }

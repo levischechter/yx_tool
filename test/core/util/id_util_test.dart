@@ -41,6 +41,6 @@ void main() async {
       var nanoId = IdUtil.nanoId();
       print(nanoId);
     },
-    execute: true,
+    execute: false,
   );
 }
