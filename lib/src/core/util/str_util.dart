@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:yx_tool/core/util/yx_util.dart';
+import 'package:yx_tool/src/core/util/yx_util.dart';
 
 /// 字符串工具类
 class StrUtil {

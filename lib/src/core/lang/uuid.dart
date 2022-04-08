@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
-import 'package:yx_tool/core/text/string_builder.dart';
-import 'package:yx_tool/core/util/random_util.dart';
+import 'package:yx_tool/src/core/text/string_builder.dart';
+import 'package:yx_tool/src/core/util/random_util.dart';
 
 /// 提供通用唯一识别码（universally unique identifier）（UUID）实现，UUID表示一个128位的值。<br>
 /// <p>

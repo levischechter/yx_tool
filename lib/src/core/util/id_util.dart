@@ -1,10 +1,10 @@
 import 'dart:io';
 
-import 'package:yx_tool/core/lang/id/nano_id.dart';
-import 'package:yx_tool/core/lang/snowflake.dart';
-import 'package:yx_tool/core/lang/uuid.dart';
-import 'package:yx_tool/core/text/string_builder.dart';
-import 'package:yx_tool/core/util/net_util.dart';
+import 'package:yx_tool/src/core/lang/id/nano_id.dart';
+import 'package:yx_tool/src/core/lang/snowflake.dart';
+import 'package:yx_tool/src/core/lang/uuid.dart';
+import 'package:yx_tool/src/core/text/string_builder.dart';
+import 'package:yx_tool/src/core/util/net_util.dart';
 
 /// ID生成器工具类
 class IdUtil {

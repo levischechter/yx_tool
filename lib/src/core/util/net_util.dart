@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:yx_tool/core/util/str_util.dart';
+import 'package:yx_tool/src/core/util/str_util.dart';
 
 class NetUtil {
   /// 任意ip4地址

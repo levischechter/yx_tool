@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:yx_tool/core/lang/yx_math.dart';
+import 'package:yx_tool/src/core/lang/yx_math.dart';
 
 class CollectionUtil {
   /// 如果此集合中为null，或者没有元素，则返回true 。

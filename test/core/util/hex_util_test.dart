@@ -1,5 +1,5 @@
-import 'package:yx_tool/core/test/yx_test.dart';
-import 'package:yx_tool/core/util/hex_util.dart';
+import 'package:yx_tool/src/core/test/yx_test.dart';
+import 'package:yx_tool/src/core/util/hex_util.dart';
 
 void main() {
   testExecute(

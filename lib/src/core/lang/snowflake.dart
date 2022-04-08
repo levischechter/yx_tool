@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:yx_tool/core/util/id_util.dart';
+import 'package:yx_tool/src/core/util/id_util.dart';
 
 /// Twitter的Snowflake 算法<br>
 /// 分布式系统中，有一些需要使用全局唯一ID的场景，有些时候我们希望能使用一种简单一些的ID，并且希望ID能够按照时间有序生成。

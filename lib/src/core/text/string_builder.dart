@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:yx_tool/core/util/collection_util.dart';
+import 'package:yx_tool/src/core/util/collection_util.dart';
 
 /// 可变的字符序列。字符串缓冲区类似于String ，但可以修改
 class StringBuilder implements Comparable<StringBuilder>, Pattern {

@@ -1,5 +1,5 @@
-import 'package:yx_tool/core/test/yx_test.dart';
-import 'package:yx_tool/core/util/random_util.dart';
+import 'package:yx_tool/src/core/test/yx_test.dart';
+import 'package:yx_tool/src/core/util/random_util.dart';
 
 void main() {
   testExecute(

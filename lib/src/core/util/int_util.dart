@@ -100,22 +100,22 @@ class IntUtil {
 
   /// 转为8位有符号整数
   static int toInt8(int num) {
-    return toUInt8(num).toSigned(8);
+    return num.toSigned(8);
   }
 
   /// 转为16位有符号整数
   static int toInt16(int num) {
-    return toUInt16(num).toSigned(16);
+    return num.toSigned(16);
   }
 
   /// 转为32位有符号整数
   static int toInt32(int num) {
-    return toUInt32(num).toSigned(32);
+    return num.toSigned(32);
   }
 
   /// 转为64位有符号整数
   static int toInt64(int num) {
-    return toUInt64(num).toSigned(64);
+    return num.toSigned(64);
   }
 
   ///无符号8位整数最大值

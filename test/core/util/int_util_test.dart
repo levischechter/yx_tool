@@ -1,5 +1,5 @@
-import 'package:yx_tool/core/test/yx_test.dart';
-import 'package:yx_tool/core/util/int_util.dart';
+import 'package:yx_tool/src/core/test/yx_test.dart';
+import 'package:yx_tool/src/core/util/int_util.dart';
 
 void main() {
   testExecute(
@@ -30,6 +30,7 @@ void main() {
       print(IntUtil.minInt32);
       print(IntUtil.minInt64);
 
+      print(IntUtil.toInt8(129));
       print(IntUtil.toInt16(IntUtil.maxUInt16));
     },
     execute: true,

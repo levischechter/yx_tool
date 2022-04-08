@@ -2,9 +2,9 @@ import 'dart:math';
 
 import 'dart:typed_data';
 
-import 'package:yx_tool/core/lang/yx_math.dart';
-import 'package:yx_tool/core/text/string_builder.dart';
-import 'package:yx_tool/core/util/random_util.dart';
+import 'package:yx_tool/src/core/lang/yx_math.dart';
+import 'package:yx_tool/src/core/text/string_builder.dart';
+import 'package:yx_tool/src/core/util/random_util.dart';
 
 /// NanoId，一个小型、安全、对 URL友好的唯一字符串 ID 生成器，特点：
 ///

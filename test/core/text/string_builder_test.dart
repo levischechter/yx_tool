@@ -1,5 +1,5 @@
-import 'package:yx_tool/core/test/yx_test.dart';
-import 'package:yx_tool/core/text/string_builder.dart';
+import 'package:yx_tool/src/core/test/yx_test.dart';
+import 'package:yx_tool/src/core/text/string_builder.dart';
 
 void main() {
   testExecute(

@@ -1,4 +1,4 @@
-import 'package:yx_tool/core/util/int_util.dart';
+import 'package:yx_tool/src/core/util/int_util.dart';
 
 extension IntExtension on int {
 
