@@ -9,7 +9,7 @@ void main() {
       print(encodeHexStr);
       print(HexUtil.decodeHexStr(encodeHexStr));
     },
-    execute: true,
+    execute: false,
   );
 
   testExecute(

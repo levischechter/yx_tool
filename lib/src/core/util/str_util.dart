@@ -24,7 +24,7 @@ class StrUtil {
 
   ///指定字符串数组中，是否包含空字符串。
   static bool hasBlank(List<String>? str) {
-    if (CollectionUtil.isEmpty(str)) {
+    if (ListUtil.isEmpty(str)) {
       return true;
     }
 
@@ -39,7 +39,7 @@ class StrUtil {
   ///指定字符串数组中的元素，是否全部为空字符串。
   ///<p>如果指定的字符串数组的长度为 0，或者所有元素都是空字符串，则返回 true。
   static bool isAllBlank(List<String>? strs) {
-    if (CollectionUtil.isEmpty(strs)) {
+    if (ListUtil.isEmpty(strs)) {
       return true;
     }
     for (var str in strs!) {
@@ -109,7 +109,7 @@ class StrUtil {
   /// [isAllEmpty]等价于 [isEmpty] && [isEmpty] && ...}
   /// ```
   static bool hasEmpty(List<String>? strs) {
-    if (CollectionUtil.isEmpty(strs)) {
+    if (ListUtil.isEmpty(strs)) {
       return true;
     }
 
@@ -140,7 +140,7 @@ class StrUtil {
   /// [isAllEmpty] 等价于 {[isEmpty] && [isEmpty] && ...}
   /// ```
   static bool isAllEmpty(List<String>? strs) {
-    if (CollectionUtil.isEmpty(strs)) {
+    if (ListUtil.isEmpty(strs)) {
       return true;
     }
 
@@ -196,7 +196,7 @@ class StrUtil {
   /// 给定字符串是否以任何一个字符串开始<br>
   /// 给定字符串和数组为空都返回false
   static bool startWithAny(String str, List<String> prefixes) {
-    if (isEmpty(str) || CollectionUtil.isEmpty(prefixes)) {
+    if (isEmpty(str) || ListUtil.isEmpty(prefixes)) {
       return false;
     }
 
@@ -211,7 +211,7 @@ class StrUtil {
   /// 给定字符串是否以任何一个字符串结尾<br>
   /// 给定字符串和数组为空都返回false
   static bool endWithAny(String str, List<String> suffixes) {
-    if (isEmpty(str) || CollectionUtil.isEmpty(suffixes)) {
+    if (isEmpty(str) || ListUtil.isEmpty(suffixes)) {
       return false;
     }
 

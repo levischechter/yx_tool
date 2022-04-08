@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:yx_tool/src/core/util/collection_util.dart';
+import 'package:yx_tool/src/core/util/list_util.dart';
 
 /// 可变的字符序列。字符串缓冲区类似于String ，但可以修改
 class StringBuilder implements Comparable<StringBuilder>, Pattern {
@@ -46,7 +46,7 @@ class StringBuilder implements Comparable<StringBuilder>, Pattern {
     _checkRange(start, end, units.length);
     var len = end - start;
     _expandCapacity(count + len);
-    CollectionUtil.arraycopy(units, start, value, count, len);
+    ListUtil.arraycopy(units, start, value, count, len);
     count += len;
     return this;
   }
@@ -71,7 +71,7 @@ class StringBuilder implements Comparable<StringBuilder>, Pattern {
   StringBuilder _appendNull() {
     _expandCapacity(this.count + 4);
     var count = this.count;
-    CollectionUtil.arraycopy('null'.codeUnits, 0, value, count, 4);
+    ListUtil.arraycopy('null'.codeUnits, 0, value, count, 4);
     this.count += 4;
     return this;
   }
@@ -87,7 +87,7 @@ class StringBuilder implements Comparable<StringBuilder>, Pattern {
     _expandCapacity(count + len);
     _shift(index, len);
     count += len;
-    CollectionUtil.arraycopy(list, offset, value, index, len);
+    ListUtil.arraycopy(list, offset, value, index, len);
     return this;
   }
 
@@ -110,7 +110,7 @@ class StringBuilder implements Comparable<StringBuilder>, Pattern {
 
   /// 移动数据
   void _shift(int offset, int n) {
-    CollectionUtil.arraycopy(value, offset, value, (offset + n), (count - offset));
+    ListUtil.arraycopy(value, offset, value, (offset + n), (count - offset));
   }
 
   /// 删除此序列中指定位置的uint8 。这个序列缩短了一个uint8 。
@@ -134,7 +134,7 @@ class StringBuilder implements Comparable<StringBuilder>, Pattern {
     _shift(end, newCount - count);
     count = newCount;
 
-    CollectionUtil.arraycopy(units, 0, value, start, len);
+    ListUtil.arraycopy(units, 0, value, start, len);
     return this;
   }
 
@@ -166,7 +166,7 @@ class StringBuilder implements Comparable<StringBuilder>, Pattern {
   }
 
   StringBuilder reverse() {
-    CollectionUtil.reverse(value, count);
+    ListUtil.reverse(value, count);
     return this;
   }
 
@@ -241,7 +241,7 @@ class StringBuilder implements Comparable<StringBuilder>, Pattern {
       throw OutOfMemoryError();
     }
     var dest = Uint16List(newCapacity);
-    CollectionUtil.arraycopy(value, 0, dest, 0, count);
+    ListUtil.arraycopy(value, 0, dest, 0, count);
     value = dest;
   }
 
