@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:yx_tool/src/core/util/int_util.dart';
 import 'package:yx_tool/src/core/util/list_util.dart';
 
 /// 可变的字符序列。字符串缓冲区类似于String ，但可以修改
@@ -52,9 +53,17 @@ class StringBuilder implements Comparable<StringBuilder>, Pattern {
   }
 
   ///追加无符号int16
-  StringBuilder appendInt(int uInt16) {
+  StringBuilder appendUint(int uInt16) {
     _expandCapacity(count + 1);
     value[count] = uInt16;
+    count += 1;
+    return this;
+  }
+
+  ///追加无符号int16
+  StringBuilder appendInt(int int16) {
+    _expandCapacity(count + 1);
+    value[count] = IntUtil.toUInt16(int16);
     count += 1;
     return this;
   }
@@ -186,7 +195,7 @@ class StringBuilder implements Comparable<StringBuilder>, Pattern {
   }
 
   /// 返回指定索引处的int值
-  int codePointAt(int index) {
+  int codeUnitAt(int index) {
     _checkIndex(index);
     return value[index];
   }

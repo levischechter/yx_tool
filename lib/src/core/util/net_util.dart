@@ -4,6 +4,8 @@ import 'dart:io';
 import 'package:yx_tool/src/core/util/str_util.dart';
 
 class NetUtil {
+  NetUtil._();
+
   /// 任意ip4地址
   static InternetAddress getLocalHost() {
     return InternetAddress.anyIPv4;

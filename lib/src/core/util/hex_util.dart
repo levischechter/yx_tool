@@ -8,6 +8,8 @@ import 'package:yx_tool/src/core/text/string_builder.dart';
 /// 像java,c这样的语言为了区分十六进制和十进制数值,会在十六进制数的前面加上 0x,比如0x20是十进制的32,而不是十进制的20<br>
 /// <p>
 class HexUtil {
+  HexUtil._();
+
   static bool isHexNumber(String value) {
     return false;
   }

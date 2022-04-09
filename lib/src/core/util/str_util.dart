@@ -5,6 +5,8 @@ import 'package:yx_tool/src/core/util/yx_util.dart';
 
 /// 字符串工具类
 class StrUtil {
+  StrUtil._();
+
   /// 字符串是否为空白，\n, ,\r,都将视为空
   static bool isBlank(String? str) {
     if (str == null) {

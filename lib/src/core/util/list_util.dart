@@ -4,6 +4,8 @@ import 'package:yx_tool/src/core/lang/yx_math.dart';
 
 /// 数组工具集
 class ListUtil {
+  ListUtil._();
+
   /// 如果此集合中为null，或者没有元素，则返回true 。
   static bool isEmpty(Iterable<dynamic>? iterable) {
     return iterable == null || iterable.isEmpty;
@@ -52,10 +54,19 @@ class ListUtil {
   /// 对于在原始数组和副本中都有效的所有索引，这两个数组将包含相同的值。
   /// 对于在副本中有效但在原始副本中无效的任何索引，副本将包含(byte)0 。
   /// 当且仅当指定长度大于原始数组的长度时，此类索引才会存在。
-  static Uint8List copyOf(Uint8List original, int newLength) {
+  static Uint8List copyOf(List<int> original, int newLength) {
     var copy = Uint8List(newLength);
     arraycopy(original, 0, copy, 0, Math.min(original.length, newLength));
     return copy;
+  }
+
+  /// 复制指定的数组，用零截断或填充（如有必要），以便副本具有指定的长度。
+  /// 对于在原始数组和副本中都有效的所有索引，这两个数组将包含相同的值。
+  /// 对于在副本中有效但在原始副本中无效的任何索引，副本将包含(byte)0 。
+  /// 当且仅当指定长度大于原始数组的长度时，此类索引才会存在。
+  static T copyOfList<T extends List<int>>(List<int> original, T newList) {
+    arraycopy(original, 0, newList, 0, Math.min(original.length, newList.length));
+    return newList;
   }
 
   /// 将指定的值分配给指定数组的每个元素。

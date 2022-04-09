@@ -8,6 +8,8 @@ import 'package:yx_tool/src/core/util/net_util.dart';
 
 /// ID生成器工具类
 class IdUtil {
+  IdUtil._();
+
   /// 生成uuid
   static String uuid([bool isSecure = true]) {
     return UUID.randomUUID().toString();

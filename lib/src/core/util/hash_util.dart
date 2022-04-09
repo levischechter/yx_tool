@@ -6,6 +6,8 @@ import 'package:yx_tool/src/core/lang/yx_math.dart';
 
 /// Hash算法<br>
 class HashUtil {
+  HashUtil._();
+
   /// 加法hash
   ///
   /// [key]   字符串<br>

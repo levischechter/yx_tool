@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'dart:typed_data';
 
 import 'package:yx_tool/src/core/lang/yx_math.dart';
@@ -55,7 +54,7 @@ class NanoId {
       for (var i = 0; i < step; i++) {
         final alphabetIndex = bytes[i] & mask;
         if (alphabetIndex < alphabet.length) {
-          idBuilder.appendInt(alphabet[alphabetIndex]);
+          idBuilder.appendUint(alphabet[alphabetIndex]);
           if (idBuilder.length == size) {
             return idBuilder.toString();
           }

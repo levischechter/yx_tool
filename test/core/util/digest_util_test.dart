@@ -9,7 +9,16 @@ void main() {
     function: () {
       var data = 'Hex Util 集合';
       var bytes = data.bytes;
-      print(DigestUtil.md5Hex(bytes,salt: '222',position: bytes.length,repeat: 10));
+      print(DigestUtil.md5Hex(bytes, salt: '222', position: bytes.length, repeat: 10));
+    },
+    execute: false,
+  );
+
+  testExecute(
+    title: 'DigestUtil.md5HexStr Test',
+    function: () {
+      var encodedPassword = DigestUtil.bcrypt('123456');
+      print(DigestUtil.bcryptCheckpw("123456", encodedPassword));
     },
     execute: true,
   );

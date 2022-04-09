@@ -2,6 +2,8 @@ import 'dart:math';
 
 /// 随机数工具
 class RandomUtil {
+  RandomUtil._();
+
   /// 填充随机数到集合中
   static List<int> nextInts(List<int> ints, {int max = 1 << 32, bool isSecure = false, Random? random}) {
     random ??= getRandom(isSecure);

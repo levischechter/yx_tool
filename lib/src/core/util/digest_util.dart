@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart' as crypto;
 import 'package:yx_tool/src/core/extensions/string_extension.dart';
+import 'package:yx_tool/src/core/security/crypto/bcrypt_password_encoder.dart';
 import 'package:yx_tool/src/core/security/digest_sink.dart';
 import 'package:yx_tool/src/core/util/hex_util.dart';
 
@@ -40,6 +41,8 @@ Uint8List _md5(Uint8List data, {Uint8List? salt, int position = 0, int repeat = 
 
 /// 摘要算法
 class DigestUtil {
+  DigestUtil._();
+
   /// 将数据转为MD5 rfc哈希函数输出，当[isSimple]为true时，输出8位md5
   /// 使用[salt]加入盐，并且指定[position]存放的位置
   /// 使用[repeat]重复碰撞的次数
@@ -214,5 +217,15 @@ class DigestUtil {
   /// iterated cryptographic hash function.
   static crypto.Hmac hmac(crypto.Hash hash, List<int> key) {
     return crypto.Hmac(hash, key);
+  }
+
+  ///生成Bcrypt加密后的密文
+  static String bcrypt(String password) {
+    return bcryptPassword.convert(password);
+  }
+
+  ///验证[rawPassword]是否与Bcrypt加密后的[encodedPassword]匹配
+  static bool bcryptCheckpw(String rawPassword, String encodedPassword) {
+    return bcryptPassword.matches(rawPassword, encodedPassword);
   }
 }
