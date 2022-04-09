@@ -29,47 +29,6 @@ class BCryptPasswordEncoder extends Converter<String, String> implements Passwor
     _random = random ?? Random.secure();
   }
 
-  //
-  // /// @param strength the log rounds to use, between 4 and 31
-  // public BCryptPasswordEncoder(int strength) {
-  // 	this(strength, null);
-  // }
-  //
-  // /// @param version the version of bcrypt, can be 2a,2b,2y
-  // public BCryptPasswordEncoder(BCryptVersion version) {
-  // 	this(version, null);
-  // }
-  //
-  // /// @param version the version of bcrypt, can be 2a,2b,2y
-  // /// @param random the secure random instance to use
-  // public BCryptPasswordEncoder(BCryptVersion version, SecureRandom random) {
-  // 	this(version, -1, random);
-  // }
-  //
-  // /// @param strength the log rounds to use, between 4 and 31
-  // /// @param random the secure random instance to use
-  // public BCryptPasswordEncoder(int strength, SecureRandom random) {
-  // 	this(BCryptVersion.$2A, strength, random);
-  // }
-  //
-  // /// @param version the version of bcrypt, can be 2a,2b,2y
-  // /// @param strength the log rounds to use, between 4 and 31
-  // public BCryptPasswordEncoder(BCryptVersion version, int strength) {
-  // 	this(version, strength, null);
-  // }
-  //
-  // /// @param version the version of bcrypt, can be 2a,2b,2y
-  // /// @param strength the log rounds to use, between 4 and 31
-  // /// @param random the secure random instance to use
-  // public BCryptPasswordEncoder(BCryptVersion version, int strength, SecureRandom random) {
-  // 	if (strength != -1 && (strength < BCrypt.MIN_LOG_ROUNDS || strength > BCrypt.MAX_LOG_ROUNDS)) {
-  // 		throw new ArgumentError('Bad strength');
-  // 	}
-  // 	this._version = version;
-  // 	this._strength = (strength == -1) ? 10 : strength;
-  // 	this._random = random;
-  // }
-
   @override
   String encode(String rawPassword) {
     var salt = _getSalt();

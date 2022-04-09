@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:yx_tool/src/core/extensions/string_extension.dart';
 import 'package:yx_tool/src/core/lang/hash/murmur_hash.dart';
-import 'package:yx_tool/src/core/lang/yx_math.dart';
+import 'package:yx_tool/src/core/lang/math/math.dart';
 
 /// Hash算法<br>
 class HashUtil {

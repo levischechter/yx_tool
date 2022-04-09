@@ -9,4 +9,5 @@ export 'num/number.dart';
 export 'num/short.dart';
 export 'snowflake.dart';
 export 'uuid.dart';
-export 'yx_math.dart';
+export 'math/math.dart';
+export 'math/decimal.dart';

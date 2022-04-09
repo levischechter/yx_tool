@@ -1,50 +1,42 @@
+import 'package:yx_tool/src/core/lang/math/decimal.dart';
 import 'package:yx_tool/src/core/lang/num/integer.dart';
 import 'package:yx_tool/src/core/lang/num/long.dart';
 import 'package:yx_tool/src/core/lang/num/short.dart';
 
 import 'byte.dart';
 
-abstract class Number<T> extends Comparable<Number<T>> {
+abstract class Number<T> extends Comparable<T> {
   num get value;
 
-  /// 以int形式返回指定数字的值
-  Integer intValue();
-
-  /// 以long形式返回指定数字的值
-  Long longValue();
-
   /// 以byte形式返回指定数字的值
-  Byte byteValue();
+  Byte byteValue() => Byte(value.toInt());
 
   /// 以short形式返回指定数字的值
-  Short shortValue();
+  Short shortValue() => Short(value.toInt());
 
-  /// 以无符号int形式返回指定数字的值
-  int uIntValue();
+  /// 以int形式返回指定数字的值
+  Integer intValue() => Integer(value.toInt());
 
-  /// 以无符号long形式返回指定数字的值
-  int uLongValue();
+  /// 以long形式返回指定数字的值
+  Long longValue() => Long(value.toInt());
 
   /// 以无符号byte形式返回指定数字的值
-  int uByteValue();
+  int uByteValue() => value.toInt().toUnsigned(8);
 
   /// 以无符号short形式返回指定数字的值
-  int uShortValue();
+  int uShortValue() => value.toInt().toUnsigned(16);
+
+  /// 以无符号int形式返回指定数字的值
+  int uIntValue() => value.toInt().toUnsigned(32);
+
+  /// 以无符号long形式返回指定数字的值
+  int uLongValue() => value.toInt().toUnsigned(64);
 
   /// 以double形式返回指定数字的值
-  double doubleValue();
-
-  ///将包含数字文字的字符串解析为数字。
-  T parse(String num);
-
-  ///将包含数字文字的字符串解析为数字。
-  /// 与parse类似，只是此函数为无效输入返回null而不是抛出。
-  T? tryParse(String num);
+  double doubleValue() => value.toDouble();
 
   @override
-  int compareTo(Number<T> other) {
-    return value.compareTo(other.value);
-  }
+  int compareTo(T other);
 }
 
 abstract class AbstractInt<T extends Number> extends Number<T> {
@@ -58,12 +50,21 @@ abstract class AbstractInt<T extends Number> extends Number<T> {
   /// 创建实例
   T valueOf(int num);
 
+  /// 负数
+  T operator -() {
+    return valueOf(-value);
+  }
+
   /// 加法，结果超出[bits]时，将溢出范围，具体参考[toSigned]
   T operator +(dynamic other) {
     if (other is AbstractInt) {
       return valueOf(value + other.value);
-    } else if (other is int) {
-      return valueOf(value + other);
+    } else if (other is num) {
+      return valueOf((value + other).toInt());
+    } else if (other is BigInt) {
+      return valueOf((BigInt.from(value) + other).toInt());
+    } else if (other is Decimal) {
+      return valueOf((Decimal.fromInt(value) + other).toBigInt().toInt());
     } else {
       throw UnsupportedError('not support argument: ${other.runtimeType}');
     }
@@ -72,9 +73,13 @@ abstract class AbstractInt<T extends Number> extends Number<T> {
   /// 减法
   T operator -(dynamic other) {
     if (other is AbstractInt) {
-      return valueOf(value + other.value);
-    } else if (other is int) {
-      return valueOf(value + other);
+      return valueOf(value - other.value);
+    } else if (other is num) {
+      return valueOf((value - other).toInt());
+    } else if (other is BigInt) {
+      return valueOf((BigInt.from(value) - other).toInt());
+    } else if (other is Decimal) {
+      return valueOf((Decimal.fromInt(value) - other).toBigInt().toInt());
     } else {
       throw UnsupportedError('not support argument: ${other.runtimeType}');
     }
@@ -84,8 +89,12 @@ abstract class AbstractInt<T extends Number> extends Number<T> {
   T operator *(dynamic other) {
     if (other is AbstractInt) {
       return valueOf(value * other.value);
-    } else if (other is int) {
-      return valueOf(value * other);
+    } else if (other is num) {
+      return valueOf((value * other).toInt());
+    } else if (other is BigInt) {
+      return valueOf((BigInt.from(value) * other).toInt());
+    } else if (other is Decimal) {
+      return valueOf((Decimal.fromInt(value) * other).toBigInt().toInt());
     } else {
       throw UnsupportedError('not support argument: ${other.runtimeType}');
     }
@@ -95,8 +104,12 @@ abstract class AbstractInt<T extends Number> extends Number<T> {
   double operator /(dynamic other) {
     if (other is AbstractInt) {
       return value / other.value;
-    } else if (other is int) {
+    } else if (other is num) {
       return value / other;
+    } else if (other is BigInt) {
+      return BigInt.from(value) / other;
+    } else if (other is Decimal) {
+      return (Decimal.fromInt(value) / other).toDouble();
     } else {
       throw UnsupportedError('not support argument: ${other.runtimeType}');
     }
@@ -106,8 +119,12 @@ abstract class AbstractInt<T extends Number> extends Number<T> {
   T operator %(dynamic other) {
     if (other is AbstractInt) {
       return valueOf(value % other.value);
-    } else if (other is int) {
-      return valueOf(value % other);
+    } else if (other is num) {
+      return valueOf((value % other).toInt());
+    } else if (other is BigInt) {
+      return valueOf((BigInt.from(value) % other).toInt());
+    } else if (other is Decimal) {
+      return valueOf((Decimal.fromInt(value) % other).toBigInt().toInt());
     } else {
       throw UnsupportedError('not support argument: ${other.runtimeType}');
     }
@@ -117,8 +134,12 @@ abstract class AbstractInt<T extends Number> extends Number<T> {
   T operator ~/(dynamic other) {
     if (other is AbstractInt) {
       return valueOf(value ~/ other.value);
-    } else if (other is int) {
+    } else if (other is num) {
       return valueOf(value ~/ other);
+    } else if (other is BigInt) {
+      return valueOf((BigInt.from(value) ~/ other).toInt());
+    } else if (other is Decimal) {
+      return valueOf((Decimal.fromInt(value) ~/ other).toBigInt().toInt());
     } else {
       throw UnsupportedError('not support argument: ${other.runtimeType}');
     }
@@ -128,8 +149,12 @@ abstract class AbstractInt<T extends Number> extends Number<T> {
   bool operator >(dynamic other) {
     if (other is AbstractInt) {
       return value > other.value;
-    } else if (other is int) {
+    } else if (other is num) {
       return value > other;
+    } else if (other is BigInt) {
+      return BigInt.from(value) > other;
+    } else if (other is Decimal) {
+      return Decimal.fromInt(value) > other;
     } else {
       throw UnsupportedError('not support argument: ${other.runtimeType}');
     }
@@ -139,8 +164,12 @@ abstract class AbstractInt<T extends Number> extends Number<T> {
   bool operator >=(dynamic other) {
     if (other is AbstractInt) {
       return value >= other.value;
-    } else if (other is int) {
+    } else if (other is num) {
       return value >= other;
+    } else if (other is BigInt) {
+      return BigInt.from(value) >= other;
+    } else if (other is Decimal) {
+      return Decimal.fromInt(value) >= other;
     } else {
       throw UnsupportedError('not support argument: ${other.runtimeType}');
     }
@@ -150,8 +179,12 @@ abstract class AbstractInt<T extends Number> extends Number<T> {
   bool operator <(dynamic other) {
     if (other is AbstractInt) {
       return value < other.value;
-    } else if (other is int) {
+    } else if (other is num) {
       return value < other;
+    } else if (other is BigInt) {
+      return BigInt.from(value) < other;
+    } else if (other is Decimal) {
+      return Decimal.fromInt(value) < other;
     } else {
       throw UnsupportedError('not support argument: ${other.runtimeType}');
     }
@@ -161,8 +194,12 @@ abstract class AbstractInt<T extends Number> extends Number<T> {
   bool operator <=(dynamic other) {
     if (other is AbstractInt) {
       return value <= other.value;
-    } else if (other is int) {
+    } else if (other is num) {
       return value <= other;
+    } else if (other is BigInt) {
+      return BigInt.from(value) <= other;
+    } else if (other is Decimal) {
+      return Decimal.fromInt(value) <= other;
     } else {
       throw UnsupportedError('not support argument: ${other.runtimeType}');
     }
@@ -176,6 +213,10 @@ abstract class AbstractInt<T extends Number> extends Number<T> {
       return valueOf(value & other.value);
     } else if (other is int) {
       return valueOf(value & other);
+    } else if (other is BigInt) {
+      return valueOf((BigInt.from(value) & other).toInt());
+    } else if (other is Decimal) {
+      return valueOf((BigInt.from(value) & other.toBigInt()).toInt());
     } else {
       throw UnsupportedError('not support argument: ${other.runtimeType}');
     }
@@ -188,7 +229,11 @@ abstract class AbstractInt<T extends Number> extends Number<T> {
     if (other is AbstractInt) {
       return valueOf(value | other.value);
     } else if (other is int) {
-      return valueOf(value | other);
+      return valueOf((value | other).toInt());
+    } else if (other is BigInt) {
+      return valueOf((BigInt.from(value) | other).toInt());
+    } else if (other is Decimal) {
+      return valueOf((BigInt.from(value) | other.toBigInt()).toInt());
     } else {
       throw UnsupportedError('not support argument: ${other.runtimeType}');
     }
@@ -202,6 +247,10 @@ abstract class AbstractInt<T extends Number> extends Number<T> {
       return valueOf(value ^ other.value);
     } else if (other is int) {
       return valueOf(value ^ other);
+    } else if (other is BigInt) {
+      return valueOf((BigInt.from(value) ^ other).toInt());
+    } else if (other is Decimal) {
+      return valueOf((BigInt.from(value) ^ other.toBigInt()).toInt());
     } else {
       throw UnsupportedError('not support argument: ${other.runtimeType}');
     }
@@ -224,6 +273,10 @@ abstract class AbstractInt<T extends Number> extends Number<T> {
       return valueOf(value << other.value);
     } else if (other is int) {
       return valueOf(value << other);
+    } else if (other is BigInt) {
+      return valueOf(value << other.toInt());
+    } else if (other is Decimal) {
+      return valueOf(value << other.toBigInt().toInt());
     } else {
       throw UnsupportedError('not support argument: ${other.runtimeType}');
     }
@@ -237,6 +290,10 @@ abstract class AbstractInt<T extends Number> extends Number<T> {
       return valueOf(value >> other.value);
     } else if (other is int) {
       return valueOf(value >> other);
+    } else if (other is BigInt) {
+      return valueOf(value >> other.toInt());
+    } else if (other is Decimal) {
+      return valueOf(value >> other.toBigInt().toInt());
     } else {
       throw UnsupportedError('not support argument: ${other.runtimeType}');
     }
@@ -250,6 +307,10 @@ abstract class AbstractInt<T extends Number> extends Number<T> {
       return valueOf(value >>> other.value);
     } else if (other is int) {
       return valueOf(value >>> other);
+    } else if (other is BigInt) {
+      return valueOf(value >>> other.toInt());
+    } else if (other is Decimal) {
+      return valueOf(value >>> other.toBigInt().toInt());
     } else {
       throw UnsupportedError('not support argument: ${other.runtimeType}');
     }
@@ -451,41 +512,7 @@ abstract class AbstractInt<T extends Number> extends Number<T> {
   String toRadixString(int radix) => value.toRadixString(radix);
 
   @override
-  Byte byteValue() => Byte(value);
-
-  @override
-  Short shortValue() => Short(value);
-
-  @override
-  Integer intValue() => Integer(value);
-
-  @override
-  Long longValue() => Long(value);
-
-  @override
-  int uByteValue() => value.toUnsigned(8);
-
-  @override
-  int uShortValue() => value.toUnsigned(16);
-
-  @override
-  int uIntValue() => value.toUnsigned(32);
-
-  @override
-  int uLongValue() => value.toUnsigned(64);
-
-  @override
-  double doubleValue() => value.toDouble();
-
-  @override
-  T parse(String num) => valueOf(int.parse(num));
-
-  @override
-  T? tryParse(String num) {
-    var num2 = int.tryParse(num);
-    if (num2 != null) {
-      return valueOf(num2);
-    }
-    return null;
+  int compareTo(T other) {
+    return value.compareTo(other.value);
   }
 }

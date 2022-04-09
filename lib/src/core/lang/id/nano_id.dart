@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'dart:typed_data';
 
-import 'package:yx_tool/src/core/lang/yx_math.dart';
+import 'package:yx_tool/src/core/lang/math/math.dart';
 import 'package:yx_tool/src/core/text/string_builder.dart';
 import 'package:yx_tool/src/core/util/random_util.dart';
 

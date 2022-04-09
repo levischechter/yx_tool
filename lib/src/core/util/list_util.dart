@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:yx_tool/src/core/lang/yx_math.dart';
+import 'package:yx_tool/src/core/lang/math/math.dart';
 
 /// 数组工具集
 class ListUtil {

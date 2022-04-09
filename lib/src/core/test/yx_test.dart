@@ -9,14 +9,18 @@ FutureOr testExecute({String title = '', bool timer = true, required Function fu
   if (execute) {
     print('$title:');
     var suffix = '';
+    late Stopwatch stopwatch;
     if (timer) {
-      var timer = TimeInterval();
-      suffix = ': ${timer.intervalPretty()}';
+      stopwatch = Stopwatch()..start();
     }
     if (isAsync) {
       await function();
     } else {
       function();
+    }
+    if (timer) {
+      stopwatch.stop();
+      suffix = ': ${stopwatch.elapsed}';
     }
     print('$title$suffix\n');
   }
