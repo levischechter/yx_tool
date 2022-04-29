@@ -23,7 +23,7 @@ void main() {
     function: () {
       print(StrUtil.repeat('undefined', 3));
     },
-    execute: false,
+    execute: true,
   );
 
   testExecute(

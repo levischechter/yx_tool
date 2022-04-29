@@ -16,7 +16,7 @@ void main() {
       print('$sb : ${sb.capacity}');
       sb.replace(1, 3, 'FengLingYue');
       print('$sb : ${sb.capacity}');
-      sb.append('嘻嘻');
+      sb.appendAll(['嘻嘻', '哈哈', '嘤嘤'], separator: ',', before: '[', suffix: ']');
       print('$sb : ${sb.capacity}');
       sb.append(StringBuilder.from('风灵月影').deleteCharAt(1)).deleteCharAt(1);
       print('$sb : ${sb.capacity}');

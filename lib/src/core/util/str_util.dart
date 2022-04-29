@@ -279,6 +279,28 @@ class StrUtil {
     }
   }
 
+  /// 补充字符串以满足最小长度，如果提供的字符串大于指定长度，截断之
+  /// 同：leftPad (org.apache.commons.lang3.leftPad)
+  ///
+  /// ```dart
+  /// StrUtil.padLeft("1", 3, '0');//"001"
+  /// StrUtil.padLeft("123", 2, '0');//"12"
+  /// ```
+  /// param [str]     字符串
+  /// param [length]  长度
+  /// param [padChar] 补充的字符
+  static String padLeft(String str, int length, String padChar) {
+    final strLen = str.length;
+    if (strLen == length) {
+      return str.toString();
+    } else if (strLen > length) {
+      //如果提供的字符串大于指定长度，截断之
+      return str.substring(0, length);
+    }
+
+    return repeat(padChar, length - strLen) + str.toString();
+  }
+
   /// 重复某个字符
   ///
   /// ```dart

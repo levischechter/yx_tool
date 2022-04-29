@@ -52,6 +52,37 @@ class StringBuilder implements Comparable<StringBuilder>, Pattern {
     return this;
   }
 
+  ///追加对象，对象会被转换为字符串
+  ///对象之间会按照[separator]分割
+  StringBuilder appendAll(Iterable<dynamic> objects, {String? before, String? separator, String? suffix}) {
+    // 计算扩展容量
+    var len = (before?.length ?? 0) + (suffix?.length ?? 0);
+    for (var i = 0; i < objects.length; ++i) {
+      var o = objects.elementAt(i);
+      var units = _convert(o);
+      len += units.length;
+      if (separator != null && i != objects.length - 1) {
+        len += separator.length;
+      }
+    }
+    _expandCapacity(count + len);
+    // 追加数据
+    if (before != null) {
+      append(before);
+    }
+    for (var i = 0; i < objects.length; ++i) {
+      var o = objects.elementAt(i);
+      append(o);
+      if (separator != null && i != objects.length - 1) {
+        append(separator);
+      }
+    }
+    if (suffix != null) {
+      append(suffix);
+    }
+    return this;
+  }
+
   ///追加无符号int16
   StringBuilder appendUint(int uInt16) {
     _expandCapacity(count + 1);
@@ -60,7 +91,7 @@ class StringBuilder implements Comparable<StringBuilder>, Pattern {
     return this;
   }
 
-  ///追加无符号int16
+  ///追加有符号int16
   StringBuilder appendInt(int int16) {
     _expandCapacity(count + 1);
     value[count] = IntUtil.toUInt16(int16);

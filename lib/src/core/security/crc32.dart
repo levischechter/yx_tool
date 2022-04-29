@@ -333,7 +333,7 @@ class Crc32 extends Converter<List<int>, int> {
   static int CRC32(int crc, int b) => _crc32Table[(crc ^ b) & 0xff] ^ (crc >> 8);
 
   /// Get the CRC-32 checksum of the given array. You can append bytes to an
-  /// already computed crc by specifying the previous [crc] value.
+  /// already computed checksum by specifying the previous [crc] value.
   static int getCrc32(List<int> array, [int crc = 0]) {
     var len = array.length;
     crc = crc ^ 0xffffffff;
