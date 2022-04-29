@@ -1,27 +1,4 @@
-import 'dart:typed_data';
-
-import 'package:yx_tool/src/core/io/checksum/checksum.dart';
-
-abstract class CRC8Checksum extends Checksum {
-  late int wCRCin;
-
-  CRC8Checksum() {
-    reset();
-  }
-
-  @override
-  void update(Int8List b, [int off = 0, int? len]) {
-    len ??= b.length;
-    for (var i = off; i < off + len; i++) {
-      updateInt(b[i]);
-    }
-  }
-
-  @override
-  void reset() {
-    wCRCin = 0;
-  }
-}
+import 'package:yx_tool/src/core/io/checksum/crc_checksum.dart';
 
 /// Name:    CRC-8               x8+x2+x+1
 /// Poly:    0x07
@@ -30,7 +7,7 @@ abstract class CRC8Checksum extends Checksum {
 /// Refout:  False
 /// Xorout:  0x00
 /// Note:
-class CRC8 extends CRC8Checksum {
+class CRC8 extends CRCChecksum {
   static final int _POLY = 0x07;
 
   @override
@@ -58,7 +35,7 @@ class CRC8 extends CRC8Checksum {
 /// Refout:  False<br>
 /// Xorout:  0x55<br>
 /// Alias:   CRC-8/ATM<br>
-class CRC8ITU extends CRC8Checksum {
+class CRC8ITU extends CRCChecksum {
   static final int _POLY = 0x07;
 
   @override
@@ -86,7 +63,7 @@ class CRC8ITU extends CRC8Checksum {
 /// Refout:  True
 /// Xorout:  0x00
 /// Note:
-class CRC8ROHC extends CRC8Checksum {
+class CRC8ROHC extends CRCChecksum {
   static final int _POLY = 0xE0;
 
   @override
@@ -120,7 +97,7 @@ class CRC8ROHC extends CRC8Checksum {
 /// Xorout:  0x00
 /// Alias:   DOW-CRC,CRC-8/IBUTTON
 /// Use:     Maxim(Dallas)'s some devices,e.g. DS18B20
-class CRC8MAXIM extends CRC8Checksum {
+class CRC8MAXIM extends CRCChecksum {
 
   @override
   void updateInt(int b) {

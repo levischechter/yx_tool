@@ -35,7 +35,7 @@ abstract class CRC16Checksum extends Checksum {
   }
 
   @override
-  void update(Int8List b, [int off = 0, int? len]) {
+  void update(Uint8List b, [int off = 0, int? len]) {
     len ??= b.length;
     for (var i = off; i < off + len; i++) {
       updateInt(b[i]);
@@ -116,7 +116,7 @@ class CRC16CCITTFalse extends CRC16Checksum {
   }
 
   @override
-  void update(Int8List b, [int off = 0, int? len]) {
+  void update(Uint8List b, [int off = 0, int? len]) {
     super.update(b, off, len);
     wCRCin &= 0xffff;
   }
@@ -140,7 +140,7 @@ class CRC16DNP extends CRC16Checksum {
   static final int _WC_POLY = 0xA6BC;
 
   @override
-  void update(Int8List b, [int off = 0, int? len]) {
+  void update(Uint8List b, [int off = 0, int? len]) {
     super.update(b, off, len);
     wCRCin ^= 0xffff;
   }
@@ -165,7 +165,7 @@ class CRC16Maxim extends CRC16Checksum {
   static final int _WC_POLY = 0xa001;
 
   @override
-  void update(Int8List b, [int off = 0, int? len]) {
+  void update(Uint8List b, [int off = 0, int? len]) {
     super.update(b, off, len);
     wCRCin ^= 0xffff;
   }
@@ -220,7 +220,7 @@ class CRC16USB extends CRC16Checksum {
   }
 
   @override
-  void update(Int8List b, [int off = 0, int? len]) {
+  void update(Uint8List b, [int off = 0, int? len]) {
     super.update(b, off, len);
     wCRCin ^= 0xffff;
   }
@@ -250,7 +250,7 @@ class CRC16X25 extends CRC16Checksum {
   }
 
   @override
-  void update(Int8List b, [int off = 0, int? len]) {
+  void update(Uint8List b, [int off = 0, int? len]) {
     super.update(b, off, len);
     wCRCin ^= 0xffff;
   }
@@ -276,7 +276,7 @@ class CRC16XModem extends CRC16Checksum {
   static final int _WC_POLY = 0x1021;
 
   @override
-  void update(Int8List b, [int off = 0, int? len]) {
+  void update(Uint8List b, [int off = 0, int? len]) {
     super.update(b, off, len);
     wCRCin &= 0xffff;
   }

@@ -9,11 +9,11 @@ abstract class Checksum {
 
   ///使用指定的字节数组更新当前校验和
   void updateList(List<int> ints, [int off = 0, int? len]) {
-    update(Int8List.fromList(ints), off, len);
+    update(Uint8List.fromList(ints), off, len);
   }
 
   ///使用指定的字节数组更新当前校验和
-  void update(Int8List ints, [int off = 0, int? len]);
+  void update(Uint8List ints, [int off = 0, int? len]);
 
   /// Returns the current checksum value.
   int getValue();
