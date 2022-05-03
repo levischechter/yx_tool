@@ -6,46 +6,110 @@ import 'package:yx_tool/src/core/extensions/string_extension.dart';
 import 'package:yx_tool/src/core/security/crypto/bcrypt_password_encoder.dart';
 import 'package:yx_tool/src/core/util/hex_util.dart';
 
-/// 可以加盐的md5
-Uint8List _md5(Uint8List data, {Uint8List? salt, int position = 0, int repeat = 1}) {
-  var md5digest = MD5Digest();
-  // 加盐
-  if (salt != null) {
-    if (position <= 0) {
-      md5digest.update(salt, 0, salt.length);
-      md5digest.update(data, 0, data.length);
-    } else if (position >= data.length) {
-      // 加盐在末尾，自动忽略空盐值
-      md5digest.update(data, 0, data.length);
-      md5digest.update(salt, 0, salt.length);
-    } else {
-      // 加盐在中间
-      md5digest.update(data, 0, position);
-      md5digest.update(salt, 0, salt.length);
-      md5digest.update(data, position, data.length - position);
-    }
-  } else {
-    md5digest.update(data, 0, data.length);
-  }
-  var out = Uint8List(md5digest.digestSize);
-  md5digest.doFinal(out, 0);
-  if (repeat > 1) {
-    for (var i = 0; i < repeat - 1; i++) {
-      out = _md5(out);
-    }
-  }
-  return out;
-}
-
 /// 摘要算法
 class DigestUtil {
   DigestUtil._();
+
+  /// 摘要加盐
+  static Uint8List addSalt({
+    required Digest digest,
+    required Uint8List data,
+    Uint8List? salt,
+    int position = 0,
+    int repeat = 1,
+  }) {
+    if (salt != null) {
+      if (position <= 0) {
+        digest.update(salt, 0, salt.length);
+        digest.update(data, 0, data.length);
+      } else if (position >= data.length) {
+        // 加盐在末尾，自动忽略空盐值
+        digest.update(data, 0, data.length);
+        digest.update(salt, 0, salt.length);
+      } else {
+        // 加盐在中间
+        digest.update(data, 0, position);
+        digest.update(salt, 0, salt.length);
+        digest.update(data, position, data.length - position);
+      }
+    } else {
+      digest.update(data, 0, data.length);
+    }
+    var out = Uint8List(digest.digestSize);
+    digest.doFinal(out, 0);
+    if (repeat > 1) {
+      for (var i = 0; i < repeat - 1; i++) {
+        out = addSalt(digest: digest, data: data);
+      }
+    }
+    return out;
+  }
+
+  /// md2摘要
+  static Uint8List md2(Uint8List data) {
+    return MD2Digest().process(data);
+  }
+
+  /// md2摘要的十六进制
+  static String md2Hex(Uint8List data, [bool toUpperCase = false]) {
+    return HexUtil.encodeHex(md2(data), toUpperCase: toUpperCase);
+  }
+
+  /// md4摘要
+  static Uint8List md4(Uint8List data) {
+    return MD4Digest().process(data);
+  }
+
+  /// md4摘要的十六进制
+  static String md4Hex(Uint8List data, [bool toUpperCase = false]) {
+    return HexUtil.encodeHex(md4(data), toUpperCase: toUpperCase);
+  }
+
+  /// RIPEMD-128 摘要
+  static Uint8List ripemd128(Uint8List data) {
+    return RIPEMD128Digest().process(data);
+  }
+
+  /// RIPEMD-128摘要的十六进制
+  static String ripemd128Hex(Uint8List data, [bool toUpperCase = false]) {
+    return HexUtil.encodeHex(ripemd128(data), toUpperCase: toUpperCase);
+  }
+
+  /// RIPEMD-160 摘要
+  static Uint8List ripemd160(Uint8List data) {
+    return RIPEMD160Digest().process(data);
+  }
+
+  /// RIPEMD-160摘要的十六进制
+  static String ripemd160Hex(Uint8List data, [bool toUpperCase = false]) {
+    return HexUtil.encodeHex(ripemd160(data), toUpperCase: toUpperCase);
+  }
+
+  /// RIPEMD-256 摘要
+  static Uint8List ripemd256(Uint8List data) {
+    return RIPEMD256Digest().process(data);
+  }
+
+  /// RIPEMD-256摘要的十六进制
+  static String ripemd256Hex(Uint8List data, [bool toUpperCase = false]) {
+    return HexUtil.encodeHex(ripemd256(data), toUpperCase: toUpperCase);
+  }
+
+  /// RIPEMD-320 摘要
+  static Uint8List ripemd320(Uint8List data) {
+    return RIPEMD320Digest().process(data);
+  }
+
+  /// RIPEMD-320摘要的十六进制
+  static String ripemd320Hex(Uint8List data, [bool toUpperCase = false]) {
+    return HexUtil.encodeHex(ripemd320(data), toUpperCase: toUpperCase);
+  }
 
   /// 将数据转为MD5 rfc哈希函数输出，当[isSimple]为true时，输出8位md5
   /// 使用[salt]加入盐，并且指定[position]存放的位置
   /// 使用[repeat]重复碰撞的次数
   static Uint8List md5(Uint8List data, {bool isSimple = false, String? salt, int position = 0, int repeat = 1}) {
-    var bytes = _md5(data, salt: salt?.bytes, position: position, repeat: repeat);
+    var bytes = addSalt(digest: MD5Digest(), data: data, salt: salt?.bytes, position: position, repeat: repeat);
     if (isSimple) {
       return bytes.sublist(4, 12);
     }
@@ -288,6 +352,56 @@ class DigestUtil {
   /// H(K XOR opad, H(K XOR ipad, text))
   static String hmacHex(Digest digest, Uint8List data, {Uint8List? key, String? keyStr, bool toUpperCase = false}) {
     return HexUtil.encodeHex(hmac(digest, data, key: key, keyStr: keyStr), toUpperCase: toUpperCase);
+  }
+
+  /// implementation of SHAKE based on following KeccakNISTInterface.c from http://keccak.noekeon.org/
+  static Uint8List shake(Uint8List data, {int bitLength = 256}) {
+    return SHAKEDigest(bitLength).process(data);
+  }
+
+  /// implementation of SHAKE based on following KeccakNISTInterface.c from http://keccak.noekeon.org/
+  static String shakeHex(Uint8List data, {int bitLength = 256, bool toUpperCase = false}) {
+    return HexUtil.encodeHex(shake(data, bitLength: bitLength), toUpperCase: toUpperCase);
+  }
+
+  /// implementation of SHAKE based on following KeccakNISTInterface.c from http://keccak.noekeon.org/
+  static Uint8List cshake(Uint8List data, {int bitLength = 256, Uint8List? N, Uint8List? S}) {
+    return CSHAKEDigest(bitLength, N, S).process(data);
+  }
+
+  /// implementation of SHAKE based on following KeccakNISTInterface.c from http://keccak.noekeon.org/
+  static String cshakeHex(Uint8List data, {int bitLength = 256, Uint8List? N, Uint8List? S, bool toUpperCase = false}) {
+    return HexUtil.encodeHex(cshake(data, bitLength: bitLength, N: N, S: S), toUpperCase: toUpperCase);
+  }
+
+  /// Tiger digest
+  static Uint8List tiger(Uint8List data) {
+    return TigerDigest().process(data);
+  }
+
+  /// Tiger digest 16进制
+  static String tigerHex(Uint8List data, [bool toUpperCase = false]) {
+    return HexUtil.encodeHex(tiger(data), toUpperCase: toUpperCase);
+  }
+
+  /// Whirlpool digest
+  static Uint8List whirlpool(Uint8List data) {
+    return WhirlpoolDigest().process(data);
+  }
+
+  /// Whirlpool digest 16进制
+  static String whirlpoolHex(Uint8List data, [bool toUpperCase = false]) {
+    return HexUtil.encodeHex(whirlpool(data), toUpperCase: toUpperCase);
+  }
+
+  /// blake2b digest
+  static Uint8List blake2b(Uint8List data, {Uint8List? key, Uint8List? salt, Uint8List? personalization}) {
+    return Blake2bDigest(key: key, salt: salt, personalization: personalization).process(data);
+  }
+
+  /// blake2b digest 16进制
+  static String blake2bHex(Uint8List data, {Uint8List? key, Uint8List? salt, Uint8List? personalization, bool toUpperCase = false}) {
+    return HexUtil.encodeHex(blake2b(data, key: key, salt: salt, personalization: personalization), toUpperCase: toUpperCase);
   }
 
   ///生成Bcrypt加密后的密文
