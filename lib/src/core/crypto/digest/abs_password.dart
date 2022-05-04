@@ -19,10 +19,10 @@ abstract class PasswordEncoder {
   /// storage
   bool matches(String rawPassword, String encodedPassword);
 
-  /// Returns true if the encoded password should be encoded again for better security,
+  /// Returns true if the encoded password should be encoded again for better digest,
   /// else false. The default implementation always returns false.
   /// @param encodedPassword the encoded password to check
-  /// @return true if the encoded password should be encoded again for better security,
+  /// @return true if the encoded password should be encoded again for better digest,
   /// else false.
   bool upgradeEncoding(String encodedPassword) {
     return false;

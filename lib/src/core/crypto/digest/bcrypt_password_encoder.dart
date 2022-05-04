@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:yx_tool/src/core/security/crypto/bcrypt.dart';
+import 'package:yx_tool/src/core/crypto/digest/bcrypt.dart';
 
 import 'abs_password.dart';
 

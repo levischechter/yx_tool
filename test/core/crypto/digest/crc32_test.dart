@@ -1,5 +1,5 @@
 import 'package:yx_tool/src/core/extensions/string_extension.dart';
-import 'package:yx_tool/src/core/security/crc32.dart';
+import 'package:yx_tool/src/core/crypto/digest/crc32.dart';
 import 'package:yx_tool/src/core/test/yx_test.dart';
 
 void main() {

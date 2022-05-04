@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'dart:typed_data';
+
 /// 随机数工具
 class RandomUtil {
   RandomUtil._();
@@ -32,5 +34,12 @@ class RandomUtil {
   static int randomInt({int min = 0, int max = 1 << 32}) {
     var range = max - min;
     return getRandom().nextInt(range) + min;
+  }
+
+  /// 生成[len]个数的随机字节
+  static Uint8List randomBytes(int len) {
+    var bytes = Uint8List(len);
+    nextInts(bytes, max: 1 << 8);
+    return bytes;
   }
 }

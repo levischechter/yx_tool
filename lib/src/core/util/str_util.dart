@@ -523,12 +523,27 @@ class StrUtil {
 
   /// 使用默认的utf8转换List<int>数据为字符串
   static String decode(List<int> codeUnits, [Encoding encoding = utf8]) {
-    return utf8.decode(codeUnits);
+    return encoding.decode(codeUnits);
   }
 
   /// 使用默认的utf8转换字符串数据为List<int>
   static List<int> encode(String str, [Encoding encoding = utf8]) {
-    return utf8.encode(str);
+    return encoding.encoder.convert(str);
+  }
+
+  /// 使用utf8转换字符串数据为Uint8List
+  static Uint8List encodeUtf8(String str) {
+    return utf8.encoder.convert(str);
+  }
+
+  /// 使用ascii转换字符串数据为Uint8List
+  static Uint8List encodeAscii(String str) {
+    return ascii.encoder.convert(str);
+  }
+
+  /// 使用ISO-8859-1转换字符串数据为Uint8List
+  static Uint8List encodeISO_8859_1(String str) {
+    return latin1.encoder.convert(str);
   }
 
   /// 是否存在utf16编码字符

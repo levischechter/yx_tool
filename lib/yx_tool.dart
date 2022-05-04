@@ -6,5 +6,5 @@ export 'src/core/test/yx_test.dart';
 export 'src/core/lang/yx_lang.dart';
 export 'src/core/util/yx_util.dart';
 export 'src/core/extensions/yx_extension.dart';
-export 'src/core/security/yx_security.dart';
+export 'src/core/crypto/yx_security.dart';
 export 'src/core/io/yx_io.dart';

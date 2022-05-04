@@ -3,7 +3,7 @@ import 'dart:typed_data';
 
 import 'package:pointycastle/export.dart';
 import 'package:yx_tool/src/core/extensions/string_extension.dart';
-import 'package:yx_tool/src/core/security/crypto/bcrypt_password_encoder.dart';
+import 'package:yx_tool/src/core/crypto/digest/bcrypt_password_encoder.dart';
 import 'package:yx_tool/src/core/util/hex_util.dart';
 
 /// 摘要算法
