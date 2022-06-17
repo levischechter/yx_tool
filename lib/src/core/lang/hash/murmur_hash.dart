@@ -3,13 +3,13 @@
 /// Murmur3 哈希算法实现<br>
 class MurmurHash {
 
-  static const int _C1 = 0xcc9e2d51;
-  static const int _C2 = 0x1b873593;
+  static const int _c1 = 0xcc9e2d51;
+  static const int _c2 = 0x1b873593;
 
-  static const DEFAULT_SEED = 0;
+  static const defaultSeed = 0;
 
   /// Ported from: https://github.com/garycourt/murmurhash-js/blob/master/murmurhash3_gc.js
-  static int v3(String key, [int seed = DEFAULT_SEED]) {
+  static int v3(String key, [int seed = defaultSeed]) {
     var remainder = key.length & 3;
     var bytes = key.length - remainder;
     var h1 = seed;
@@ -21,10 +21,10 @@ class MurmurHash {
       ((key.codeUnitAt(++i) & 0xff) << 16) |
       ((key.codeUnitAt(++i) & 0xff) << 24);
       ++i;
-      k1 = ((((k1 & 0xffff) * _C1) + ((((k1 >>> 16) * _C1) & 0xffff) << 16))) &
+      k1 = ((((k1 & 0xffff) * _c1) + ((((k1 >>> 16) * _c1) & 0xffff) << 16))) &
       0xffffffff;
       k1 = (k1 << 15) | (k1 >>> 17);
-      k1 = ((((k1 & 0xffff) * _C2) + ((((k1 >>> 16) * _C2) & 0xffff) << 16))) &
+      k1 = ((((k1 & 0xffff) * _c2) + ((((k1 >>> 16) * _c2) & 0xffff) << 16))) &
       0xffffffff;
 
       h1 ^= k1;
@@ -48,10 +48,10 @@ class MurmurHash {
       case 1:
         k1 ^= (key.codeUnitAt(i) & 0xff);
 
-        k1 = (((k1 & 0xffff) * _C1) + ((((k1 >>> 16) * _C1) & 0xffff) << 16)) &
+        k1 = (((k1 & 0xffff) * _c1) + ((((k1 >>> 16) * _c1) & 0xffff) << 16)) &
         0xffffffff;
         k1 = (k1 << 15) | (k1 >>> 17);
-        k1 = (((k1 & 0xffff) * _C2) + ((((k1 >>> 16) * _C2) & 0xffff) << 16)) &
+        k1 = (((k1 & 0xffff) * _c2) + ((((k1 >>> 16) * _c2) & 0xffff) << 16)) &
         0xffffffff;
         h1 ^= k1;
     }

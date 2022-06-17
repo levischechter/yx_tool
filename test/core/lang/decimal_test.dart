@@ -5,7 +5,7 @@ void main() {
   testExecute(
     title: 'Decimal Test',
     function: () {
-      var d = Decimal.parse("1.23");
+      var d = Decimal.parse('1.23');
       print(d);
       print(d += Decimal.fromDouble(3.21));
       // print(d *= Decimal.fromBigInt(BigInt.from(3)));

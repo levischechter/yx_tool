@@ -5,47 +5,47 @@ import 'package:yx_tool/src/core/crypto/symmetric/symmetric_crypto.dart';
 
 enum AESMode {
   ///无模式
-  NONE,
+  none,
 
   ///密码分组连接模式（Cipher Block Chaining），使用块
-  CBC,
+  cbc,
 
   ///密文反馈模式（Cipher Feedback），使用块
-  CFB_64,
+  cfb_64,
 
   ///计数器模式（A simplification of OFB）,使用流
-  CTR,
+  ctr,
 
   ///电子密码本模式（Electronic CodeBook），使用块
-  ECB,
+  ecb,
 
   ///输出反馈模式（Output Feedback），使用块
-  OFB_64,
+  ofb64,
 
   ///GOST 28147 OFB计数器模式，使用块
-  OFB_64_GCTR,
+  ofb64Gctr,
 
   ///计数器模式,使用流
-  SIC,
+  sic,
 
   ///伽罗瓦计数器模式，使用块
-  GCM,
+  gcm,
 
   ///无限乱码扩展，使用块
-  IGE,
+  ige,
 
   ///带有 CBC-MAC 的计数器，使用块
-  CCM,
+  ccm,
 }
 enum AESPadding {
   ///无补码
-  NoPadding,
+  noPadding,
 
   ///PKCS7/PKCS5 padding to a block
-  PKCS7Padding,
+  pkcs7Padding,
 
   ///根据ISO 9797-1中ISO 7814-4-方案2中引用的方案添加填充物的填充器。第一个字节是0x80，其余字节是0x00
-  ISO7816d4
+  iso7816d4
 }
 
 class AES extends SymmetricCrypto {
@@ -67,49 +67,49 @@ class AES extends SymmetricCrypto {
   void _init() {
     var engine = AESEngine();
     switch (mode) {
-      case AESMode.NONE:
+      case AESMode.none:
         _blockCipher = engine;
         break;
-      case AESMode.CBC:
+      case AESMode.cbc:
         _blockCipher = CBCBlockCipher(engine);
         break;
-      case AESMode.CFB_64:
+      case AESMode.cfb_64:
         _blockCipher = CFBBlockCipher(engine, 8);
         break;
-      case AESMode.CTR:
+      case AESMode.ctr:
         _streamCipher = CTRStreamCipher(engine);
         break;
-      case AESMode.ECB:
+      case AESMode.ecb:
         _blockCipher = ECBBlockCipher(engine);
         break;
-      case AESMode.OFB_64:
+      case AESMode.ofb64:
         _blockCipher = OFBBlockCipher(engine, 8);
         break;
-      case AESMode.OFB_64_GCTR:
+      case AESMode.ofb64Gctr:
         _blockCipher = GCTRBlockCipher(OFBBlockCipher(engine, 8));
         break;
-      case AESMode.GCM:
+      case AESMode.gcm:
         _blockCipher = GCMBlockCipher(engine);
         break;
-      case AESMode.IGE:
+      case AESMode.ige:
         _blockCipher = IGEBlockCipher(engine);
         break;
-      case AESMode.CCM:
+      case AESMode.ccm:
         _blockCipher = CCMBlockCipher(engine);
         break;
-      case AESMode.SIC:
+      case AESMode.sic:
         _streamCipher = SICStreamCipher(engine);
         break;
     }
     if (_blockCipher != null) {
       // 补码
       switch (padding) {
-        case AESPadding.NoPadding:
+        case AESPadding.noPadding:
           break;
-        case AESPadding.PKCS7Padding:
+        case AESPadding.pkcs7Padding:
           _blockCipher = PaddedBlockCipherImpl(PKCS7Padding(), _blockCipher!);
           break;
-        case AESPadding.ISO7816d4:
+        case AESPadding.iso7816d4:
           _blockCipher = PaddedBlockCipherImpl(ISO7816d4Padding(), _blockCipher!);
           break;
       }
@@ -130,19 +130,19 @@ class AES extends SymmetricCrypto {
 
   /// 构建参数
   CipherParameters _buildParams([Uint8List? associatedData]) {
-    if (mode == AESMode.GCM) {
+    if (mode == AESMode.gcm) {
       return AEADParameters(KeyParameter(key), 128, iv!, associatedData ?? Uint8List.fromList([]));
     }
 
-    if (padding != AESPadding.NoPadding) {
-      if (mode == AESMode.ECB) {
+    if (padding != AESPadding.noPadding) {
+      if (mode == AESMode.ecb) {
         return PaddedBlockCipherParameters(KeyParameter(key), null);
       }
 
       return PaddedBlockCipherParameters(ParametersWithIV<KeyParameter>(KeyParameter(key), iv!), null);
     }
 
-    if (mode == AESMode.ECB) {
+    if (mode == AESMode.ecb) {
       return KeyParameter(key);
     }
 

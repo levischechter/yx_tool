@@ -8,7 +8,7 @@ import 'package:yx_tool/src/core/io/checksum/crc_checksum.dart';
 /// Xorout:  0x00
 /// Note:
 class CRC8 extends CRCChecksum {
-  static final int _POLY = 0x07;
+  static final int _poly = 0x07;
 
   @override
   void updateInt(int b) {
@@ -17,7 +17,7 @@ class CRC8 extends CRCChecksum {
       if ((wCRCin & 0x80) == 0) {
         wCRCin <<= 1;
       } else {
-        wCRCin = ((wCRCin << 1) ^ _POLY) & 0xff;
+        wCRCin = ((wCRCin << 1) ^ _poly) & 0xff;
       }
     }
   }
@@ -36,7 +36,7 @@ class CRC8 extends CRCChecksum {
 /// Xorout:  0x55<br>
 /// Alias:   CRC-8/ATM<br>
 class CRC8ITU extends CRCChecksum {
-  static final int _POLY = 0x07;
+  static final int _poly = 0x07;
 
   @override
   void updateInt(int b) {
@@ -45,7 +45,7 @@ class CRC8ITU extends CRCChecksum {
       if ((wCRCin & 0x80) == 0) {
         wCRCin <<= 1;
       } else {
-        wCRCin = ((wCRCin << 1) ^ _POLY) & 0xff;
+        wCRCin = ((wCRCin << 1) ^ _poly) & 0xff;
       }
     }
   }
@@ -64,7 +64,7 @@ class CRC8ITU extends CRCChecksum {
 /// Xorout:  0x00
 /// Note:
 class CRC8ROHC extends CRCChecksum {
-  static final int _POLY = 0xE0;
+  static final int _poly = 0xE0;
 
   @override
   void updateInt(int b) {
@@ -73,7 +73,7 @@ class CRC8ROHC extends CRCChecksum {
       if ((wCRCin & 0x01) == 0) {
         wCRCin = ((wCRCin & 0xff) >> 1) & 0xff;
       } else {
-        wCRCin = (((wCRCin & 0xff) >> 1) ^ _POLY) & 0xff;
+        wCRCin = (((wCRCin & 0xff) >> 1) ^ _poly) & 0xff;
       }
     }
   }

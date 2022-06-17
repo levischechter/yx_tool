@@ -120,7 +120,7 @@ class HexUtil {
   static String toHex(int value) {
     var s2 = value.toRadixString(16);
     if (s2.length % 2 != 0) {
-      return '0' + s2;
+      return '0$s2';
     }
     return s2;
   }

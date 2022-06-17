@@ -1,40 +1,40 @@
-import 'dart:math' as M;
+import 'dart:math' as m;
 
 class Math {
   ///自然对数的底。
   /// 通常写为“e”。
-  static const e = M.e;
+  static const e = m.e;
 
   /// 10 的自然对数。
   /// 10 的自然对数是满足 `pow(E, LN10) == 10` 的数字。
   /// 这个值并不精确，但它是最接近精确数学值的可表示双精度数。
-  static const ln10 = M.ln10;
+  static const ln10 = m.ln10;
 
   /// 2 的自然对数。
   /// 2 的自然对数是满足 `pow(E, LN2) == 2` 的数字。
   /// 这个值并不精确，但它是最接近精确数学值的可表示双精度数。
-  static const ln2 = M.ln2;
+  static const ln2 = m.ln2;
 
   /// [e] 的以 2 为底的对数。
-  static const log2e = M.log2e;
+  static const log2e = m.log2e;
 
   /// [e] 的以 10 为底的对数。
-  static const log10e = M.log10e;
+  static const log10e = m.log10e;
 
   /// PI 常数。
-  static const pi = M.pi;
+  static const pi = m.pi;
 
   /// 12 的平方根。
-  static const sqrt1_2 = M.sqrt1_2;
+  static const sqrt1_2 = m.sqrt1_2;
 
   /// 2 的平方根。
-  static const sqrt2 = M.sqrt2;
+  static const sqrt2 = m.sqrt2;
 
   /// 常数乘以以度为单位的角度值以获得以弧度为单位的角度值。
-  static const double DEGREES_TO_RADIANS = 0.017453292519943295;
+  static const double degreesToRadians = 0.017453292519943295;
 
   /// 常数，与以弧度为单位的角度值相乘以获得以度为单位的角度值。
-  static const double RADIANS_TO_DEGREES = 57.29577951308232;
+  static const double radiansToDegrees = 57.29577951308232;
 
   /// 返回两个数字中的较小者。
   ///
@@ -42,7 +42,7 @@ class Math {
   /// `-0.0` 和 `0.0` 中的较小者是 `-0.0`。
   /// 如果参数在其他方面相等（包括具有相同数学值的 int 和 doubles），则未指定返回两个参数中的哪一个。
   static T min<T extends num>(T a, T b) {
-    return M.min(a, b);
+    return m.min(a, b);
   }
 
   /// 返回两个数字中较大的一个。
@@ -50,7 +50,7 @@ class Math {
   /// Returns NaN if either argument is NaN.
   /// `-0.0` 和 `0.0` 的较大者是 `0.0`。如果参数在其他方面相等（包括具有相同数学值的 int 和 doubles），则未指定返回两个参数中的哪一个。
   static T max<T extends num>(T a, T b) {
-    return M.max(a, b);
+    return m.max(a, b);
   }
 
   /// [atan] 的变体。
@@ -68,7 +68,7 @@ class Math {
   ///
   /// Returns NaN if either argument is NaN.
   static double atan2(num a, num b) {
-    return M.atan2(a, b);
+    return m.atan2(a, b);
   }
 
   /// 返回 [x] 的 [exponent] 次方。
@@ -98,21 +98,21 @@ class Math {
   ///
   /// 请注意，结果可能会溢出。如果整数表示为 64 位数字，则整数结果可能会被截断，双精度结果可能会溢出为正数或负数 [double.infinity]。
   static num pow(num x, num exponent) {
-    return M.pow(x, exponent);
+    return m.pow(x, exponent);
   }
 
   /// 将 [radians] 转换为 [double] 并返回值的正弦值。
   ///
   /// 如果 [弧度] 不是有限数，则结果为 NaN。
   static double sin(num radians) {
-    return M.sin(radians);
+    return m.sin(radians);
   }
 
   /// 将 [radians] 转换为 [double] 并返回值的余弦值。
   ///
   /// 如果 [弧度] 不是有限数，则结果为 NaN。
   static double cos(num radians) {
-    return M.cos(radians);
+    return m.cos(radians);
   }
 
   /// 将 [radians] 转换为 [double] 并返回值的正切值。
@@ -120,28 +120,28 @@ class Math {
   /// 正切函数等价于 `sin(radians)cos(radians)`，当 `cos(radians)` 等于 0 时，它可能是无限的（正或负）。
   /// 如果 [弧度] 不是有限数，则结果为 NaN。
   static double tan(num radians) {
-    return M.tan(radians);
+    return m.tan(radians);
   }
 
   /// 将 [x] 转换为 [double] 并以弧度返回其反余弦值。
   ///
   /// 返回 0..PI 范围内的值，如果 [x] 超出范围 -1..1，则返回 NaN。
   static double acos(num x) {
-    return M.acos(x);
+    return m.acos(x);
   }
 
   /// 将 [x] 转换为 [double] 并以弧度返回其反正弦值。
   ///
   /// 返回范围 -PI2..PI2 中的值，如果 [x] 超出范围 -1..1，则返回 NaN。
   static double asin(num x) {
-    return M.asin(x);
+    return m.asin(x);
   }
 
   /// 将 [x] 转换为 [double] 并以弧度返回其反正切。
   ///
   /// 返回 -PI2..PI2 范围内的值，如果 [x] 为 NaN，则返回 NaN。
   static double atan(num x) {
-    return M.atan(x);
+    return m.atan(x);
   }
 
   /// 将 [x] 转换为 [double] 并返回值的正平方根。
@@ -158,14 +158,14 @@ class Math {
   /// print(result); // NaN
   /// ```
   static double sqrt(num x) {
-    return M.sqrt(x);
+    return m.sqrt(x);
   }
 
   /// 将 [x] 转换为 [double] 并将自然指数 [e] 返回到 [x] 的幂。
   ///
   /// Returns NaN if [x] is NaN.
   static double exp(num x) {
-    return M.exp(x);
+    return m.exp(x);
   }
 
   /// 将 [x] 转换为 [double] 并返回值的自然对数。
@@ -173,7 +173,7 @@ class Math {
   /// 如果 [x] 等于 0，则返回负无穷大。
   /// 如果 [x] 为 NaN 或小于零，则返回 NaN。
   static double log(num x) {
-    return M.log(x);
+    return m.log(x);
   }
 
   /// 将以度为单位的角度转换为以弧度为单位的大致等效角度。从度数到弧度的转换通常是不精确的。
@@ -182,7 +182,7 @@ class Math {
   ///
   /// return  以弧度为单位的角度 [angdeg] 的测量值。
   static double toRadians(double angdeg) {
-    return angdeg * DEGREES_TO_RADIANS;
+    return angdeg * degreesToRadians;
   }
 
   /// 将以弧度测量的角度转换为以度为单位测量的大致等效角度。从弧度到度数的转换通常是不精确的；
@@ -191,7 +191,7 @@ class Math {
   /// param   [angrad] 一个角度，以弧度为单位
   /// return  以度为单位的角度 {@code angrad} 的测量值。
   static double toDegrees(double angrad) {
-    return angrad * RADIANS_TO_DEGREES;
+    return angrad * radiansToDegrees;
   }
 
   /// 不小于[num]的最小整数。

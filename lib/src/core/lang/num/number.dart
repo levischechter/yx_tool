@@ -515,4 +515,7 @@ abstract class AbstractInt<T extends Number> extends Number<T> {
   int compareTo(T other) {
     return value.compareTo(other.value);
   }
+
+  @override
+  int get hashCode => value.hashCode;
 }

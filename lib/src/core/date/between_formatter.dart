@@ -1,17 +1,16 @@
 import 'date_unit.dart';
 
 ///格式化等级
-class Level {
+enum Level {
+  day('天'),
+  hour('小时'),
+  minute('分'),
+  second('秒'),
+  millisecond('毫秒');
+
   final String name;
-  final int index;
 
-  const Level._(this.name, this.index);
-
-  static const Level DAY = Level._('天', 0);
-  static const Level HOUR = Level._('小时', 1);
-  static const Level MINUTE = Level._('分', 2);
-  static const Level SECOND = Level._('秒', 3);
-  static const Level MILLISECOND = Level._('毫秒', 4);
+  const Level(this.name);
 }
 
 /// 时长格式化器，用于格式化输出两个日期相差的时长<br>
@@ -41,35 +40,35 @@ class BetweenFormatter {
   String format() {
     final sb = StringBuffer();
     if (betweenMs > 0) {
-      var day = betweenMs ~/ DateUnit.DAY.millis;
-      var hour = betweenMs ~/ DateUnit.HOUR.millis - day * 24;
-      var minute = betweenMs ~/ DateUnit.MINUTE.millis - day * 24 * 60 - hour * 60;
+      var day = betweenMs ~/ DateUnit.day.millis;
+      var hour = betweenMs ~/ DateUnit.hour.millis - day * 24;
+      var minute = betweenMs ~/ DateUnit.minute.millis - day * 24 * 60 - hour * 60;
 
-      final BetweenOfSecond = ((day * 24 + hour) * 60 + minute) * 60;
-      var second = betweenMs ~/ DateUnit.SECOND.millis - BetweenOfSecond;
-      var millisecond = betweenMs - (BetweenOfSecond + second) * 1000;
+      final betweenOfSecond = ((day * 24 + hour) * 60 + minute) * 60;
+      var second = betweenMs ~/ DateUnit.second.millis - betweenOfSecond;
+      var millisecond = betweenMs - (betweenOfSecond + second) * 1000;
 
       final level = this.level.index;
       var levelCount = 0;
 
-      if (_isLevelCountValid(levelCount) && 0 != day && level >= Level.DAY.index) {
-        sb.writeAll([day, Level.DAY.name]);
+      if (_isLevelCountValid(levelCount) && 0 != day && level >= Level.day.index) {
+        sb.writeAll([day, Level.day.name]);
         levelCount++;
       }
-      if (_isLevelCountValid(levelCount) && 0 != hour && level >= Level.HOUR.index) {
-        sb.writeAll([hour, Level.HOUR.name]);
+      if (_isLevelCountValid(levelCount) && 0 != hour && level >= Level.hour.index) {
+        sb.writeAll([hour, Level.hour.name]);
         levelCount++;
       }
-      if (_isLevelCountValid(levelCount) && 0 != minute && level >= Level.MINUTE.index) {
-        sb.writeAll([minute, Level.MINUTE.name]);
+      if (_isLevelCountValid(levelCount) && 0 != minute && level >= Level.minute.index) {
+        sb.writeAll([minute, Level.minute.name]);
         levelCount++;
       }
-      if (_isLevelCountValid(levelCount) && 0 != second && level >= Level.SECOND.index) {
-        sb.writeAll([second, Level.SECOND.name]);
+      if (_isLevelCountValid(levelCount) && 0 != second && level >= Level.second.index) {
+        sb.writeAll([second, Level.second.name]);
         levelCount++;
       }
-      if (_isLevelCountValid(levelCount) && 0 != millisecond && level >= Level.MILLISECOND.index) {
-        sb.writeAll([millisecond, Level.MILLISECOND.name]);
+      if (_isLevelCountValid(levelCount) && 0 != millisecond && level >= Level.millisecond.index) {
+        sb.writeAll([millisecond, Level.millisecond.name]);
         // levelCount++;
       }
     }

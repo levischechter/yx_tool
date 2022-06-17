@@ -21,34 +21,34 @@ import 'package:yx_tool/src/core/util/id_util.dart';
 /// <p>
 class Snowflake {
   ///默认的起始时间，为Thu, 04 Nov 2010 01:42:54 GMT
-  static const _DEFAULT_TWEPOCH = 1288834974657;
+  static const _defaultTwepoch = 1288834974657;
 
   ///默认回拨时间，2S
-  static const _DEFAULT_TIME_OFFSET = 2000;
+  static const _defaultTimeOffset = 2000;
 
-  static const _WORKER_ID_BITS = 5;
+  static const _workerIdBits = 5;
 
   ///最大支持机器节点数0~31，一共32个
-  static const _MAX_WORKER_ID = -1 ^ (-1 << _WORKER_ID_BITS);
+  static const _maxWorkerId = -1 ^ (-1 << _workerIdBits);
 
-  static const _DATA_CENTER_ID_BITS = 5;
+  static const _dataCenterIdBits = 5;
 
-  static const _MAX_DATA_CENTER_ID = -1 ^ (-1 << _DATA_CENTER_ID_BITS);
+  static const _maxDataCenterId = -1 ^ (-1 << _dataCenterIdBits);
 
   // 序列号12位（表示只允许workId的范围为：0-4095）
-  static final int _SEQUENCE_BITS = 12;
+  static final int _sequenceBits = 12;
 
   // 机器节点左移12位
-  static final int _WORKER_ID_SHIFT = _SEQUENCE_BITS;
+  static final int _workerIdShift = _sequenceBits;
 
   // 数据中心节点左移17位
-  static final int _DATA_CENTER_ID_SHIFT = _SEQUENCE_BITS + _WORKER_ID_BITS;
+  static final int _dataCenterIdShift = _sequenceBits + _workerIdBits;
 
   // 时间毫秒数左移22位
-  static final int _TIMESTAMP_LEFT_SHIFT = _SEQUENCE_BITS + _WORKER_ID_BITS + _DATA_CENTER_ID_BITS;
+  static final int _timestampLeftShift = _sequenceBits + _workerIdBits + _dataCenterIdBits;
 
   // 序列掩码，用于限定序列最大值不能超过4095
-  static final int _SEQUENCE_MASK = ~(-1 << _SEQUENCE_BITS); // 4095
+  static final int _sequenceMask = ~(-1 << _sequenceBits); // 4095
 
   late final int _twepoch;
   late final int _workerId;
@@ -67,9 +67,9 @@ class Snowflake {
     DateTime? epochDate,
     int? workerId,
     int? dataCenterId,
-    int timeOffset = _DEFAULT_TIME_OFFSET,
+    int timeOffset = _defaultTimeOffset,
   }) async {
-    dataCenterId ??= await IdUtil.getDataCenterId(_MAX_DATA_CENTER_ID);
+    dataCenterId ??= await IdUtil.getDataCenterId(_maxDataCenterId);
     return getInstanceSync(epochDate: epochDate, workerId: workerId, timeOffset: timeOffset, dataCenterId: dataCenterId);
   }
 
@@ -78,21 +78,21 @@ class Snowflake {
     DateTime? epochDate,
     int? workerId,
     required int dataCenterId,
-    int timeOffset = _DEFAULT_TIME_OFFSET,
+    int timeOffset = _defaultTimeOffset,
   }) {
     var snowflake = Snowflake._();
     if (null != epochDate) {
       snowflake._twepoch = epochDate.millisecondsSinceEpoch;
     } else {
       // Thu, 04 Nov 2010 01:42:54 GMT
-      snowflake._twepoch = _DEFAULT_TWEPOCH;
+      snowflake._twepoch = _defaultTwepoch;
     }
-    workerId ??= IdUtil.getWorkerId(dataCenterId, _MAX_WORKER_ID);
-    if (workerId > _MAX_WORKER_ID || workerId < 0) {
-      throw ArgumentError("worker Id can't be greater than $_MAX_WORKER_ID or less than 0");
+    workerId ??= IdUtil.getWorkerId(dataCenterId, _maxWorkerId);
+    if (workerId > _maxWorkerId || workerId < 0) {
+      throw ArgumentError("worker Id can't be greater than $_maxWorkerId or less than 0");
     }
-    if (dataCenterId > _MAX_DATA_CENTER_ID || dataCenterId < 0) {
-      throw ArgumentError("datacenter Id can't be greater than $_MAX_DATA_CENTER_ID or less than 0");
+    if (dataCenterId > _maxDataCenterId || dataCenterId < 0) {
+      throw ArgumentError("datacenter Id can't be greater than $_maxDataCenterId or less than 0");
     }
     snowflake._dataCenterId = dataCenterId;
     snowflake._workerId = workerId;
@@ -102,17 +102,17 @@ class Snowflake {
 
   /// 根据Snowflake的ID，获取机器id
   int getWorkerId(int id) {
-    return id >> _WORKER_ID_SHIFT & ~(-1 << _WORKER_ID_BITS);
+    return id >> _workerIdShift & ~(-1 << _workerIdBits);
   }
 
   /// 根据Snowflake的ID，获取数据中心id
   int getDataCenterId(int id) {
-    return id >> _DATA_CENTER_ID_SHIFT & ~(-1 << _DATA_CENTER_ID_BITS);
+    return id >> _dataCenterIdShift & ~(-1 << _dataCenterIdBits);
   }
 
   /// 根据Snowflake的ID，获取生成时间
   int getGenerateDateTime(int id) {
-    return (id >> _TIMESTAMP_LEFT_SHIFT & ~(-1 << 41)) + _twepoch;
+    return (id >> _timestampLeftShift & ~(-1 << 41)) + _twepoch;
   }
 
   /// 下一个ID
@@ -129,7 +129,7 @@ class Snowflake {
     }
 
     if (timestamp == _lastTimestamp) {
-      final sequence = (_sequence + 1) & _SEQUENCE_MASK;
+      final sequence = (_sequence + 1) & _sequenceMask;
       if (sequence == 0) {
         timestamp = _tilNextMillis(_lastTimestamp);
       }
@@ -140,7 +140,7 @@ class Snowflake {
 
     _lastTimestamp = timestamp;
 
-    return ((timestamp - _twepoch) << _TIMESTAMP_LEFT_SHIFT) | (_dataCenterId << _DATA_CENTER_ID_SHIFT) | (_workerId << _WORKER_ID_SHIFT) | _sequence;
+    return ((timestamp - _twepoch) << _timestampLeftShift) | (_dataCenterId << _dataCenterIdShift) | (_workerId << _workerIdShift) | _sequence;
   }
 
   /// 循环等待下一个时间

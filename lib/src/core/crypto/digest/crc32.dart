@@ -316,7 +316,7 @@ class Crc32 extends Converter<List<int>, int> {
     return ~byte2crc32sum(data: data, seed: 0xffffffff);
   }
 
-  static Uint8List byte2crc32sum_bytes(Uint8List data, [int? size]) {
+  static Uint8List byte2crc32sumBytes(Uint8List data, [int? size]) {
     var temp = byte2crc32sum(data: data, seed: 0, size: size);
     return int2quad(temp);
   }
@@ -330,7 +330,7 @@ class Crc32 extends Converter<List<int>, int> {
   }
 
   /// Get the CRC-32 checksum of the given int.
-  static int CRC32(int crc, int b) => _crc32Table[(crc ^ b) & 0xff] ^ (crc >> 8);
+  static int crc32(int crc, int b) => _crc32Table[(crc ^ b) & 0xff] ^ (crc >> 8);
 
   /// Get the CRC-32 checksum of the given array. You can append bytes to an
   /// already computed checksum by specifying the previous [crc] value.

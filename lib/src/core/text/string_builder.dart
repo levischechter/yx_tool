@@ -12,13 +12,13 @@ class StringBuilder implements Comparable<StringBuilder>, Pattern {
   /// 计数是使用的字符数。
   int count = 0;
 
-  static final Uint16List _EMPTY_VALUE = Uint16List(0);
+  static final Uint16List _emptyValue = Uint16List(0);
 
   /// 以指定的初始容量[capacity]与编码器，初始化StringBuilder
   StringBuilder([int capacity = 0]) {
     RangeError.checkNotNegative(capacity, 'capacity');
     if (capacity == 0) {
-      value = _EMPTY_VALUE;
+      value = _emptyValue;
     } else {
       value = Uint16List(capacity << 1);
     }

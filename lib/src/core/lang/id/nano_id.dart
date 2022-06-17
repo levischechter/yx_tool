@@ -17,13 +17,13 @@ import 'package:yx_tool/src/core/util/random_util.dart';
 /// 此实现的逻辑基于JavaScript的NanoId实现，见：https://github.com/ai/nanoid
 class NanoId {
   ///默认随机数生成器，使用[Random.secure]确保健壮性
-  static final Random _DEFAULT_NUMBER_GENERATOR = Random.secure();
+  static final Random _defaultNumberGenerator = Random.secure();
 
   /// 默认随机字母表，使用URL安全的Base64字符
-  static final Uint8List _DEFAULT_ALPHABET = Uint8List.fromList('_-0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'.codeUnits);
+  static final Uint8List _defaultAlphabet = Uint8List.fromList('_-0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'.codeUnits);
 
   /// 默认长度
-  static const int DEFAULT_SIZE = 21;
+  static const int defaultSize = 21;
 
   /// 生成伪随机的NanoId字符串
   ///
@@ -31,10 +31,10 @@ class NanoId {
   /// @param alphabet 随机字母表
   /// @param size     ID长度
   /// @return 伪随机的NanoId字符串
-  static String randomNanoId({Random? random, Uint8List? alphabet, int size = DEFAULT_SIZE}) {
-    random ??= _DEFAULT_NUMBER_GENERATOR;
+  static String randomNanoId({Random? random, Uint8List? alphabet, int size = defaultSize}) {
+    random ??= _defaultNumberGenerator;
 
-    alphabet ??= _DEFAULT_ALPHABET;
+    alphabet ??= _defaultAlphabet;
 
     if (alphabet.isEmpty || alphabet.length >= 256) {
       throw ArgumentError('Alphabet must contain between 1 and 255 symbols.');

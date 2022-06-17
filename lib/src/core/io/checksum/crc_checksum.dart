@@ -10,10 +10,10 @@ abstract class CRCChecksum extends Checksum {
   }
 
   @override
-  void update(Uint8List b, [int off = 0, int? len]) {
-    len ??= b.length;
+  void update(Uint8List ints, [int off = 0, int? len]) {
+    len ??= ints.length;
     for (var i = off; i < off + len; i++) {
-      updateInt(b[i]);
+      updateInt(ints[i]);
     }
   }
 

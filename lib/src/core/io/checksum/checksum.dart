@@ -8,7 +8,7 @@ abstract class Checksum {
   void updateInt(int b);
 
   ///使用指定的字节数组更新当前校验和
-  void updateList(List<int> ints, [int off = 0, int? len]) {
+  void updateList(List<int> ints,[int off = 0, int? len]) {
     update(Uint8List.fromList(ints), off, len);
   }
 

@@ -2,8 +2,8 @@ import 'package:yx_tool/src/core/lang/num/number.dart';
 
 class Short extends AbstractInt<Short> {
 
-  static const MAX_VALUE = 0x7FFF;
-  static const MIN_VALUE = -0x8000;
+  static const maxValue = 0x7FFF;
+  static const minValue = -0x8000;
 
   final int _value;
 

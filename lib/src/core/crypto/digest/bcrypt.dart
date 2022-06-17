@@ -40,15 +40,15 @@ import 'package:yx_tool/yx_tool.dart';
 /// as much work. The default log_rounds is 10, and the valid range is 4 to 31.
 class BCrypt {
   // BCrypt parameters
-  static const _GENSALT_DEFAULT_LOG2_ROUNDS = 10;
+  static const _genSaltDefaultLog2Rounds = 10;
 
-  static final _BCRYPT_SALT_LEN = 16;
+  static final _bcryptSaltLen = 16;
 
   // Blowfish parameters
-  static final _BLOWFISH_NUM_ROUNDS = 16;
+  static final _blowfishNumRounds = 16;
 
   // Initial contents of key schedule
-  static final Int32List _P_orig = Int32List.fromList([
+  static final Int32List _pOrig = Int32List.fromList([
     0x243f6a88,
     0x85a308d3,
     0x13198a2e,
@@ -69,7 +69,7 @@ class BCrypt {
     0x8979fb1b
   ]);
 
-  static final Int32List _S_orig = Int32List.fromList([
+  static final Int32List _sOrig = Int32List.fromList([
     0xd1310ba6,
     0x98dfb5ac,
     0x2ffd72db,
@@ -1097,10 +1097,10 @@ class BCrypt {
   ]);
 
   // bcrypt IV: "OrpheanBeholderScryDoubt"
-  static final Int32List _bf_crypt_ciphertext = Int32List.fromList([0x4f727068, 0x65616e42, 0x65686f6c, 0x64657253, 0x63727944, 0x6f756274]);
+  static final Int32List _bfCryptCiphertext = Int32List.fromList([0x4f727068, 0x65616e42, 0x65686f6c, 0x64657253, 0x63727944, 0x6f756274]);
 
   // Table for Base64 encoding
-  static final base64_code = './ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'.codeUnits;
+  static final base64Code = './ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'.codeUnits;
 
   // Table for Base64 decoding
   static final Int8List index_64 = Int8List.fromList([
@@ -1233,13 +1233,13 @@ class BCrypt {
     -1,
     -1
   ]);
-  static final MIN_LOG_ROUNDS = 4;
-  static final MAX_LOG_ROUNDS = 31;
+  static final minLogRounds = 4;
+  static final maxLogRounds = 31;
 
   // Expanded Blowfish key
-  late List<int> _P;
+  late List<int> _p;
 
-  late List<int> _S;
+  late List<int> _s;
 
   /// Encode a byte array using bcrypt's slightly-modified base64 encoding scheme. Note
   /// that this is <strong>not</strong> compatible with the standard MIME-base64
@@ -1248,7 +1248,7 @@ class BCrypt {
   /// <p>param [len] the number of bytes to encode
   /// <p>param [rs] the destination buffer for the base64-encoded string
   /// <p>exception ArgumentError if the length is invalid
-  static void encode_base64(Int8List d, int len, StringBuilder rs) {
+  static void encodeBase64(Int8List d, int len, StringBuilder rs) {
     var off = 0;
     int c1, c2;
 
@@ -1256,24 +1256,24 @@ class BCrypt {
 
     while (off < len) {
       c1 = d[off++] & 0xff;
-      rs.appendUint(base64_code[(c1 >> 2) & 0x3f]);
+      rs.appendUint(base64Code[(c1 >> 2) & 0x3f]);
       c1 = (c1 & 0x03) << 4;
       if (off >= len) {
-        rs.appendUint(base64_code[c1 & 0x3f]);
+        rs.appendUint(base64Code[c1 & 0x3f]);
         break;
       }
       c2 = d[off++] & 0xff;
       c1 |= (c2 >> 4) & 0x0f;
-      rs.appendUint(base64_code[c1 & 0x3f]);
+      rs.appendUint(base64Code[c1 & 0x3f]);
       c1 = (c2 & 0x0f) << 2;
       if (off >= len) {
-        rs.appendUint(base64_code[c1 & 0x3f]);
+        rs.appendUint(base64Code[c1 & 0x3f]);
         break;
       }
       c2 = d[off++] & 0xff;
       c1 |= (c2 >> 6) & 0x03;
-      rs.appendUint(base64_code[c1 & 0x3f]);
-      rs.appendUint(base64_code[c2 & 0x3f]);
+      rs.appendUint(base64Code[c1 & 0x3f]);
+      rs.appendUint(base64Code[c2 & 0x3f]);
     }
   }
 
@@ -1294,7 +1294,7 @@ class BCrypt {
   /// <p>param [maxolen] the maximum number of bytes to decode
   /// <p>return [an] array containing the decoded bytes
   /// <p>@throws ArgumentError if maxolen is invalid
-  static Int8List _decode_base64(String s, int maxolen) {
+  static Int8List _decodeBase64(String s, int maxolen) {
     var rs = StringBuilder();
     var off = 0, slen = s.length, olen = 0;
     Int8List ret;
@@ -1348,23 +1348,23 @@ class BCrypt {
     late int n;
     var l = lr[off];
     var r = lr[off + 1];
-    l ^= _P[0];
-    for (i = 0; i <= _BLOWFISH_NUM_ROUNDS - 2;) {
+    l ^= _p[0];
+    for (i = 0; i <= _blowfishNumRounds - 2;) {
       // Feistel substitution on left word
-      n = _S[((l >> 24) & 0xff)];
-      n += _S[0x100 | ((l >> 16) & 0xff)];
-      n ^= _S[0x200 | ((l >> 8) & 0xff)];
-      n += _S[0x300 | (l & 0xff)];
-      r ^= (n ^ _P[++i]);
+      n = _s[((l >> 24) & 0xff)];
+      n += _s[0x100 | ((l >> 16) & 0xff)];
+      n ^= _s[0x200 | ((l >> 8) & 0xff)];
+      n += _s[0x300 | (l & 0xff)];
+      r ^= (n ^ _p[++i]);
 
       // Feistel substitution on right word
-      n = _S[((r >> 24) & 0xff)];
-      n += _S[0x100 | ((r >> 16) & 0xff)];
-      n ^= _S[0x200 | ((r >> 8) & 0xff)];
-      n += _S[0x300 | (r & 0xff)];
-      l ^= (n ^ _P[++i]).toSigned(32);
+      n = _s[((r >> 24) & 0xff)];
+      n += _s[0x100 | ((r >> 16) & 0xff)];
+      n ^= _s[0x200 | ((r >> 8) & 0xff)];
+      n += _s[0x300 | (r & 0xff)];
+      l ^= (n ^ _p[++i]).toSigned(32);
     }
-    lr[off] = (r ^ _P[_BLOWFISH_NUM_ROUNDS + 1]);
+    lr[off] = (r ^ _p[_blowfishNumRounds + 1]);
     lr[off + 1] = l;
   }
 
@@ -1407,45 +1407,45 @@ class BCrypt {
   /// <p>param data the string to extract the data from
   /// <p>param offp a "pointer" (as a one-entry array) to the current offset into data
   /// <p>return the next word of material from data
-  static int _streamtoword_bug(Int8List data, List<int> offp) {
+  static int _streamToWordBug(Int8List data, List<int> offp) {
     var signp = <int>[0];
     return _streamtowords(data, offp, signp)[1];
   }
 
   /// Initialise the Blowfish key schedule
-  void _init_key() {
-    _P = _P_orig.toList();
-    _S = _S_orig.toList();
+  void _initKey() {
+    _p = _pOrig.toList();
+    _s = _sOrig.toList();
   }
 
   /// Key the Blowfish cipher
   /// <p>param [key] an array containing the key
-  /// <p>param [sign_ext_bug] true to implement the 2x bug
+  /// <p>param [signExtBug] true to implement the 2x bug
   /// <p>param [safety] bit 16 is set when the safety measure is requested
-  void key(Int8List key, bool sign_ext_bug, int safety) {
+  void key(Int8List key, bool signExtBug, int safety) {
     int i;
     var koffp = <int>[0];
     var lr = <int>[0, 0];
-    var plen = _P.length, slen = _S.length;
+    var plen = _p.length, slen = _s.length;
 
     for (i = 0; i < plen; i++) {
-      if (!sign_ext_bug) {
-        _P[i] = _P[i] ^ _streamtoword(key, koffp);
+      if (!signExtBug) {
+        _p[i] = _p[i] ^ _streamtoword(key, koffp);
       } else {
-        _P[i] = _P[i] ^ _streamtoword_bug(key, koffp);
+        _p[i] = _p[i] ^ _streamToWordBug(key, koffp);
       }
     }
 
     for (i = 0; i < plen; i += 2) {
       _encipher(lr, 0);
-      _P[i] = lr[0];
-      _P[i + 1] = lr[1];
+      _p[i] = lr[0];
+      _p[i + 1] = lr[1];
     }
 
     for (i = 0; i < slen; i += 2) {
       _encipher(lr, 0);
-      _S[i] = lr[0];
-      _S[i + 1] = lr[1];
+      _s[i] = lr[0];
+      _s[i + 1] = lr[1];
     }
   }
 
@@ -1453,20 +1453,20 @@ class BCrypt {
   /// Future-Adaptable Password Scheme" https://www.openbsd.org/papers/bcrypt-paper.ps
   /// <p>param [data] salt information
   /// <p>param [key] password information
-  /// <p>param [sign_ext_bug] true to implement the 2x bug
+  /// <p>param [signExtBug] true to implement the 2x bug
   /// <p>param [safety] bit 16 is set when the safety measure is requested
-  void _ekskey(Int8List data, Int8List key, bool sign_ext_bug, int safety) {
+  void _ekskey(Int8List data, Int8List key, bool signExtBug, int safety) {
     int i;
     var koffp = [0], doffp = [0];
     var lr = <int>[0, 0];
-    var plen = _P.length, slen = _S.length;
+    var plen = _p.length, slen = _s.length;
     var signp = <int>[0]; // non-benign sign-extension flag
     var diff = 0; // zero iff correct and buggy are same
 
     for (i = 0; i < plen; i++) {
       var words = _streamtowords(key, koffp, signp);
       diff |= words[0] ^ words[1];
-      _P[i] = _P[i] ^ words[sign_ext_bug ? 1 : 0];
+      _p[i] = _p[i] ^ words[signExtBug ? 1 : 0];
     }
 
     var sign = signp[0];
@@ -1493,57 +1493,57 @@ class BCrypt {
     /// Eksblowfish loop. By doing it to only one of these two, we deviate from a state
     /// that could be directly specified by a password to the buggy algorithm (and to
     /// the fully correct one as well, but that's a side-effect).
-    _P[0] ^= sign;
+    _p[0] ^= sign;
 
     for (i = 0; i < plen; i += 2) {
       lr[0] ^= _streamtoword(data, doffp);
       lr[1] ^= _streamtoword(data, doffp);
       _encipher(lr, 0);
-      _P[i] = lr[0];
-      _P[i + 1] = lr[1];
+      _p[i] = lr[0];
+      _p[i + 1] = lr[1];
     }
 
     for (i = 0; i < slen; i += 2) {
       lr[0] ^= _streamtoword(data, doffp);
       lr[1] ^= _streamtoword(data, doffp);
       _encipher(lr, 0);
-      _S[i] = lr[0];
-      _S[i + 1] = lr[1];
+      _s[i] = lr[0];
+      _s[i + 1] = lr[1];
     }
   }
 
-  static int roundsForLogRounds(int log_rounds) {
-    if (log_rounds < 4 || log_rounds > 31) {
+  static int roundsForLogRounds(int logRounds) {
+    if (logRounds < 4 || logRounds > 31) {
       throw ArgumentError('Bad number of rounds');
     }
-    return 1 << log_rounds;
+    return 1 << logRounds;
   }
 
   /// Perform the central password hashing step in the bcrypt scheme
   /// <p>param [password] the password to hash
   /// <p>param [salt] the binary salt to hash with the password
-  /// <p>param [log_rounds] the binary logarithm of the number of rounds of hashing to apply
-  /// <p>param [sign_ext_bug] true to implement the 2x bug
+  /// <p>param [logRounds] the binary logarithm of the number of rounds of hashing to apply
+  /// <p>param [signExtBug] true to implement the 2x bug
   /// <p>param [safety] bit 16 is set when the safety measure is requested
   /// <p>return an array containing the binary hashed password
-  Int8List _crypt_raw(Int8List password, Int8List salt, int log_rounds, bool sign_ext_bug, int safety) {
+  Int8List _cryptRaw(Int8List password, Int8List salt, int logRounds, bool signExtBug, int safety) {
     int rounds, i, j;
-    var cdata = _bf_crypt_ciphertext.toList();
+    var cdata = _bfCryptCiphertext.toList();
     var clen = cdata.length;
     Int8List ret;
 
-    if (log_rounds < 4 || log_rounds > 31) {
+    if (logRounds < 4 || logRounds > 31) {
       throw ArgumentError('Bad number of rounds');
     }
-    rounds = 1 << log_rounds;
-    if (salt.length != _BCRYPT_SALT_LEN) {
+    rounds = 1 << logRounds;
+    if (salt.length != _bcryptSaltLen) {
       throw ArgumentError('Bad salt length');
     }
 
-    _init_key();
-    _ekskey(salt, password, sign_ext_bug, safety);
+    _initKey();
+    _ekskey(salt, password, signExtBug, safety);
     for (i = 0; i < rounds; i++) {
-      key(password, sign_ext_bug, safety);
+      key(password, signExtBug, safety);
       key(salt, false, safety);
     }
 
@@ -1579,7 +1579,7 @@ class BCrypt {
   /// <p>return the hashed password
   static String hashpw(Int8List passwordb, String salt) {
     BCrypt B;
-    String real_salt;
+    String realSalt;
     Int8List saltb, hashed;
     var minor = '';
     int rounds, off;
@@ -1614,15 +1614,15 @@ class BCrypt {
     }
     rounds = int.parse(salt.substring(off, off + 2));
 
-    real_salt = salt.substring(off + 3, off + 25);
-    saltb = _decode_base64(real_salt, _BCRYPT_SALT_LEN);
+    realSalt = salt.substring(off + 3, off + 25);
+    saltb = _decodeBase64(realSalt, _bcryptSaltLen);
 
     if (minor.first >= 'a'.first) {
       passwordb = ListUtil.copyOfList(passwordb, Int8List(passwordb.length + 1));
     }
 
     B = BCrypt();
-    hashed = B._crypt_raw(passwordb, saltb, rounds, minor == 'x', minor == 'a' ? 0x10000 : 0);
+    hashed = B._cryptRaw(passwordb, saltb, rounds, minor == 'x', minor == 'a' ? 0x10000 : 0);
 
     rs.append(r'$2');
     if (minor.first >= 'a'.first) {
@@ -1634,27 +1634,27 @@ class BCrypt {
     }
     rs.append(rounds);
     rs.append(r'$');
-    encode_base64(saltb, saltb.length, rs);
-    encode_base64(hashed, _bf_crypt_ciphertext.length * 4 - 1, rs);
+    encodeBase64(saltb, saltb.length, rs);
+    encodeBase64(hashed, _bfCryptCiphertext.length * 4 - 1, rs);
     return rs.toString();
   }
 
   /// Generate a salt for use with the BCrypt.hashpw() method
   /// <p>param [prefix] the prefix value (default $2a)
-  /// <p>param [log_rounds] the log2 of the number of rounds of hashing to apply - the work
+  /// <p>param [logRounds] the log2 of the number of rounds of hashing to apply - the work
   /// factor therefore increases as 2**log_rounds.
   /// <p>param [random] an instance of SecureRandom to use
   /// <p>return an encoded salt value
   /// <p>exception ArgumentError if prefix or log_rounds is invalid
-  static String gensalt([String prefix = r'$2a', int log_rounds = _GENSALT_DEFAULT_LOG2_ROUNDS, Random? random]) {
+  static String gensalt([String prefix = r'$2a', int logRounds = _genSaltDefaultLog2Rounds, Random? random]) {
     random ??= Random.secure();
     var rs = StringBuilder();
-    var rnd = Int8List(_BCRYPT_SALT_LEN);
+    var rnd = Int8List(_bcryptSaltLen);
 
     if (!prefix.startsWith(r'$2') || (prefix[2] != 'a' && prefix[2] != 'y' && prefix[2] != 'b')) {
       throw ArgumentError('Invalid prefix');
     }
-    if (log_rounds < 4 || log_rounds > 31) {
+    if (logRounds < 4 || logRounds > 31) {
       throw ArgumentError('Invalid log_rounds');
     }
 
@@ -1663,12 +1663,12 @@ class BCrypt {
     rs.append(r'$2');
     rs.append(prefix[2]);
     rs.append(r'$');
-    if (log_rounds < 10) {
+    if (logRounds < 10) {
       rs.append('0');
     }
-    rs.append(log_rounds);
+    rs.append(logRounds);
     rs.append(r'$');
-    encode_base64(rnd, rnd.length, rs);
+    encodeBase64(rnd, rnd.length, rs);
     return rs.toString();
   }
 
@@ -1677,25 +1677,25 @@ class BCrypt {
   /// <p>param [plaintext] 需要验证的明文密码
   /// <p>param [hashed]    密文
   /// <p>return 是否匹配
-  static bool checkpwStr(String plaintext, String hashed) {
-    Uint8List hashed_bytes;
-    Uint8List try_bytes;
+  static bool checkPwStr(String plaintext, String hashed) {
+    Uint8List hashedBytes;
+    Uint8List tryBytes;
 
-    String try_pw;
+    String tryPw;
     try {
-      try_pw = hashpwStr(plaintext, hashed);
-    } on Exception catch (ignore) {
+      tryPw = hashpwStr(plaintext, hashed);
+    } on Exception {
       // 生成密文时错误直接返回false issue#1377@Github
       return false;
     }
-    hashed_bytes = hashed.bytes;
-    try_bytes = try_pw.bytes;
-    if (hashed_bytes.length != try_bytes.length) {
+    hashedBytes = hashed.bytes;
+    tryBytes = tryPw.bytes;
+    if (hashedBytes.length != tryBytes.length) {
       return false;
     }
     var ret = 0;
-    for (var i = 0; i < try_bytes.length; i++) {
-      ret |= hashed_bytes[i] ^ try_bytes[i];
+    for (var i = 0; i < tryBytes.length; i++) {
+      ret |= hashedBytes[i] ^ tryBytes[i];
     }
     return ret == 0;
   }

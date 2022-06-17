@@ -5,7 +5,7 @@ class IntUtil {
   IntUtil._();
 
   /// 罗马数字对照Map
-  static final LinkedHashMap<String, int> _SYMBOL_VALUES =
+  static final LinkedHashMap<String, int> _symbolValues =
       LinkedHashMap.of({'M': 1000, 'CM': 900, 'D': 500, 'CD': 400, 'C': 100, 'XC': 90, 'L': 50, 'XL': 40, 'X': 10, 'IX': 9, 'V': 5, 'IV': 4, 'I': 1});
 
   /// 是否是num
@@ -30,7 +30,7 @@ class IntUtil {
   /// 整数转罗马数字
   static String intToRoman(int num) {
     var roman = StringBuffer();
-    for (var entrie in _SYMBOL_VALUES.entries) {
+    for (var entrie in _symbolValues.entries) {
       var value = entrie.value;
       var symbol = entrie.key;
       while (num >= value) {
@@ -49,8 +49,8 @@ class IntUtil {
     var ans = 0;
     final n = roman.length;
     for (var i = 0; i < n; ++i) {
-      var value = _SYMBOL_VALUES[roman[i]]!;
-      if (i < n - 1 && value < _SYMBOL_VALUES[roman[i + 1]]!) {
+      var value = _symbolValues[roman[i]]!;
+      if (i < n - 1 && value < _symbolValues[roman[i + 1]]!) {
         ans -= value;
       } else {
         ans += value;
