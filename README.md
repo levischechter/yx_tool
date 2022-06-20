@@ -29,17 +29,17 @@ A small toolkit that contains tools commonly used for development
 | file       | Class                                                        | introduce                                                         |
 | ---------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | crc4.dart  | CRC4ITU                                                      | CRC-4/ITU cyclic redundancy check code                                     |
-| crc5.dart  | CRC5EPC<br>CRC5ITU<br>CRC5USB                                | CRC-5/EPC cyclic redundancy check code<br/>CRC-5/EPC cyclic redundancy check code<br/>CRC-5/USB cyclic redundancy check code |
+| crc5.dart  | CRC5EPC<br>CRC5ITU<br>CRC5USB                                | CRC-5/EPC cyclic redundancy check code<br>CRC-5/EPC cyclic redundancy check code<br>CRC-5/USB cyclic redundancy check code |
 | crc6.dart  | CRC6ITU                                                      | CRC-6/ITU cyclic redundancy check code                                     |
 | crc7.dart  | CRC7MMC                                                      | CRC-7/MMC cyclic redundancy check code                                     |
-| crc8.dart  | CRC8<br>CRC8ITU<br/>CRC8ROHC<br/>CRC8MAXIM                   | CRC-8 cyclic redundancy check code<br/>CRC-8/ITU cyclic redundancy check code<br/>CRC-8/ROHC cyclic redundancy check code<br/>CRC-8/MAXIM cyclic redundancy check code |
-| crc16.dart | CRC16IBM<br/>CRC16Ansi<br/>CRC16CCITT<br/>CRC16CCITTFalse<br/>CRC16DNP<br/>CRC16Maxim<br/>CRC16Modbus<br/>CRC16USB<br/>CRC16X25<br/>CRC16XModem | CRC16_IBM cyclic redundancy check code<br/>CRC16_ANSI cyclic redundancy check code<br/>CRC16_CCITT cyclic redundancy check code<br/>CRC16_CCITT_FALSE cyclic redundancy check code<br/>CRC16_DNP cyclic redundancy check code<br/>CRC16_MAXIM cyclic redundancy check code<br/>CRC-16 (Modbus) cyclic redundancy check code<br/>CRC16_USB cyclic redundancy check code<br/>CRC16_X25 cyclic redundancy check code<br/>CRC-CCITT (XModem) cyclic redundancy check code |
+| crc8.dart  | CRC8<br>CRC8ITU<br>CRC8ROHC<br>CRC8MAXIM                   | CRC-8 cyclic redundancy check code<br>CRC-8/ITU cyclic redundancy check code<br>CRC-8/ROHC cyclic redundancy check code<br>CRC-8/MAXIM cyclic redundancy check code |
+| crc16.dart | CRC16IBM<br>CRC16Ansi<br>CRC16CCITT<br>CRC16CCITTFalse<br>CRC16DNP<br>CRC16Maxim<br>CRC16Modbus<br>CRC16USB<br>CRC16X25<br>CRC16XModem | CRC16_IBM cyclic redundancy check code<br>CRC16_ANSI cyclic redundancy check code<br>CRC16_CCITT cyclic redundancy check code<br>CRC16_CCITT_FALSE cyclic redundancy check code<br>CRC16_DNP cyclic redundancy check code<br>CRC16_MAXIM cyclic redundancy check code<br>CRC-16 (Modbus) cyclic redundancy check code<br>CRC16_USB cyclic redundancy check code<br>CRC16_X25 cyclic redundancy check code<br>CRC-CCITT (XModem) cyclic redundancy check code |
 
 ## Encrypt
 
 | file                        | Class                | introduce                                                         |
 | --------------------------- | -------------------- | ------------------------------------------------------------ |
-| aead_chacha20_poly1305.dart | AEADChaCha20Poly1305 | AEAD ChaCha20Poly1305<br/> The Chacha7539 engine extends BaseStreamCipher RFC version of Daniel J. Bernstein's ChaCha20. Among other changes, it uses a 12-byte IV |
+| aead_chacha20_poly1305.dart | AEADChaCha20Poly1305 | AEAD ChaCha20Poly1305<br/ The Chacha7539 engine extends BaseStreamCipher RFC version of Daniel J. Bernstein's ChaCha20. Among other changes, it uses a 12-byte IV |
 | aes.dart                    | AES                  | AES Symmetric Encryption and Decryption Algorithm Implementation                                        |
 | rsa.dart                    | RSA                  | Implementation of RSA Asymmetric Encryption and Decryption Algorithm                                      |
 
