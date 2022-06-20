@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'dart:core';
 import 'dart:typed_data';
 
-
 const crc32 = Crc32._();
+
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *

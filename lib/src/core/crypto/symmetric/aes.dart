@@ -37,6 +37,7 @@ enum AESMode {
   ///带有 CBC-MAC 的计数器，使用块
   ccm,
 }
+
 enum AESPadding {
   ///无补码
   noPadding,
@@ -48,6 +49,13 @@ enum AESPadding {
   iso7816d4
 }
 
+///AES加密算法实现<br>
+///高级加密标准（英语：Advanced Encryption Standard，缩写：AES），在密码学中又称Rijndael加密法<br>
+///相关概念说明：<br>
+/// mode:    加密算法模式，是用来描述加密算法（此处特指分组密码，不包括流密码，）在加密时对明文分组的模式，它代表了不同的分组方式<br>
+/// padding: 补码方式是在分组密码中，当明文长度不是分组长度的整数倍时，需要在最后一个分组中填充一些数据使其凑满一个分组的长度。<br>
+/// iv:      在对明文分组加密时，会将明文分组与前一个密文分组进行XOR运算（即异或运算），但是加密第一个明文分组时不存在“前一个密文分组”，<br>
+///因此需要事先准备一个与分组长度相等的比特序列来代替，这个比特序列就是偏移量。
 class AES extends SymmetricCrypto {
   AESMode mode;
   AESPadding padding;

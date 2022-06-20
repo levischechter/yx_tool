@@ -2,12 +2,22 @@ import 'date_unit.dart';
 
 ///格式化等级
 enum Level {
+  /// 天
   day('天'),
+
+  /// 小时
   hour('小时'),
+
+  /// 分
   minute('分'),
+
+  /// 秒
   second('秒'),
+
+  /// 毫秒
   millisecond('毫秒');
 
+  /// 单位名称
   final String name;
 
   const Level(this.name);

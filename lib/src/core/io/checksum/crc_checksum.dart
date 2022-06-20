@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:yx_tool/src/core/io/checksum/checksum.dart';
 
+/// 循环冗余校验码
 abstract class CRCChecksum extends Checksum {
   late int wCRCin;
 

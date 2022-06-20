@@ -1,5 +1,6 @@
 import 'dart:math' as m;
 
+/// math的封装
 class Math {
   ///自然对数的底。
   /// 通常写为“e”。
@@ -206,7 +207,7 @@ class Math {
   /// 将小数值向负无穷大舍入。
   /// 该数字必须是有限的（参见isFinite ）。
   /// 如果该值大于可表示的最大正整数，则结果为该最大正整数。如果该值小于可表示的最大负整数，则结果为最大负整数。
-  static int floor(num n){
+  static int floor(num n) {
     return n.floor();
   }
 
@@ -214,14 +215,14 @@ class Math {
   /// 当没有最接近的整数时从零开始舍入： (3.5).round() == 4和(-3.5).round() == -4 。
   /// 该数字必须是有限的（参见isFinite ）。
   /// 如果该值大于可表示的最大正整数，则结果为该最大正整数。如果该值小于可表示的最大负整数，则结果为最大负整数。
-  static int round(num n){
+  static int round(num n) {
     return n.round();
   }
 
   ///返回此整数的绝对值。
   /// 对于任何整value ，结果与value < 0 ? -value : value 。
   /// 整数溢出可能导致-value的结果保持负数。
-  static int abs(int n){
+  static int abs(int n) {
     return n.abs();
   }
 }

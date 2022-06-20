@@ -1,7 +1,7 @@
 name: yx_tool
 description: Contains a series of commonly used toolkits, including encryption and decryption modules, id generation, date processing, extension methods of basic classes, and mathematical calculations
 version: 0.1.0
-# homepage: https://www.example.com
+homepage: https://github.com/yixiaco/yx_tool
 
 environment:
   sdk: '>=2.17.0 <3.0.0'
@@ -12,4 +12,4 @@ dependencies:
 
 dev_dependencies:
   lints: ^2.0.0
-  pedantic: ^1.11.1 #Google 内部使用的 Dart 分析器设置和最佳实践。
+  pedantic: ^1.11.1 #Google 内部使用的 Dart 分析器设置和最佳实践

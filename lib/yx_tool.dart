@@ -1,10 +1,10 @@
 library yx_tool;
 
-export 'src/core/date/yx_date.dart';
-export 'src/core/text/yx_text.dart';
-export 'src/core/test/yx_test.dart';
-export 'src/core/lang/yx_lang.dart';
-export 'src/core/util/yx_util.dart';
-export 'src/core/extensions/yx_extension.dart';
-export 'src/core/crypto/yx_crypto.dart';
-export 'src/core/io/yx_io.dart';
+export 'package:yx_tool/yx_date.dart';
+export 'package:yx_tool/yx_text.dart';
+export 'package:yx_tool/src/core/test/yx_test.dart';
+export 'package:yx_tool/yx_lang.dart';
+export 'package:yx_tool/yx_util.dart';
+export 'package:yx_tool/yx_extension.dart';
+export 'package:yx_tool/yx_crypto.dart';
+export 'package:yx_tool/yx_io.dart';

@@ -5,7 +5,7 @@ void main() {
   testExecute(
     title: 'CollectionUtil.reverse Test',
     function: () {
-      var s='12345';
+      var s = '12345';
       var murmur32 = HashUtil.hfIpHash(s);
       print(murmur32);
     },

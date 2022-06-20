@@ -1,6 +1,7 @@
 import 'dart:collection';
 import 'dart:math' as math;
 
+/// int整型工具类
 class IntUtil {
   IntUtil._();
 
@@ -9,7 +10,7 @@ class IntUtil {
       LinkedHashMap.of({'M': 1000, 'CM': 900, 'D': 500, 'CD': 400, 'C': 100, 'XC': 90, 'L': 50, 'XL': 40, 'X': 10, 'IX': 9, 'V': 5, 'IV': 4, 'I': 1});
 
   /// 是否是num
-  static bool isNumber(String str){
+  static bool isNumber(String str) {
     return num.tryParse(str) != null;
   }
 
@@ -127,28 +128,37 @@ class IntUtil {
 
   ///无符号8位整数最大值
   static const maxUInt8 = 0xFF;
+
   ///无符号16位整数最大值
   static const maxUInt16 = 0xFFFF;
+
   ///无符号32位整数最大值
   static const maxUInt32 = 0xFFFFFFFF;
+
   ///无符号64位整数最大值
   static const maxUInt64 = 0xFFFFFFFFFFFFFFFF;
 
   /// 有符号8位整数最大值
   static const maxInt8 = 0x7F;
+
   /// 有符号16位整数最大值
   static const maxInt16 = 0x7FFF;
+
   /// 有符号32位整数最大值
   static const maxInt32 = 0x7FFFFFFF;
+
   /// 有符号64位整数最大值
   static const maxInt64 = 0x7FFFFFFFFFFFFFFF;
 
   /// 有符号8位整数最小值
   static const minInt8 = -0x80;
+
   /// 有符号16位整数最小值
   static const minInt16 = -0x8000;
+
   /// 有符号32位整数最小值
   static const minInt32 = -0x80000000;
+
   /// 有符号64位整数最小值
   static const minInt64 = -0x8000000000000000;
 }

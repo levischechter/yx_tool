@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:yx_tool/src/core/util/str_util.dart';
 
+/// String扩展方法
 extension StringExtension on String {
   /// 以相反的顺序返回字符串
   String reversed() {

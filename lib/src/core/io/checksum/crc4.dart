@@ -16,9 +16,9 @@ class CRC4ITU extends CRCChecksum {
   @override
   void updateInt(int b) {
     wCRCin ^= b;
-    for (var i = 0; i < 8; ++i){
+    for (var i = 0; i < 8; ++i) {
       if ((wCRCin & 1) != 0) {
-        wCRCin = (((wCRCin & 0xff) >> 1 ) ^ 0x0C) & 0xff;
+        wCRCin = (((wCRCin & 0xff) >> 1) ^ 0x0C) & 0xff;
       } else {
         wCRCin = ((wCRCin & 0xff) >> 1) & 0xff;
       }

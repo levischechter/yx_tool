@@ -98,7 +98,6 @@ class CRC8ROHC extends CRCChecksum {
 /// Alias:   DOW-CRC,CRC-8/IBUTTON
 /// Use:     Maxim(Dallas)'s some devices,e.g. DS18B20
 class CRC8MAXIM extends CRCChecksum {
-
   @override
   void updateInt(int b) {
     wCRCin ^= b;

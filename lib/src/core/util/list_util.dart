@@ -76,16 +76,81 @@ class ListUtil {
   /// 在目标数组中插入元素,[dest]可以是新数组也可以是原数组，如果是原数组需要保证可修改
   /// [dest]中的元素将会被[source]的元素覆盖
   static void insertAll(List<int> source, List<int> dest, int index, List<int> elements) {
-    if(source == dest){
+    if (source == dest) {
       source.insertAll(index, elements);
       return;
     }
     RangeError.checkNotNegative(dest.length - source.length - elements.length, 'length');
     RangeError.checkValidIndex(index, dest);
-    if(index != 0){
+    if (index != 0) {
       arraycopy(source, 0, dest, 0, index);
     }
     arraycopy(elements, 0, dest, index, elements.length);
     arraycopy(source, index, dest, index + elements.length, elements.length);
+  }
+
+  /// 交换数组中两个位置的值
+  /// 交换后的数组，与传入数组为同一对象
+  static List<E> swap<E>(List<E> array, int index1, int index2) {
+    if (isEmpty(array)) {
+      throw ArgumentError("Number array must not empty !");
+    }
+    var tmp = array[index1];
+    array[index1] = array[index2];
+    array[index2] = tmp;
+    return array;
+  }
+
+  ///取最大值
+  static int max(List<int> data) {
+    if (isEmpty(data)) {
+      throw ArgumentError("Number array must not empty !");
+    }
+    int max = data[0];
+    for (int i = 1; i < data.length; i++) {
+      if (max < data[i]) {
+        max = data[i];
+      }
+    }
+    return max;
+  }
+
+  /// 取最小值
+  static int min(List<int> data) {
+    if (isEmpty(data)) {
+      throw ArgumentError("Number array must not empty !");
+    }
+    int min = data[0];
+    for (int i = 1; i < data.length; i++) {
+      if (min > data[i]) {
+        min = data[i];
+      }
+    }
+    return min;
+  }
+
+  /// 生成一个数字列表
+  static List<int> range({int includedStart = 0, required int excludedEnd, int step = 1}) {
+    if (includedStart > excludedEnd) {
+      int tmp = includedStart;
+      includedStart = excludedEnd;
+      excludedEnd = tmp;
+    }
+
+    if (step <= 0) {
+      step = 1;
+    }
+
+    int deviation = excludedEnd - includedStart;
+    int length = deviation ~/ step;
+    if (deviation % step != 0) {
+      length += 1;
+    }
+    List<int> range = List.filled(length, 0);
+    for (int i = 0; i < length; i++) {
+      range[i] = includedStart;
+      includedStart += step;
+    }
+    return range;
   }
 }

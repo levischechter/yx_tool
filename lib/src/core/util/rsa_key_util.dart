@@ -5,7 +5,7 @@ import 'package:pointycastle/asn1.dart';
 import 'package:pointycastle/export.dart';
 import 'package:yx_tool/yx_tool.dart';
 
-/// RSA 秘钥工具
+/// RSA 密钥工具
 class RSAKeyUtil {
   RSAKeyUtil._();
 
@@ -15,7 +15,7 @@ class RSAKeyUtil {
   static AsymmetricKeyPair<RSAPublicKey, RSAPrivateKey> generateKeyPair({SecureRandom? secureRandom, int bitLength = 2048}) {
     var keyGen = RSAKeyGenerator();
     secureRandom = secureRandom ?? SecureRandom('Fortuna')
-      ..seed(KeyParameter(RandomUtil.randomBytes(32)));
+      ..seed(KeyParameter(RandomUtil.randomUint8s(len: 32)));
     // 要使用的公共指数（必须是奇数）
     var rsaKeyGeneratorParameters = RSAKeyGeneratorParameters(BigInt.parse('65537'), bitLength, 64);
     var parametersWithRandom = ParametersWithRandom(rsaKeyGeneratorParameters, secureRandom);

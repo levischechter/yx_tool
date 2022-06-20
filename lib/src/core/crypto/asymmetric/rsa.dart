@@ -6,14 +6,27 @@ import 'package:pointycastle/export.dart';
 import 'package:yx_tool/src/core/crypto/asymmetric/asymmetric.dart';
 import 'package:yx_tool/src/core/util/rsa_key_util.dart';
 
+///非对称加密填充
 enum RSAEncoding {
+  ///RSA 加密方案最优非对称加密填充 (RSAAES-OAEP) 由 OAEPEncoding 类实现。
   oaep,
+
+  ///PKCS 1 版本 1.5 (RSAES-PKCS1-v1_5) 中的 RSA 加密方案由 PKCS1Encoding 类实现。
   pkcs1,
 }
 
+///RSA公钥/私钥/签名加密解密<br/>
+///罗纳德·李维斯特（Ron [R]ivest）、阿迪·萨莫尔（Adi [S]hamir）和伦纳德·阿德曼（Leonard [A]dleman）<br>
+///由于非对称加密速度极其缓慢，一般文件不使用它来加密而是使用对称加密，<br>
+///非对称加密算法可以用来对对称加密的密钥加密，这样保证密钥的安全也就保证了数据的安全
 class RSA extends Asymmetric {
+  /// 非对称分组密码器
   late AsymmetricBlockCipher _cipher;
+
+  /// 算法签名对象
   late Signer signer;
+
+  /// 自动生成公钥、私钥对时的位大小
   int bitLength;
 
   factory RSA({
@@ -133,6 +146,8 @@ class RSA extends Asymmetric {
     }
   }
 
+  /// 执行解码块
+  /// 正在加密/解密的数据必须以块的形式进行处理。每个输入块被处理成一个输出块
   Uint8List _processInBlocks(AsymmetricBlockCipher engine, Uint8List input) {
     final numBlocks = input.length ~/ engine.inputBlockSize + ((input.length % engine.inputBlockSize != 0) ? 1 : 0);
 

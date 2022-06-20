@@ -54,8 +54,8 @@ class CRC32MPEG2 extends CRCChecksum {
   @override
   void updateInt(int b) {
     wCRCin ^= b << 24;
-    for (var i = 0; i < 8; ++i){
-      if ( (wCRCin & 0x80000000) != 0) {
+    for (var i = 0; i < 8; ++i) {
+      if ((wCRCin & 0x80000000) != 0) {
         wCRCin = (wCRCin << 1) ^ 0x04C11DB7 & 0xffffffff;
       } else {
         wCRCin <<= 1 & 0xffffffff;

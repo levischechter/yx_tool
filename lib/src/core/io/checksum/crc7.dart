@@ -17,7 +17,7 @@ class CRC7MMC extends CRCChecksum {
   void updateInt(int b) {
     wCRCin ^= b;
     for (var i = 0; i < 8; ++i) {
-      if ( (wCRCin & 0x80) ==0) {
+      if ((wCRCin & 0x80) == 0) {
         wCRCin <<= 1;
       } else {
         // 0x12 = 0x09<<(8-7)

@@ -1,5 +1,5 @@
 import 'package:yx_tool/src/core/test/yx_test.dart';
-import 'package:yx_tool/src/core/util/yx_util.dart';
+import 'package:yx_tool/yx_util.dart';
 
 void main() async {
   testExecute(

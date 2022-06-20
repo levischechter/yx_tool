@@ -10,4 +10,13 @@ void main() {
     },
     execute: true,
   );
+
+  testExecute(
+    title: 'RandomUtil.randomElements Test',
+    function: () {
+      var randomElements = RandomUtil.randomElements([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 5, repeat: false);
+      print(randomElements);
+    },
+    execute: true,
+  );
 }
