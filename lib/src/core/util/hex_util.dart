@@ -16,17 +16,22 @@ class HexUtil {
 
   /// 集合数据会看作utf16对待，先转为String对象，
   /// 然后由utf8编码为byte,最后将数组转为16进制字符
-  static String encodeHexFromCharCodes(List<int> list, {bool toUpperCase = false, String? delimiter}) {
-    return encodeHexStr(String.fromCharCodes(list), toUpperCase: toUpperCase, delimiter: delimiter);
+  static String encodeHexFromCharCodes(List<int> list,
+      {bool toUpperCase = false, String? delimiter}) {
+    return encodeHexStr(String.fromCharCodes(list),
+        toUpperCase: toUpperCase, delimiter: delimiter);
   }
 
   /// 将数组转为16进制字符
-  static String encodeHexInt(List<int> list, {bool toUpperCase = false, String? delimiter}) {
-    return encodeHex(Uint8List.fromList(list), toUpperCase: toUpperCase, delimiter: delimiter);
+  static String encodeHexInt(List<int> list,
+      {bool toUpperCase = false, String? delimiter}) {
+    return encodeHex(Uint8List.fromList(list),
+        toUpperCase: toUpperCase, delimiter: delimiter);
   }
 
   /// 将数组转为16进制字符
-  static String encodeHex(Uint8List bytes, {bool toUpperCase = false, String? delimiter}) {
+  static String encodeHex(Uint8List bytes,
+      {bool toUpperCase = false, String? delimiter}) {
     var result = StringBuilder(bytes.length << 1);
     for (var i = 0; i < bytes.length; i++) {
       var part = bytes[i];
@@ -47,8 +52,10 @@ class HexUtil {
   }
 
   /// 将字符串转为16进制字符
-  static String encodeHexStr(String str, {bool toUpperCase = false, String? delimiter}) {
-    return encodeHex(utf8.encoder.convert(str), toUpperCase: toUpperCase, delimiter: delimiter);
+  static String encodeHexStr(String str,
+      {bool toUpperCase = false, String? delimiter}) {
+    return encodeHex(utf8.encoder.convert(str),
+        toUpperCase: toUpperCase, delimiter: delimiter);
   }
 
   /// 解码为字符串
@@ -85,7 +92,11 @@ class HexUtil {
   }
 
   /// 将Color编码为Hex形式
-  static String encodeColor({required int red, required int green, required int blue, String prefix = '#'}) {
+  static String encodeColor(
+      {required int red,
+      required int green,
+      required int blue,
+      String prefix = '#'}) {
     var builder = StringBuilder.from(prefix);
     String colorHex;
     colorHex = red.toRadixString(16);
@@ -112,7 +123,8 @@ class HexUtil {
       hexColor = hexColor.substring(1);
     }
     var i = int.parse(hexColor, radix: 16);
-    return HexColor(red: (i >> 16) & 0xFF, green: (i >> 8) & 0xFF, blue: i & 0xFF);
+    return HexColor(
+        red: (i >> 16) & 0xFF, green: (i >> 8) & 0xFF, blue: i & 0xFF);
   }
 
   /// 转为16进制字符串

@@ -9,7 +9,8 @@ void main() {
     function: () {
       var data = 'Hex Util 集合';
       var bytes = data.bytes;
-      print(DigestUtil.md5Hex(bytes, salt: '222', position: bytes.length, repeat: 10));
+      print(DigestUtil.md5Hex(bytes,
+          salt: '222', position: bytes.length, repeat: 10));
     },
     execute: true,
   );
@@ -109,7 +110,8 @@ void main() {
   testExecute(
     title: 'DigestUtil.hmac Test',
     function: () {
-      print(DigestUtil.hmacHex(MD5Digest(), 'Hex Util 集合'.bytes, keyStr: '123'));
+      print(
+          DigestUtil.hmacHex(MD5Digest(), 'Hex Util 集合'.bytes, keyStr: '123'));
     },
     execute: true,
   );

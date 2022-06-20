@@ -32,7 +32,9 @@ class IdUtil {
       mac = address.rawAddress;
     }
     if (null != mac) {
-      id = ((0x000000FF & mac[mac.length - 2]) | (0x0000FF00 & ((mac[mac.length - 1]) << 8))) >> 6;
+      id = ((0x000000FF & mac[mac.length - 2]) |
+              (0x0000FF00 & ((mac[mac.length - 1]) << 8))) >>
+          6;
       id = id % (maxDatacenterId + 1);
     }
     return id;
@@ -52,12 +54,14 @@ class IdUtil {
 
   /// 获取雪花算法
   static Future<Snowflake> snowflake({int? workerId, int? datacenterId}) async {
-    return await Snowflake.getInstance(workerId: workerId, dataCenterId: datacenterId);
+    return await Snowflake.getInstance(
+        workerId: workerId, dataCenterId: datacenterId);
   }
 
   /// 获取雪花算法
   static Snowflake snowflakeSync({int? workerId, required int datacenterId}) {
-    return Snowflake.getInstanceSync(workerId: workerId, dataCenterId: datacenterId);
+    return Snowflake.getInstanceSync(
+        workerId: workerId, dataCenterId: datacenterId);
   }
 
   /// 获取随机NanoId

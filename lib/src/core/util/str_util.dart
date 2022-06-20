@@ -440,7 +440,9 @@ class StrUtil {
           } else if (isLowerCase(preChar)) {
             // 前一个为小写
             sb.write(symbol);
-            if (null == nextChar || isLowerCase(nextChar) || charIsNumber(nextChar)) {
+            if (null == nextChar ||
+                isLowerCase(nextChar) ||
+                charIsNumber(nextChar)) {
               //普通首字母大写，如aBcc -> a_bcc
               c = toLowerCase(c);
             }

@@ -46,7 +46,8 @@ void main() {
   testExecute(
     title: 'AES.ECB TEST',
     function: () {
-      var aes = AES.withKey(AESMode.ecb, AESPadding.pkcs7Padding, HexUtil.decodeHex('0102030405060708090a0b0c0d0e0f10'));
+      var aes = AES.withKey(AESMode.ecb, AESPadding.pkcs7Padding,
+          HexUtil.decodeHex('0102030405060708090a0b0c0d0e0f10'));
       var encryptHex = aes.encryptHex(HexUtil.decodeHex('16c5'));
       print(encryptHex);
       print(aes.decryptHex(HexUtil.decodeHex(encryptHex)));
@@ -84,7 +85,8 @@ void main() {
     title: 'AES.GCM TEST',
     function: () {
       var iv = RandomUtil.randomUint8s(len: 12);
-      var aes = AES(AESMode.gcm, AESPadding.noPadding, HexUtil.decodeHex('0102030405060708090a0b0c0d0e0f10'), iv);
+      var aes = AES(AESMode.gcm, AESPadding.noPadding,
+          HexUtil.decodeHex('0102030405060708090a0b0c0d0e0f10'), iv);
       var encryptHex = aes.encryptHex(HexUtil.decodeHex('16c5'));
       print(encryptHex);
       print(aes.decryptHex(HexUtil.decodeHex(encryptHex)));

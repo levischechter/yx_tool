@@ -12,20 +12,25 @@ class RSAKeyUtil {
   /// 生成RSA公钥私钥.
   /// 默认使用Fortuna随机数生成器（使用安全性较低的随机种子初始化）
   /// [bitLength],位强度（例如 2048 或 4096）
-  static AsymmetricKeyPair<RSAPublicKey, RSAPrivateKey> generateKeyPair({SecureRandom? secureRandom, int bitLength = 2048}) {
+  static AsymmetricKeyPair<RSAPublicKey, RSAPrivateKey> generateKeyPair(
+      {SecureRandom? secureRandom, int bitLength = 2048}) {
     var keyGen = RSAKeyGenerator();
     secureRandom = secureRandom ?? SecureRandom('Fortuna')
       ..seed(KeyParameter(RandomUtil.randomUint8s(len: 32)));
     // 要使用的公共指数（必须是奇数）
-    var rsaKeyGeneratorParameters = RSAKeyGeneratorParameters(BigInt.parse('65537'), bitLength, 64);
-    var parametersWithRandom = ParametersWithRandom(rsaKeyGeneratorParameters, secureRandom);
+    var rsaKeyGeneratorParameters =
+        RSAKeyGeneratorParameters(BigInt.parse('65537'), bitLength, 64);
+    var parametersWithRandom =
+        ParametersWithRandom(rsaKeyGeneratorParameters, secureRandom);
     keyGen.init(parametersWithRandom);
     var generateKeyPair = keyGen.generateKeyPair();
-    return AsymmetricKeyPair(generateKeyPair.publicKey as RSAPublicKey, generateKeyPair.privateKey as RSAPrivateKey);
+    return AsymmetricKeyPair(generateKeyPair.publicKey as RSAPublicKey,
+        generateKeyPair.privateKey as RSAPrivateKey);
   }
 
   /// 公钥转byte, 默认使用pkcs8格式
-  static Uint8List publicKeyToBytes(RSAPublicKey publicKey, {bool rsaPublicKeyFormat = false}) {
+  static Uint8List publicKeyToBytes(RSAPublicKey publicKey,
+      {bool rsaPublicKeyFormat = false}) {
     var asn1sequence = ASN1Sequence(elements: [
       ASN1Integer(publicKey.modulus),
       ASN1Integer(publicKey.exponent),
@@ -37,12 +42,14 @@ class RSAKeyUtil {
 
     // pkcs8
     var algorithmSeq = ASN1Sequence();
-    var algorithmAsn1Obj = ASN1Object.fromBytes(Uint8List.fromList([0x6, 0x9, 0x2a, 0x86, 0x48, 0x86, 0xf7, 0xd, 0x1, 0x1, 0x1]));
+    var algorithmAsn1Obj = ASN1Object.fromBytes(Uint8List.fromList(
+        [0x6, 0x9, 0x2a, 0x86, 0x48, 0x86, 0xf7, 0xd, 0x1, 0x1, 0x1]));
     var paramsAsn1Obj = ASN1Object.fromBytes(Uint8List.fromList([0x5, 0x0]));
     algorithmSeq.add(algorithmAsn1Obj);
     algorithmSeq.add(paramsAsn1Obj);
 
-    var publicKeySeqBitString = ASN1BitString(stringValues: asn1sequence.encode());
+    var publicKeySeqBitString =
+        ASN1BitString(stringValues: asn1sequence.encode());
 
     var topLevelSeq = ASN1Sequence();
     topLevelSeq.add(algorithmSeq);
@@ -52,7 +59,8 @@ class RSAKeyUtil {
   }
 
   /// 私钥转byte
-  static Uint8List privateKeyToBytes(RSAPrivateKey privateKey, {bool rsaPublicKeyFormat = false}) {
+  static Uint8List privateKeyToBytes(RSAPrivateKey privateKey,
+      {bool rsaPublicKeyFormat = false}) {
     var version = ASN1Integer(BigInt.from(0));
 
     var privateKeySeq = ASN1Sequence(elements: [
@@ -62,8 +70,10 @@ class RSAKeyUtil {
       ASN1Integer(privateKey.privateExponent), //privateExponent
       ASN1Integer(privateKey.p), //prime1
       ASN1Integer(privateKey.q), //prime2
-      ASN1Integer(privateKey.privateExponent! % (privateKey.p! - BigInt.one)), //exponent1
-      ASN1Integer(privateKey.privateExponent! % (privateKey.q! - BigInt.one)), //exponent2
+      ASN1Integer(privateKey.privateExponent! %
+          (privateKey.p! - BigInt.one)), //exponent1
+      ASN1Integer(privateKey.privateExponent! %
+          (privateKey.q! - BigInt.one)), //exponent2
       ASN1Integer(privateKey.q!.modInverse(privateKey.p!)), //coefficient
     ]);
 
@@ -73,12 +83,14 @@ class RSAKeyUtil {
 
     // pkcs8
     var algorithmSeq = ASN1Sequence();
-    var algorithmAsn1Obj = ASN1Object.fromBytes(Uint8List.fromList([0x6, 0x9, 0x2a, 0x86, 0x48, 0x86, 0xf7, 0xd, 0x1, 0x1, 0x1]));
+    var algorithmAsn1Obj = ASN1Object.fromBytes(Uint8List.fromList(
+        [0x6, 0x9, 0x2a, 0x86, 0x48, 0x86, 0xf7, 0xd, 0x1, 0x1, 0x1]));
     var paramsAsn1Obj = ASN1Object.fromBytes(Uint8List.fromList([0x5, 0x0]));
     algorithmSeq.add(algorithmAsn1Obj);
     algorithmSeq.add(paramsAsn1Obj);
 
-    var publicKeySeqOctetString = ASN1OctetString(octets: privateKeySeq.encode());
+    var publicKeySeqOctetString =
+        ASN1OctetString(octets: privateKeySeq.encode());
 
     var topLevelSeq = ASN1Sequence();
     topLevelSeq.add(version);
@@ -88,18 +100,24 @@ class RSAKeyUtil {
   }
 
   /// 公钥转base64字符串
-  static String publicKeyToString(RSAPublicKey publicKey, {bool rsaPublicKeyFormat = false}) {
-    return base64Encode(publicKeyToBytes(publicKey, rsaPublicKeyFormat: rsaPublicKeyFormat));
+  static String publicKeyToString(RSAPublicKey publicKey,
+      {bool rsaPublicKeyFormat = false}) {
+    return base64Encode(
+        publicKeyToBytes(publicKey, rsaPublicKeyFormat: rsaPublicKeyFormat));
   }
 
   /// 私钥转base64字符串
-  static String privateKeyToString(RSAPrivateKey privateKey, {bool rsaPublicKeyFormat = false}) {
-    return base64Encode(privateKeyToBytes(privateKey, rsaPublicKeyFormat: rsaPublicKeyFormat));
+  static String privateKeyToString(RSAPrivateKey privateKey,
+      {bool rsaPublicKeyFormat = false}) {
+    return base64Encode(
+        privateKeyToBytes(privateKey, rsaPublicKeyFormat: rsaPublicKeyFormat));
   }
 
   /// 公钥转PEM
-  static String publicKeyToPem(RSAPublicKey publicKey, {bool rsaPublicKeyFormat = false}) {
-    var publicKeyText = publicKeyToString(publicKey, rsaPublicKeyFormat: rsaPublicKeyFormat);
+  static String publicKeyToPem(RSAPublicKey publicKey,
+      {bool rsaPublicKeyFormat = false}) {
+    var publicKeyText =
+        publicKeyToString(publicKey, rsaPublicKeyFormat: rsaPublicKeyFormat);
     if (rsaPublicKeyFormat) {
       return '-----BEGIN RSA PUBLIC KEY-----\r\n$publicKeyText\r\n-----END RSA PUBLIC KEY-----';
     } else {
@@ -108,8 +126,10 @@ class RSAKeyUtil {
   }
 
   /// 私钥转PEM
-  static String privateKeyToPem(RSAPrivateKey privateKey, {bool rsaPublicKeyFormat = false}) {
-    var privateKeyText = privateKeyToString(privateKey, rsaPublicKeyFormat: rsaPublicKeyFormat);
+  static String privateKeyToPem(RSAPrivateKey privateKey,
+      {bool rsaPublicKeyFormat = false}) {
+    var privateKeyText =
+        privateKeyToString(privateKey, rsaPublicKeyFormat: rsaPublicKeyFormat);
     if (rsaPublicKeyFormat) {
       return '-----BEGIN RSA PRIVATE KEY-----\r\n$privateKeyText\r\n-----END RSA PRIVATE KEY-----';
     } else {

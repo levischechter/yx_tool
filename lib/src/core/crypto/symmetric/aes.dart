@@ -118,7 +118,8 @@ class AES extends SymmetricCrypto {
           _blockCipher = PaddedBlockCipherImpl(PKCS7Padding(), _blockCipher!);
           break;
         case AESPadding.iso7816d4:
-          _blockCipher = PaddedBlockCipherImpl(ISO7816d4Padding(), _blockCipher!);
+          _blockCipher =
+              PaddedBlockCipherImpl(ISO7816d4Padding(), _blockCipher!);
           break;
       }
     }
@@ -139,7 +140,8 @@ class AES extends SymmetricCrypto {
   /// 构建参数
   CipherParameters _buildParams([Uint8List? associatedData]) {
     if (mode == AESMode.gcm) {
-      return AEADParameters(KeyParameter(key), 128, iv!, associatedData ?? Uint8List.fromList([]));
+      return AEADParameters(KeyParameter(key), 128, iv!,
+          associatedData ?? Uint8List.fromList([]));
     }
 
     if (padding != AESPadding.noPadding) {
@@ -147,7 +149,8 @@ class AES extends SymmetricCrypto {
         return PaddedBlockCipherParameters(KeyParameter(key), null);
       }
 
-      return PaddedBlockCipherParameters(ParametersWithIV<KeyParameter>(KeyParameter(key), iv!), null);
+      return PaddedBlockCipherParameters(
+          ParametersWithIV<KeyParameter>(KeyParameter(key), iv!), null);
     }
 
     if (mode == AESMode.ecb) {

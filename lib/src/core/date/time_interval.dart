@@ -93,13 +93,16 @@ class TimeInterval {
   /// [id] 分组ID
   /// @return 从开始到当前的间隔时间（毫秒数）
   String intervalPretty([String id = _defaultId]) {
-    return BetweenFormatter(betweenMs: intervalMs(id), level: Level.millisecond).format();
+    return BetweenFormatter(betweenMs: intervalMs(id), level: Level.millisecond)
+        .format();
   }
 
   /// 获取时间的毫秒或纳秒数，纳秒非时间戳
   ///
   /// @return 时间
   int _getTime() {
-    return isMicrosecond ? DateTime.now().microsecondsSinceEpoch : DateTime.now().millisecondsSinceEpoch;
+    return isMicrosecond
+        ? DateTime.now().microsecondsSinceEpoch
+        : DateTime.now().millisecondsSinceEpoch;
   }
 }

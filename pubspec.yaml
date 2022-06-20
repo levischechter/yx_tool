@@ -1,6 +1,6 @@
 name: yx_tool
-description: Contains a series of commonly used toolkits, including encryption and decryption modules, id generation, date processing, extension methods of basic classes, and mathematical calculations
-version: 0.1.1
+description: Contains a series of commonly used toolkits, including encryption and decryption modules, id generation, date processing, extension methods of basic classes...
+version: 0.1.2
 homepage: https://github.com/yixiaco/yx_tool
 
 environment:

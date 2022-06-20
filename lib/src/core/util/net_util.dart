@@ -26,7 +26,9 @@ class NetUtil {
   }
 
   /// 查找主机地址
-  static FutureOr<List<InternetAddress>> lookup([String? host, InternetAddressType type = InternetAddressType.IPv4]) async {
+  static FutureOr<List<InternetAddress>> lookup(
+      [String? host,
+      InternetAddressType type = InternetAddressType.IPv4]) async {
     return await InternetAddress.lookup(host ?? '', type: type);
   }
 }

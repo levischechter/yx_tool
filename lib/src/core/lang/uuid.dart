@@ -59,7 +59,8 @@ class UUID implements Comparable<UUID> {
   ///
   /// [isSecure] 是否使用[SecureRandom]如果是可以获得更安全的随机码，否则可以得到更好的性能
   static UUID randomUUID([bool isSecure = true]) {
-    var randomList = RandomUtil.nextInts(Uint8List(16), isSecure: true, max: 0xFF);
+    var randomList =
+        RandomUtil.nextInts(Uint8List(16), isSecure: true, max: 0xFF);
     randomList[6] &= 0x0f; /* clear version        */
     randomList[6] |= 0x40; /* set to version 4     */
     randomList[8] &= 0x3f; /* clear variant        */
@@ -88,7 +89,8 @@ class UUID implements Comparable<UUID> {
   /// 6 保留，微软向后兼容
   /// 7 保留供以后定义使用
   /// ```
-  int get variant => (leastSigBits >>> (64 - (leastSigBits >>> 62))) & (leastSigBits >> 63);
+  int get variant =>
+      (leastSigBits >>> (64 - (leastSigBits >>> 62))) & (leastSigBits >> 63);
 
   int get timestamp {
     _checkTimeBase();

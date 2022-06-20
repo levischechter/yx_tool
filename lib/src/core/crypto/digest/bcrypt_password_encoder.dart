@@ -11,7 +11,8 @@ final bcryptPassword = BCryptPasswordEncoder();
 /// can optionally supply a "version" ($2a, $2b, $2y) and a "strength" (a.k.a. log rounds
 /// in BCrypt) and a SecureRandom instance. The larger the strength parameter the more work
 /// will have to be done (exponentially) to hash the passwords. The default value is 10.
-class BCryptPasswordEncoder extends Converter<String, String> implements PasswordEncoder {
+class BCryptPasswordEncoder extends Converter<String, String>
+    implements PasswordEncoder {
   final bcryptPattern = RegExp(r'\$2(a|y|b)?\$(\d\d)\$[./0-9A-Za-z]{53}');
 
   late final int _strength;
@@ -20,8 +21,10 @@ class BCryptPasswordEncoder extends Converter<String, String> implements Passwor
 
   late final Random _random;
 
-  BCryptPasswordEncoder({this.version = BCryptVersion.$2A, int strength = -1, Random? random}) {
-    if (strength != -1 && (strength < BCrypt.minLogRounds || strength > BCrypt.maxLogRounds)) {
+  BCryptPasswordEncoder(
+      {this.version = BCryptVersion.$2A, int strength = -1, Random? random}) {
+    if (strength != -1 &&
+        (strength < BCrypt.minLogRounds || strength > BCrypt.maxLogRounds)) {
       throw ArgumentError('Bad strength');
     }
     _strength = (strength == -1) ? 10 : strength;
@@ -56,7 +59,8 @@ class BCryptPasswordEncoder extends Converter<String, String> implements Passwor
     }
 
     if (!bcryptPattern.hasMatch(encodedPassword)) {
-      throw ArgumentError('Encoded password does not look like BCrypt: $encodedPassword');
+      throw ArgumentError(
+          'Encoded password does not look like BCrypt: $encodedPassword');
     }
     var firstMatch = bcryptPattern.firstMatch(encodedPassword);
     var strength = int.parse(firstMatch!.group(2)!);

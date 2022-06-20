@@ -161,7 +161,10 @@ class Decimal extends Number<Decimal> {
   Decimal get inverse => Decimal._(denominator, numerator);
 
   @override
-  bool operator ==(Object other) => other is Decimal && numerator == other.numerator && denominator == other.denominator;
+  bool operator ==(Object other) =>
+      other is Decimal &&
+      numerator == other.numerator &&
+      denominator == other.denominator;
 
   @override
   int get hashCode => Object.hash(numerator, denominator);
@@ -171,7 +174,8 @@ class Decimal extends Number<Decimal> {
   String toString() {
     if (isInteger) return _toString();
     var value = toStringAsFixed(scale);
-    while (value.contains('.') && (value.endsWith('0') || value.endsWith('.'))) {
+    while (
+        value.contains('.') && (value.endsWith('0') || value.endsWith('.'))) {
       value = value.substring(0, value.length - 1);
     }
     return value;
@@ -187,7 +191,8 @@ class Decimal extends Number<Decimal> {
   }
 
   @override
-  int compareTo(Decimal other) => (numerator * other.denominator).compareTo(other.numerator * denominator);
+  int compareTo(Decimal other) =>
+      (numerator * other.denominator).compareTo(other.numerator * denominator);
 
   /// Addition operator.
   Decimal operator +(Decimal other) => Decimal._(
@@ -233,7 +238,8 @@ class Decimal extends Number<Decimal> {
   Decimal operator -() => Decimal._(-numerator, denominator)._toDecimal();
 
   /// Returns the remainder from dividing this [Decimal] by [other].
-  Decimal remainder(Decimal other) => (this - (this ~/ other) * other)._toDecimal();
+  Decimal remainder(Decimal other) =>
+      (this - (this ~/ other) * other)._toDecimal();
 
   /// Whether this number is numerically smaller than [other].
   bool operator <(Decimal other) => compareTo(other) < 0;
@@ -340,7 +346,8 @@ class Decimal extends Number<Decimal> {
   }
 
   /// The [BigInt] obtained by discarding any fractional digits from `this`.
-  Decimal truncate({int scale = 0}) => _scaleAndApply(scale, (e) => e._truncate());
+  Decimal truncate({int scale = 0}) =>
+      _scaleAndApply(scale, (e) => e._truncate());
 
   /// Shift the decimal point on the right for positive [value] or on the left
   /// for negative one.
@@ -412,7 +419,8 @@ class Decimal extends Number<Decimal> {
     if (fractionDigits == 0) return round().toBigInt().toString();
     final value = round(scale: fractionDigits);
     final intPart = value.toBigInt().abs();
-    final decimalPart = (one + value.abs() - Decimal._(intPart)._toDecimal()).shift(fractionDigits);
+    final decimalPart = (one + value.abs() - Decimal._(intPart)._toDecimal())
+        .shift(fractionDigits);
     return '${value < zero ? '-' : ''}$intPart.${decimalPart.toString().substring(1)}';
   }
 

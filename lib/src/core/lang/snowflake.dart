@@ -45,7 +45,8 @@ class Snowflake {
   static final int _dataCenterIdShift = _sequenceBits + _workerIdBits;
 
   // 时间毫秒数左移22位
-  static final int _timestampLeftShift = _sequenceBits + _workerIdBits + _dataCenterIdBits;
+  static final int _timestampLeftShift =
+      _sequenceBits + _workerIdBits + _dataCenterIdBits;
 
   // 序列掩码，用于限定序列最大值不能超过4095
   static final int _sequenceMask = ~(-1 << _sequenceBits); // 4095
@@ -70,7 +71,11 @@ class Snowflake {
     int timeOffset = _defaultTimeOffset,
   }) async {
     dataCenterId ??= await IdUtil.getDataCenterId(_maxDataCenterId);
-    return getInstanceSync(epochDate: epochDate, workerId: workerId, timeOffset: timeOffset, dataCenterId: dataCenterId);
+    return getInstanceSync(
+        epochDate: epochDate,
+        workerId: workerId,
+        timeOffset: timeOffset,
+        dataCenterId: dataCenterId);
   }
 
   /// 获取实例的同步方法，此方法[dataCenterId]不能为空
@@ -89,10 +94,12 @@ class Snowflake {
     }
     workerId ??= IdUtil.getWorkerId(dataCenterId, _maxWorkerId);
     if (workerId > _maxWorkerId || workerId < 0) {
-      throw ArgumentError("worker Id can't be greater than $_maxWorkerId or less than 0");
+      throw ArgumentError(
+          "worker Id can't be greater than $_maxWorkerId or less than 0");
     }
     if (dataCenterId > _maxDataCenterId || dataCenterId < 0) {
-      throw ArgumentError("datacenter Id can't be greater than $_maxDataCenterId or less than 0");
+      throw ArgumentError(
+          "datacenter Id can't be greater than $_maxDataCenterId or less than 0");
     }
     snowflake._dataCenterId = dataCenterId;
     snowflake._workerId = workerId;
@@ -124,7 +131,8 @@ class Snowflake {
         timestamp = _lastTimestamp;
       } else {
         // 如果服务器时间有问题(时钟后退) 报错。
-        throw StateError('Clock moved backwards. Refusing to generate id for ${_lastTimestamp - timestamp}ms');
+        throw StateError(
+            'Clock moved backwards. Refusing to generate id for ${_lastTimestamp - timestamp}ms');
       }
     }
 
@@ -140,7 +148,10 @@ class Snowflake {
 
     _lastTimestamp = timestamp;
 
-    return ((timestamp - _twepoch) << _timestampLeftShift) | (_dataCenterId << _dataCenterIdShift) | (_workerId << _workerIdShift) | _sequence;
+    return ((timestamp - _twepoch) << _timestampLeftShift) |
+        (_dataCenterId << _dataCenterIdShift) |
+        (_workerId << _workerIdShift) |
+        _sequence;
   }
 
   /// 循环等待下一个时间
@@ -152,7 +163,8 @@ class Snowflake {
     }
     if (timestamp < lastTimestamp) {
       // 如果发现新的时间戳比上次记录的时间戳数值小，说明操作系统时间发生了倒退，报错
-      throw StateError('Clock moved backwards. Refusing to generate id for ${lastTimestamp - timestamp}ms');
+      throw StateError(
+          'Clock moved backwards. Refusing to generate id for ${lastTimestamp - timestamp}ms');
     }
     return timestamp;
   }

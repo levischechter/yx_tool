@@ -52,7 +52,8 @@ class BetweenFormatter {
     if (betweenMs > 0) {
       var day = betweenMs ~/ DateUnit.day.millis;
       var hour = betweenMs ~/ DateUnit.hour.millis - day * 24;
-      var minute = betweenMs ~/ DateUnit.minute.millis - day * 24 * 60 - hour * 60;
+      var minute =
+          betweenMs ~/ DateUnit.minute.millis - day * 24 * 60 - hour * 60;
 
       final betweenOfSecond = ((day * 24 + hour) * 60 + minute) * 60;
       var second = betweenMs ~/ DateUnit.second.millis - betweenOfSecond;
@@ -61,23 +62,33 @@ class BetweenFormatter {
       final level = this.level.index;
       var levelCount = 0;
 
-      if (_isLevelCountValid(levelCount) && 0 != day && level >= Level.day.index) {
+      if (_isLevelCountValid(levelCount) &&
+          0 != day &&
+          level >= Level.day.index) {
         sb.writeAll([day, Level.day.name]);
         levelCount++;
       }
-      if (_isLevelCountValid(levelCount) && 0 != hour && level >= Level.hour.index) {
+      if (_isLevelCountValid(levelCount) &&
+          0 != hour &&
+          level >= Level.hour.index) {
         sb.writeAll([hour, Level.hour.name]);
         levelCount++;
       }
-      if (_isLevelCountValid(levelCount) && 0 != minute && level >= Level.minute.index) {
+      if (_isLevelCountValid(levelCount) &&
+          0 != minute &&
+          level >= Level.minute.index) {
         sb.writeAll([minute, Level.minute.name]);
         levelCount++;
       }
-      if (_isLevelCountValid(levelCount) && 0 != second && level >= Level.second.index) {
+      if (_isLevelCountValid(levelCount) &&
+          0 != second &&
+          level >= Level.second.index) {
         sb.writeAll([second, Level.second.name]);
         levelCount++;
       }
-      if (_isLevelCountValid(levelCount) && 0 != millisecond && level >= Level.millisecond.index) {
+      if (_isLevelCountValid(levelCount) &&
+          0 != millisecond &&
+          level >= Level.millisecond.index) {
         sb.writeAll([millisecond, Level.millisecond.name]);
         // levelCount++;
       }

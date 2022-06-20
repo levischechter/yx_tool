@@ -1097,10 +1097,13 @@ class BCrypt {
   ]);
 
   // bcrypt IV: "OrpheanBeholderScryDoubt"
-  static final Int32List _bfCryptCiphertext = Int32List.fromList([0x4f727068, 0x65616e42, 0x65686f6c, 0x64657253, 0x63727944, 0x6f756274]);
+  static final Int32List _bfCryptCiphertext = Int32List.fromList(
+      [0x4f727068, 0x65616e42, 0x65686f6c, 0x64657253, 0x63727944, 0x6f756274]);
 
   // Table for Base64 encoding
-  static final base64Code = './ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'.codeUnits;
+  static final base64Code =
+      './ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+          .codeUnits;
 
   // Table for Base64 decoding
   static final Int8List index_64 = Int8List.fromList([
@@ -1374,7 +1377,8 @@ class BCrypt {
   /// <p>param [signp] a "pointer" (as a one-entry array) to the cumulative flag for
   /// non-benign sign extension
   /// <p>return correct and buggy next word of material from data as int[2]
-  static List<int> _streamtowords(Int8List data, List<int> offp, List<int> signp) {
+  static List<int> _streamtowords(
+      Int8List data, List<int> offp, List<int> signp) {
     int i;
     var words = <int>[0, 0];
     var off = offp[0];
@@ -1526,7 +1530,13 @@ class BCrypt {
   /// <p>param [signExtBug] true to implement the 2x bug
   /// <p>param [safety] bit 16 is set when the safety measure is requested
   /// <p>return an array containing the binary hashed password
-  Int8List _cryptRaw(Int8List password, Int8List salt, int logRounds, bool signExtBug, int safety) {
+  Int8List _cryptRaw(
+    Int8List password,
+    Int8List salt,
+    int logRounds,
+    bool signExtBug,
+    int safety,
+  ) {
     int rounds, i, j;
     var cdata = _bfCryptCiphertext.toList();
     var clen = cdata.length;
@@ -1598,7 +1608,8 @@ class BCrypt {
       off = 3;
     } else {
       minor = salt[2];
-      if ((minor != 'a' && minor != 'x' && minor != 'y' && minor != 'b') || salt[3] != r'$') {
+      if ((minor != 'a' && minor != 'x' && minor != 'y' && minor != 'b') ||
+          salt[3] != r'$') {
         throw ArgumentError('Invalid salt revision');
       }
       off = 4;
@@ -1618,11 +1629,13 @@ class BCrypt {
     saltb = _decodeBase64(realSalt, _bcryptSaltLen);
 
     if (minor.first >= 'a'.first) {
-      passwordb = ListUtil.copyOfList(passwordb, Int8List(passwordb.length + 1));
+      passwordb =
+          ListUtil.copyOfList(passwordb, Int8List(passwordb.length + 1));
     }
 
     B = BCrypt();
-    hashed = B._cryptRaw(passwordb, saltb, rounds, minor == 'x', minor == 'a' ? 0x10000 : 0);
+    hashed = B._cryptRaw(
+        passwordb, saltb, rounds, minor == 'x', minor == 'a' ? 0x10000 : 0);
 
     rs.append(r'$2');
     if (minor.first >= 'a'.first) {
@@ -1646,12 +1659,16 @@ class BCrypt {
   /// <p>param [random] an instance of SecureRandom to use
   /// <p>return an encoded salt value
   /// <p>exception ArgumentError if prefix or log_rounds is invalid
-  static String gensalt([String prefix = r'$2a', int logRounds = _genSaltDefaultLog2Rounds, Random? random]) {
+  static String gensalt(
+      [String prefix = r'$2a',
+      int logRounds = _genSaltDefaultLog2Rounds,
+      Random? random]) {
     random ??= Random.secure();
     var rs = StringBuilder();
     var rnd = Int8List(_bcryptSaltLen);
 
-    if (!prefix.startsWith(r'$2') || (prefix[2] != 'a' && prefix[2] != 'y' && prefix[2] != 'b')) {
+    if (!prefix.startsWith(r'$2') ||
+        (prefix[2] != 'a' && prefix[2] != 'y' && prefix[2] != 'b')) {
       throw ArgumentError('Invalid prefix');
     }
     if (logRounds < 4 || logRounds > 31) {

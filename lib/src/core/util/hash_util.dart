@@ -310,7 +310,9 @@ class HashUtil {
     var hash = 0;
 
     for (var i = 0; i < str.length; i++) {
-      hash ^= ((i & 1) == 0) ? ((hash << 7) ^ str.codeUnitAt(i) ^ (hash >> 3)) : (~((hash << 11) ^ str.codeUnitAt(i) ^ (hash >> 5)));
+      hash ^= ((i & 1) == 0)
+          ? ((hash << 7) ^ str.codeUnitAt(i) ^ (hash >> 3))
+          : (~((hash << 11) ^ str.codeUnitAt(i) ^ (hash >> 5)));
     }
 
     // return (hash & 0x7FFFFFFF);
@@ -344,7 +346,9 @@ class HashUtil {
         if (ucChar <= 'Z'.first && ucChar >= 'A'.first) {
           ucChar = (ucChar + 32);
         }
-        hash += (3 * i * ucChar * ucChar + 5 * i * ucChar + 7 * i + 11 * ucChar) % 16777216;
+        hash +=
+            (3 * i * ucChar * ucChar + 5 * i * ucChar + 7 * i + 11 * ucChar) %
+                16777216;
       }
     } else {
       for (i = 1; i <= 96; i++) {
@@ -352,7 +356,9 @@ class HashUtil {
         if (ucChar <= 'Z'.first && ucChar >= 'A'.first) {
           ucChar = (ucChar + 32);
         }
-        hash += (3 * i * ucChar * ucChar + 5 * i * ucChar + 7 * i + 11 * ucChar) % 16777216;
+        hash +=
+            (3 * i * ucChar * ucChar + 5 * i * ucChar + 7 * i + 11 * ucChar) %
+                16777216;
       }
     }
     if (hash < 0) {

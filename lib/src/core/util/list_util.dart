@@ -40,7 +40,8 @@ class ListUtil {
   }
 
   /// 数组拷贝
-  static void arraycopy(List<dynamic> src, int srcPos, List<dynamic> dest, int destPos, int length) {
+  static void arraycopy(List<dynamic> src, int srcPos, List<dynamic> dest,
+      int destPos, int length) {
     var sublist = src.sublist(srcPos, srcPos + length);
     for (var i = 0; i < length; i++) {
       dest[destPos + i] = sublist[i];
@@ -62,7 +63,8 @@ class ListUtil {
   /// 对于在副本中有效但在原始副本中无效的任何索引，副本将包含(byte)0 。
   /// 当且仅当指定长度大于原始数组的长度时，此类索引才会存在。
   static T copyOfList<T extends List<int>>(List<int> original, T newList) {
-    arraycopy(original, 0, newList, 0, Math.min(original.length, newList.length));
+    arraycopy(
+        original, 0, newList, 0, Math.min(original.length, newList.length));
     return newList;
   }
 
@@ -75,12 +77,14 @@ class ListUtil {
 
   /// 在目标数组中插入元素,[dest]可以是新数组也可以是原数组，如果是原数组需要保证可修改
   /// [dest]中的元素将会被[source]的元素覆盖
-  static void insertAll(List<int> source, List<int> dest, int index, List<int> elements) {
+  static void insertAll(
+      List<int> source, List<int> dest, int index, List<int> elements) {
     if (source == dest) {
       source.insertAll(index, elements);
       return;
     }
-    RangeError.checkNotNegative(dest.length - source.length - elements.length, 'length');
+    RangeError.checkNotNegative(
+        dest.length - source.length - elements.length, 'length');
     RangeError.checkValidIndex(index, dest);
     if (index != 0) {
       arraycopy(source, 0, dest, 0, index);
@@ -130,7 +134,8 @@ class ListUtil {
   }
 
   /// 生成一个数字列表
-  static List<int> range({int includedStart = 0, required int excludedEnd, int step = 1}) {
+  static List<int> range(
+      {int includedStart = 0, required int excludedEnd, int step = 1}) {
     if (includedStart > excludedEnd) {
       int tmp = includedStart;
       includedStart = excludedEnd;

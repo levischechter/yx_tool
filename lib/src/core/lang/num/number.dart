@@ -320,7 +320,8 @@ abstract class AbstractInt<T extends Number> extends Number<T> {
   ///
   /// The [exponent] must be non-negative and [modulus] must be
   /// positive.
-  T modPow(int exponent, int modulus) => valueOf(value.modPow(exponent, modulus));
+  T modPow(int exponent, int modulus) =>
+      valueOf(value.modPow(exponent, modulus));
 
   /// Returns the modular multiplicative inverse of this integer
   /// modulo [modulus].

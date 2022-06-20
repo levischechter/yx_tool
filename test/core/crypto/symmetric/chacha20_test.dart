@@ -42,7 +42,8 @@ void main() {
         99,
         -89
       ]);
-      var iv = Uint8List.fromList([57, -7, 84, 105, -30, -28, 90, 47, 68, -18, 40, 56]);
+      var iv = Uint8List.fromList(
+          [57, -7, 84, 105, -30, -28, 90, 47, 68, -18, 40, 56]);
       print(key);
       print(iv);
       var chaCha20 = AEADChaCha20Poly1305.withIV(key, iv);

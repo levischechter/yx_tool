@@ -54,7 +54,8 @@ class StringBuilder implements Comparable<StringBuilder>, Pattern {
 
   ///追加对象，对象会被转换为字符串
   ///对象之间会按照[separator]分割
-  StringBuilder appendAll(Iterable<dynamic> objects, {String? before, String? separator, String? suffix}) {
+  StringBuilder appendAll(Iterable<dynamic> objects,
+      {String? before, String? separator, String? suffix}) {
     // 计算扩展容量
     var len = (before?.length ?? 0) + (suffix?.length ?? 0);
     for (var i = 0; i < objects.length; ++i) {

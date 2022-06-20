@@ -16,7 +16,9 @@ class NanoId {
   static final Random _defaultNumberGenerator = Random.secure();
 
   /// 默认随机字母表，使用URL安全的Base64字符
-  static final Uint8List _defaultAlphabet = Uint8List.fromList('_-0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'.codeUnits);
+  static final Uint8List _defaultAlphabet = Uint8List.fromList(
+      '_-0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+          .codeUnits);
 
   /// 默认长度
   static const int defaultSize = 21;
@@ -27,7 +29,8 @@ class NanoId {
   /// [alphabet] 随机字母表
   /// [size]     ID长度
   /// return 伪随机的NanoId字符串
-  static String randomNanoId({Random? random, Uint8List? alphabet, int size = defaultSize}) {
+  static String randomNanoId(
+      {Random? random, Uint8List? alphabet, int size = defaultSize}) {
     random ??= _defaultNumberGenerator;
 
     alphabet ??= _defaultAlphabet;
@@ -46,7 +49,8 @@ class NanoId {
     final idBuilder = StringBuilder();
 
     while (true) {
-      var bytes = RandomUtil.nextInts(Uint8List(step), max: 0XFF, random: random);
+      var bytes =
+          RandomUtil.nextInts(Uint8List(step), max: 0XFF, random: random);
       for (var i = 0; i < step; i++) {
         final alphabetIndex = bytes[i] & mask;
         if (alphabetIndex < alphabet.length) {

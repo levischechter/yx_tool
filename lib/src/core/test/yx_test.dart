@@ -3,7 +3,12 @@ library yx_text;
 import 'dart:async';
 
 /// 执行测试
-FutureOr testExecute({String title = '', bool timer = true, required Function function, bool execute = true, isAsync = false}) async {
+FutureOr testExecute(
+    {String title = '',
+    bool timer = true,
+    required Function function,
+    bool execute = true,
+    isAsync = false}) async {
   if (execute) {
     print('$title:');
     var suffix = '';

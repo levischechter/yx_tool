@@ -11,16 +11,21 @@ class AEADChaCha20Poly1305 extends SymmetricCrypto {
   ChaCha20Poly1305? _encrypt;
   ChaCha20Poly1305? _decrypt;
 
-  AEADChaCha20Poly1305.withIV(Uint8List key, Uint8List iv) : parameters = ParametersWithIV(KeyParameter(key), iv);
+  AEADChaCha20Poly1305.withIV(Uint8List key, Uint8List iv)
+      : parameters = ParametersWithIV(KeyParameter(key), iv);
 
-  AEADChaCha20Poly1305.withAEAD(Uint8List key, int macSize, Uint8List nonce, Uint8List associatedData)
-      : parameters = AEADParameters(KeyParameter(key), macSize, nonce, associatedData);
+  AEADChaCha20Poly1305.withAEAD(
+      Uint8List key, int macSize, Uint8List nonce, Uint8List associatedData)
+      : parameters =
+            AEADParameters(KeyParameter(key), macSize, nonce, associatedData);
 
   void _init(bool forEncryption) {
     if (forEncryption) {
-      _encrypt ??= ChaCha20Poly1305(ChaCha7539Engine(), Poly1305())..init(forEncryption, parameters);
+      _encrypt ??= ChaCha20Poly1305(ChaCha7539Engine(), Poly1305())
+        ..init(forEncryption, parameters);
     } else {
-      _decrypt ??= ChaCha20Poly1305(ChaCha7539Engine(), Poly1305())..init(forEncryption, parameters);
+      _decrypt ??= ChaCha20Poly1305(ChaCha7539Engine(), Poly1305())
+        ..init(forEncryption, parameters);
     }
   }
 

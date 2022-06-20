@@ -4,7 +4,8 @@ void main() {
   testExecute(
     title: 'BetweenFormatter Test',
     function: () async {
-      var formatter = BetweenFormatter(betweenMs: 36000241200, level: Level.millisecond);
+      var formatter =
+          BetweenFormatter(betweenMs: 36000241200, level: Level.millisecond);
       print(formatter);
     },
   );

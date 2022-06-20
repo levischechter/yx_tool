@@ -8,7 +8,8 @@ class RandomUtil {
   RandomUtil._();
 
   /// 填充随机数到集合中
-  static List<int> nextInts(List<int> ints, {int min = 0, int max = 1 << 32, bool isSecure = false, Random? random}) {
+  static List<int> nextInts(List<int> ints,
+      {int min = 0, int max = 1 << 32, bool isSecure = false, Random? random}) {
     random ??= getRandom(isSecure);
     for (var i = 0; i < ints.length; i++) {
       ints[i] = random.nextInt(max) + min;
@@ -40,7 +41,8 @@ class RandomUtil {
 
   /// 生成[len]个随机整数，均匀分布在从 min（含）到max （不含）的范围内。
   /// 实现说明：默认实现支持介于 min 和 (1 << 8) 之间的max
-  static List<int> randomInts({required int len, int min = 0, int max = 1 << 64}) {
+  static List<int> randomInts(
+      {required int len, int min = 0, int max = 1 << 64}) {
     var ints = List.filled(len, 0, growable: true);
     nextInts(ints, min: min, max: max);
     return ints;
@@ -48,7 +50,8 @@ class RandomUtil {
 
   /// 生成[len]个随机字节，均匀分布在从 min（含）到max （不含）的范围内。
   /// 实现说明：默认实现支持介于 min 和 (1 << 8) 之间的max
-  static Uint8List randomUint8s({required int len, int min = 0, int max = 1 << 8}) {
+  static Uint8List randomUint8s(
+      {required int len, int min = 0, int max = 1 << 8}) {
     var int8s = Uint8List(len);
     nextInts(int8s, min: min, max: max);
     return int8s;
@@ -56,7 +59,8 @@ class RandomUtil {
 
   /// 生成[len]个随机字节，均匀分布在从 min（含）到max （不含）的范围内。
   /// 实现说明：默认实现支持介于 min(-1 << 7) 和 (1 << 7 + 1) 之间的max
-  static Int8List randomInt8s({required int len, int min = -1 << 7, int max = 1 << 7 + 1}) {
+  static Int8List randomInt8s(
+      {required int len, int min = -1 << 7, int max = 1 << 7 + 1}) {
     var int8s = Int8List(len);
     nextInts(int8s, min: min, max: max);
     return int8s;
@@ -64,7 +68,8 @@ class RandomUtil {
 
   /// 生成[len]个随机整数，均匀分布在从 min（含）到max （不含）的范围内。
   /// 实现说明：默认实现支持介于 min 和 (1 << 16) 之间的max
-  static Uint16List randomUint16s({required int len, int min = 0, int max = 1 << 16}) {
+  static Uint16List randomUint16s(
+      {required int len, int min = 0, int max = 1 << 16}) {
     var int16s = Uint16List(len);
     nextInts(int16s, min: min, max: max);
     return int16s;
@@ -72,7 +77,8 @@ class RandomUtil {
 
   /// 生成[len]个随机整数，均匀分布在从 min（含）到max （不含）的范围内。
   /// 实现说明：默认实现支持介于 min(-1 << 15) 和 (1 << 15 + 1) 之间的max
-  static Int16List randomInt16s({required int len, int min = -1 << 15, int max = 1 << 15 + 1}) {
+  static Int16List randomInt16s(
+      {required int len, int min = -1 << 15, int max = 1 << 15 + 1}) {
     var int16s = Int16List(len);
     nextInts(int16s, min: min, max: max);
     return int16s;
@@ -80,7 +86,8 @@ class RandomUtil {
 
   /// 生成[len]个随机整数，均匀分布在从 min（含）到max （不含）的范围内。
   /// 实现说明：默认实现支持介于 min 和 (1 << 32) 之间的max
-  static Uint32List randomUint32s({required int len, int min = 0, int max = 1 << 32}) {
+  static Uint32List randomUint32s(
+      {required int len, int min = 0, int max = 1 << 32}) {
     var int32s = Uint32List(len);
     nextInts(int32s, min: min, max: max);
     return int32s;
@@ -88,7 +95,8 @@ class RandomUtil {
 
   /// 生成[len]个随机整数，均匀分布在从 min（含）到max （不含）的范围内。
   /// 实现说明：默认实现支持介于 min(-1 << 31) 和 (1 << 31 + 1) 之间的max
-  static Int32List randomInt32s({required int len, int min = -1 << 31, int max = 1 << 31 + 1}) {
+  static Int32List randomInt32s(
+      {required int len, int min = -1 << 31, int max = 1 << 31 + 1}) {
     var int32s = Int32List(len);
     nextInts(int32s, min: min, max: max);
     return int32s;
@@ -96,7 +104,8 @@ class RandomUtil {
 
   /// 生成[len]个随机长整数，均匀分布在从 min（含）到max （不含）的范围内。
   /// 实现说明：默认实现支持介于 min 和 (1 << 64) 之间的max
-  static Uint64List randomUint64s({required int len, int min = 0, int max = 1 << 64}) {
+  static Uint64List randomUint64s(
+      {required int len, int min = 0, int max = 1 << 64}) {
     var int64s = Uint64List(len);
     nextInts(int64s, min: min, max: max);
     return int64s;
@@ -104,7 +113,8 @@ class RandomUtil {
 
   /// 生成[len]个随机长整数，均匀分布在从 min（含）到max （不含）的范围内。
   /// 实现说明：默认实现支持介于 min(-1 << 63) 和 (1 << 63 + 1) 之间的max
-  static Int64List randomInt64s({required int len, int min = -1 << 63, int max = 1 << 63 + 1}) {
+  static Int64List randomInt64s(
+      {required int len, int min = -1 << 63, int max = 1 << 63 + 1}) {
     var int64s = Int64List(len);
     nextInts(int64s, min: min, max: max);
     return int64s;
@@ -117,7 +127,8 @@ class RandomUtil {
   }
 
   /// 返回一组随机元素，[repeat]可选返回下标是否可重复
-  static List<E> randomElements<E>(List<E> data, int len, {bool repeat = true}) {
+  static List<E> randomElements<E>(List<E> data, int len,
+      {bool repeat = true}) {
     var result = <E>[];
     var random = getRandom();
     if (repeat) {

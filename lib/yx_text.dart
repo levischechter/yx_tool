@@ -1,3 +1,3 @@
 library yx_text;
 
-export 'src/core/text/string_builder.dart';
+export 'package:yx_tool/src/core/text/string_builder.dart';

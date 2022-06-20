@@ -39,15 +39,27 @@ class RSA extends Asymmetric {
     int bitLength = 2048,
   }) {
     return RSA._(
-      publicKey: publicKey ?? (publicKeyText != null ? RSAKeyParser.parsePublic(publicKeyText) : null),
-      privateKey: privateKey ?? (privateKeyText != null ? RSAKeyParser.parsePrivate(privateKeyText) : null),
+      publicKey: publicKey ??
+          (publicKeyText != null
+              ? RSAKeyParser.parsePublic(publicKeyText)
+              : null),
+      privateKey: privateKey ??
+          (privateKeyText != null
+              ? RSAKeyParser.parsePrivate(privateKeyText)
+              : null),
       digest: digest ?? SHA256Digest(),
       encoding: encoding,
       bitLength: bitLength,
     );
   }
 
-  RSA._({required super.digest, super.privateKey, super.publicKey, RSAEncoding encoding = RSAEncoding.pkcs1, this.bitLength = 2048}) {
+  RSA._({
+    required super.digest,
+    super.privateKey,
+    super.publicKey,
+    RSAEncoding encoding = RSAEncoding.pkcs1,
+    this.bitLength = 2048,
+  }) {
     switch (encoding) {
       case RSAEncoding.oaep:
         _cipher = OAEPEncoding.withCustomDigest(() => digest, RSAEngine());
@@ -58,12 +70,23 @@ class RSA extends Asymmetric {
     _init();
   }
 
-  factory RSA.oaep({RSAPrivateKey? privateKey, RSAPublicKey? publicKey, Digest? digest}) {
-    return RSA._(digest: digest ?? SHA256Digest(), privateKey: privateKey, publicKey: publicKey, encoding: RSAEncoding.oaep);
+  factory RSA.oaep(
+      {RSAPrivateKey? privateKey, RSAPublicKey? publicKey, Digest? digest}) {
+    return RSA._(
+      digest: digest ?? SHA256Digest(),
+      privateKey: privateKey,
+      publicKey: publicKey,
+      encoding: RSAEncoding.oaep,
+    );
   }
 
-  factory RSA.pkcs({RSAPrivateKey? privateKey, RSAPublicKey? publicKey, Digest? digest}) {
-    return RSA._(digest: digest ?? SHA256Digest(), privateKey: privateKey, publicKey: publicKey);
+  factory RSA.pkcs(
+      {RSAPrivateKey? privateKey, RSAPublicKey? publicKey, Digest? digest}) {
+    return RSA._(
+      digest: digest ?? SHA256Digest(),
+      privateKey: privateKey,
+      publicKey: publicKey,
+    );
   }
 
   /// 设置私钥
@@ -86,9 +109,11 @@ class RSA extends Asymmetric {
     signer = Signer('${digest.algorithmName}/RSA');
   }
 
-  PublicKeyParameter<RSAPublicKey>? get _publicKeyParams => publicKey != null ? PublicKeyParameter(publicKey!) : null;
+  PublicKeyParameter<RSAPublicKey>? get _publicKeyParams =>
+      publicKey != null ? PublicKeyParameter(publicKey!) : null;
 
-  PrivateKeyParameter<RSAPrivateKey>? get _privateKeyParams => privateKey != null ? PrivateKeyParameter(privateKey!) : null;
+  PrivateKeyParameter<RSAPrivateKey>? get _privateKeyParams =>
+      privateKey != null ? PrivateKeyParameter(privateKey!) : null;
 
   @override
   Uint8List decrypt({bool isPublicKey = false, required Uint8List data}) {
@@ -117,7 +142,8 @@ class RSA extends Asymmetric {
   }
 
   /// 对传入的 [message] 进行签名（通常是哈希函数的输出）
-  RSASignature generateSignature({bool isPublicKey = false, required Uint8List message}) {
+  RSASignature generateSignature(
+      {bool isPublicKey = false, required Uint8List message}) {
     if (isPublicKey && publicKey == null) {
       throw StateError('Can\'t encrypt without a public key, null given.');
     } else if (!isPublicKey && privateKey == null) {
@@ -130,7 +156,11 @@ class RSA extends Asymmetric {
   }
 
   /// 根据 [签名] 验证 [消息]。
-  bool verifySignature({bool isPublicKey = true, required Uint8List message, required Signature signature}) {
+  bool verifySignature({
+    bool isPublicKey = true,
+    required Uint8List message,
+    required Signature signature,
+  }) {
     if (isPublicKey && publicKey == null) {
       throw StateError('Can\'t encrypt without a public key, null given.');
     } else if (!isPublicKey && privateKey == null) {
@@ -149,21 +179,27 @@ class RSA extends Asymmetric {
   /// 执行解码块
   /// 正在加密/解密的数据必须以块的形式进行处理。每个输入块被处理成一个输出块
   Uint8List _processInBlocks(AsymmetricBlockCipher engine, Uint8List input) {
-    final numBlocks = input.length ~/ engine.inputBlockSize + ((input.length % engine.inputBlockSize != 0) ? 1 : 0);
+    final numBlocks = input.length ~/ engine.inputBlockSize +
+        ((input.length % engine.inputBlockSize != 0) ? 1 : 0);
 
     final output = Uint8List(numBlocks * engine.outputBlockSize);
 
     var inputOffset = 0;
     var outputOffset = 0;
     while (inputOffset < input.length) {
-      final chunkSize = (inputOffset + engine.inputBlockSize <= input.length) ? engine.inputBlockSize : input.length - inputOffset;
+      final chunkSize = (inputOffset + engine.inputBlockSize <= input.length)
+          ? engine.inputBlockSize
+          : input.length - inputOffset;
 
-      outputOffset += engine.processBlock(input, inputOffset, chunkSize, output, outputOffset);
+      outputOffset += engine.processBlock(
+          input, inputOffset, chunkSize, output, outputOffset);
 
       inputOffset += chunkSize;
     }
 
-    return (output.length == outputOffset) ? output : output.sublist(0, outputOffset);
+    return (output.length == outputOffset)
+        ? output
+        : output.sublist(0, outputOffset);
   }
 }
 
@@ -217,7 +253,8 @@ class RSAKeyParser {
   }
 
   static RSAAsymmetricKey _parsePublic(ASN1Sequence sequence) {
-    var isPublicKeyFormat = sequence.elements!.any((element) => element is! ASN1Integer);
+    var isPublicKeyFormat =
+        sequence.elements!.any((element) => element is! ASN1Integer);
     if (isPublicKeyFormat) {
       sequence = _pkcs8PublicSequence(sequence);
     }
@@ -228,7 +265,8 @@ class RSAKeyParser {
   }
 
   static RSAAsymmetricKey _parsePrivate(ASN1Sequence sequence) {
-    var isPrivateKeyFormat = sequence.elements!.any((element) => element is! ASN1Integer);
+    var isPrivateKeyFormat =
+        sequence.elements!.any((element) => element is! ASN1Integer);
     if (isPrivateKeyFormat) {
       sequence = _pkcs8PrivateSequence(sequence);
     }
@@ -245,7 +283,8 @@ class RSAKeyParser {
     if (index != 0) {
       endIndex = key.indexOf('-----END', index);
     }
-    final keyText = key.substring(index, endIndex).replaceAll(RegExp(r'\r\n?|\n'), '');
+    final keyText =
+        key.substring(index, endIndex).replaceAll(RegExp(r'\r\n?|\n'), '');
 
     final keyBytes = Uint8List.fromList(base64.decode(keyText));
     final asn1Parser = ASN1Parser(keyBytes);

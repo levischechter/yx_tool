@@ -108,8 +108,14 @@ class DigestUtil {
   /// 将数据转为MD5 rfc哈希函数输出，当[isSimple]为true时，输出8位md5
   /// 使用[salt]加入盐，并且指定[position]存放的位置
   /// 使用[repeat]重复碰撞的次数
-  static Uint8List md5(Uint8List data, {bool isSimple = false, String? salt, int position = 0, int repeat = 1}) {
-    var bytes = addSalt(digest: MD5Digest(), data: data, salt: salt?.bytes, position: position, repeat: repeat);
+  static Uint8List md5(Uint8List data,
+      {bool isSimple = false, String? salt, int position = 0, int repeat = 1}) {
+    var bytes = addSalt(
+        digest: MD5Digest(),
+        data: data,
+        salt: salt?.bytes,
+        position: position,
+        repeat: repeat);
     if (isSimple) {
       return bytes.sublist(4, 12);
     }
@@ -117,18 +123,38 @@ class DigestUtil {
   }
 
   /// 将字符串通过utf8编码后转为MD5 rfc哈希函数输出，当[isSimple]为true时，输出8位md5
-  static Uint8List md5Str(String data, {bool isSimple = false, String? salt, int position = 0, int repeat = 1}) {
-    return md5(data.bytes, isSimple: isSimple, salt: salt, position: position, repeat: repeat);
+  static Uint8List md5Str(String data,
+      {bool isSimple = false, String? salt, int position = 0, int repeat = 1}) {
+    return md5(data.bytes,
+        isSimple: isSimple, salt: salt, position: position, repeat: repeat);
   }
 
   /// 将数据转为MD5 rfc哈希函数输出hex，当[isSimple]为true时，输出16位md5 hex值
-  static String md5Hex(Uint8List data, {bool toUpperCase = false, bool isSimple = false, String? salt, int position = 0, int repeat = 1}) {
-    return HexUtil.encodeHex(md5(data, isSimple: isSimple, salt: salt, position: position, repeat: repeat), toUpperCase: toUpperCase);
+  static String md5Hex(Uint8List data,
+      {bool toUpperCase = false,
+      bool isSimple = false,
+      String? salt,
+      int position = 0,
+      int repeat = 1}) {
+    return HexUtil.encodeHex(
+        md5(data,
+            isSimple: isSimple, salt: salt, position: position, repeat: repeat),
+        toUpperCase: toUpperCase);
   }
 
   /// 将数据转为MD5 rfc哈希函数输出hex，当[isSimple]为true时，输出16位md5 hex值
-  static String md5HexStr(String data, {bool toUpperCase = false, bool isSimple = false, String? salt, int position = 0, int repeat = 1}) {
-    return md5Hex(data.bytes, isSimple: isSimple, toUpperCase: toUpperCase, salt: salt, position: position, repeat: repeat);
+  static String md5HexStr(String data,
+      {bool toUpperCase = false,
+      bool isSimple = false,
+      String? salt,
+      int position = 0,
+      int repeat = 1}) {
+    return md5Hex(data.bytes,
+        isSimple: isSimple,
+        toUpperCase: toUpperCase,
+        salt: salt,
+        position: position,
+        repeat: repeat);
   }
 
   /// 将数据转为SHA-1 rfc哈希函数输出
@@ -337,7 +363,8 @@ class DigestUtil {
   /// HMAC implementation based on RFC2104
   ///
   /// H(K XOR opad, H(K XOR ipad, text))
-  static Uint8List hmac(Digest digest, Uint8List data, {Uint8List? key, String? keyStr}) {
+  static Uint8List hmac(Digest digest, Uint8List data,
+      {Uint8List? key, String? keyStr}) {
     var hMac = HMac.withDigest(digest);
     if (key != null) {
       hMac.init(KeyParameter(key));
@@ -350,8 +377,10 @@ class DigestUtil {
   /// HMAC implementation based on RFC2104
   ///
   /// H(K XOR opad, H(K XOR ipad, text))
-  static String hmacHex(Digest digest, Uint8List data, {Uint8List? key, String? keyStr, bool toUpperCase = false}) {
-    return HexUtil.encodeHex(hmac(digest, data, key: key, keyStr: keyStr), toUpperCase: toUpperCase);
+  static String hmacHex(Digest digest, Uint8List data,
+      {Uint8List? key, String? keyStr, bool toUpperCase = false}) {
+    return HexUtil.encodeHex(hmac(digest, data, key: key, keyStr: keyStr),
+        toUpperCase: toUpperCase);
   }
 
   /// implementation of SHAKE based on following KeccakNISTInterface.c from http://keccak.noekeon.org/
@@ -360,18 +389,26 @@ class DigestUtil {
   }
 
   /// implementation of SHAKE based on following KeccakNISTInterface.c from http://keccak.noekeon.org/
-  static String shakeHex(Uint8List data, {int bitLength = 256, bool toUpperCase = false}) {
-    return HexUtil.encodeHex(shake(data, bitLength: bitLength), toUpperCase: toUpperCase);
+  static String shakeHex(Uint8List data,
+      {int bitLength = 256, bool toUpperCase = false}) {
+    return HexUtil.encodeHex(shake(data, bitLength: bitLength),
+        toUpperCase: toUpperCase);
   }
 
   /// implementation of SHAKE based on following KeccakNISTInterface.c from http://keccak.noekeon.org/
-  static Uint8List cshake(Uint8List data, {int bitLength = 256, Uint8List? N, Uint8List? S}) {
+  static Uint8List cshake(Uint8List data,
+      {int bitLength = 256, Uint8List? N, Uint8List? S}) {
     return CSHAKEDigest(bitLength, N, S).process(data);
   }
 
   /// implementation of SHAKE based on following KeccakNISTInterface.c from http://keccak.noekeon.org/
-  static String cshakeHex(Uint8List data, {int bitLength = 256, Uint8List? N, Uint8List? S, bool toUpperCase = false}) {
-    return HexUtil.encodeHex(cshake(data, bitLength: bitLength, N: N, S: S), toUpperCase: toUpperCase);
+  static String cshakeHex(Uint8List data,
+      {int bitLength = 256,
+      Uint8List? N,
+      Uint8List? S,
+      bool toUpperCase = false}) {
+    return HexUtil.encodeHex(cshake(data, bitLength: bitLength, N: N, S: S),
+        toUpperCase: toUpperCase);
   }
 
   /// Tiger digest
@@ -395,13 +432,21 @@ class DigestUtil {
   }
 
   /// blake2b digest
-  static Uint8List blake2b(Uint8List data, {Uint8List? key, Uint8List? salt, Uint8List? personalization}) {
-    return Blake2bDigest(key: key, salt: salt, personalization: personalization).process(data);
+  static Uint8List blake2b(Uint8List data,
+      {Uint8List? key, Uint8List? salt, Uint8List? personalization}) {
+    return Blake2bDigest(key: key, salt: salt, personalization: personalization)
+        .process(data);
   }
 
   /// blake2b digest 16进制
-  static String blake2bHex(Uint8List data, {Uint8List? key, Uint8List? salt, Uint8List? personalization, bool toUpperCase = false}) {
-    return HexUtil.encodeHex(blake2b(data, key: key, salt: salt, personalization: personalization), toUpperCase: toUpperCase);
+  static String blake2bHex(Uint8List data,
+      {Uint8List? key,
+      Uint8List? salt,
+      Uint8List? personalization,
+      bool toUpperCase = false}) {
+    return HexUtil.encodeHex(
+        blake2b(data, key: key, salt: salt, personalization: personalization),
+        toUpperCase: toUpperCase);
   }
 
   ///生成Bcrypt加密后的密文
