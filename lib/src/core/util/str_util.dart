@@ -523,6 +523,16 @@ class StrUtil {
     return sb.toString();
   }
 
+  /// 统计非空白字符长度
+  static int notEmptyLength(String str) {
+    return str.replaceAll(RegExp('\\s'), '').length;
+  }
+
+  /// 统计空白字符长度
+  static int emptyLength(String str) {
+    return str.replaceAll(RegExp('\\S'), '').length;
+  }
+
   /// 使用默认的utf8转换List<int>数据为字符串
   static String decode(List<int> codeUnits, [Encoding encoding = utf8]) {
     return encoding.decode(codeUnits);
