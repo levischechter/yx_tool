@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:yx_tool/src/core/util/reg_util.dart';
 import 'package:yx_tool/yx_util.dart';
 
 /// 字符串工具类
@@ -531,6 +532,11 @@ class StrUtil {
   /// 统计空白字符长度
   static int emptyLength(String str) {
     return str.replaceAll(RegExp('\\S'), '').length;
+  }
+
+  /// 统计文本行数
+  static int rows(String str) {
+    return str.split(RegUtil.newlineRegExp).length;
   }
 
   /// 使用默认的utf8转换List<int>数据为字符串

@@ -11,3 +11,4 @@ export 'package:yx_tool/src/core/util/random_util.dart';
 export 'package:yx_tool/src/core/util/str_util.dart';
 export 'package:yx_tool/src/core/util/rsa_key_util.dart';
 export 'package:yx_tool/src/core/util/system_util.dart';
+export 'package:yx_tool/src/core/util/reg_util.dart';
