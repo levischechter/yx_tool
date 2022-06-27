@@ -20,7 +20,7 @@ class StringBuilder implements Comparable<StringBuilder>, Pattern {
     if (capacity == 0) {
       value = _emptyValue;
     } else {
-      value = Uint16List(capacity << 1);
+      value = Uint16List(capacity);
     }
   }
 

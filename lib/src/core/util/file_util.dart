@@ -1,0 +1,6 @@
+class FileUtil {
+
+  FileUtil._();
+
+
+}
