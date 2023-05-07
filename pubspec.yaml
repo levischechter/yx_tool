@@ -8,6 +8,7 @@ environment:
 
 dependencies:
   pointycastle: ^3.6.0 #摘要加密、非对称加密、对称加密
+  convert: ^3.1.0
 #  path: ^1.7.0
 
 dev_dependencies:
